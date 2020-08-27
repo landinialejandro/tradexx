@@ -1,0 +1,16 @@
+<!-- Edit this file to change the layout of each record in the table view -->
+<!-- To disable clicking of a field, remove the  and  formatters around it-->
+
+<!-- If you wish to hide the table view header that contains the column titles, -->
+<!-- add the following to the Losses_init() hook (in hooks/Losses.php file) -->
+<!--     $options->ShowTableHeader = 0;     -->
+
+		<td id="Losses-Customer-<%%VALUE(id)%%>" class="Losses-Customer"><%%VALUE(Customer)%%></td>
+		<td id="Losses-Description-<%%VALUE(id)%%>" class="Losses-Description"><%%VALUE(Description)%%></td>
+		<td id="Losses-Saleprice-<%%VALUE(id)%%>" class="Losses-Saleprice text-right"><%%VALUE(Saleprice)%%></td>
+		<td id="Losses-OperationCost-<%%VALUE(id)%%>" class="Losses-OperationCost text-right"><%%VALUE(OperationCost)%%></td>
+		<td id="Losses-Lost-<%%VALUE(id)%%>" class="Losses-Lost text-right"><%%VALUE(Lost)%%></td>
+		<td id="Losses-Comment-<%%VALUE(id)%%>" class="Losses-Comment"><%%VALUE(Comment)%%></td>
+		<td id="Losses-Recovered-<%%VALUE(id)%%>" class="Losses-Recovered text-right"><%%VALUE(Recovered)%%></td>
+		<td id="Losses-Balance-<%%VALUE(id)%%>" class="Losses-Balance text-right"><%%VALUE(Balance)%%></td>
+		<td id="Losses-Status-<%%VALUE(id)%%>" class="Losses-Status"><%%VALUE(Status)%%></td>

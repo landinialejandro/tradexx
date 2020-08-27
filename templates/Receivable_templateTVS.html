@@ -1,0 +1,15 @@
+<!-- Edit this file to change the layout of each record in the table view -->
+<!-- To disable clicking of a field, remove the  and  formatters around it-->
+
+<!-- If you wish to hide the table view header that contains the column titles, -->
+<!-- add the following to the Receivable_init() hook (in hooks/Receivable.php file) -->
+<!--     $options->ShowTableHeader = 0;     -->
+
+		<td id="Receivable-Customer-<%%VALUE(id)%%>" class="Receivable-Customer"><%%VALUE(Customer)%%></td>
+		<td id="Receivable-Phone-<%%VALUE(id)%%>" class="Receivable-Phone"><%%VALUE(Phone)%%></td>
+		<td id="Receivable-Description-<%%VALUE(id)%%>" class="Receivable-Description"><%%VALUE(Description)%%></td>
+		<td id="Receivable-ExpectedDate-<%%VALUE(id)%%>" class="Receivable-ExpectedDate"><%%VALUE(ExpectedDate)%%></td>
+		<td id="Receivable-LastUpdate-<%%VALUE(id)%%>" class="Receivable-LastUpdate"><%%VALUE(LastUpdate)%%></td>
+		<td id="Receivable-Status-<%%VALUE(id)%%>" class="Receivable-Status"><%%VALUE(Status)%%></td>
+		<td id="Receivable-Assigned-<%%VALUE(id)%%>" class="Receivable-Assigned"><%%VALUE(Assigned)%%></td>
+		<td id="Receivable-Amount-<%%VALUE(id)%%>" class="Receivable-Amount text-right"><%%VALUE(Amount)%%></td>

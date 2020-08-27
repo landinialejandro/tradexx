@@ -1,0 +1,14 @@
+<!-- Edit this file to change the layout of each record in the table view -->
+<!-- To disable clicking of a field, remove the <%%SELECT%%> and <%%ENDSELECT%%> formatters around it-->
+
+<!-- If you wish to hide the table view header that contains the column titles, -->
+<!-- add the following to the Compras_init() hook (in hooks/Compras.php file) -->
+<!--     $options->ShowTableHeader = 0;     -->
+
+		<td id="Compras-Customer-<%%VALUE(id)%%>" class="Compras-Customer"><%%SELECT%%><%%VALUE(Customer)%%><%%ENDSELECT%%></td>
+		<td id="Compras-Employee-<%%VALUE(id)%%>" class="Compras-Employee"><%%SELECT%%><%%VALUE(Employee)%%><%%ENDSELECT%%></td>
+		<td id="Compras-Description-<%%VALUE(id)%%>" class="Compras-Description"><%%SELECT%%><%%VALUE(Description)%%><%%ENDSELECT%%></td>
+		<td id="Compras-Total-<%%VALUE(id)%%>" class="Compras-Total text-right"><%%SELECT%%><%%VALUE(Total)%%><%%ENDSELECT%%></td>
+		<td id="Compras-Odate-<%%VALUE(id)%%>" class="Compras-Odate"><%%SELECT%%><%%VALUE(Odate)%%><%%ENDSELECT%%></td>
+		<td id="Compras-ETA-<%%VALUE(id)%%>" class="Compras-ETA"><%%SELECT%%><%%VALUE(ETA)%%><%%ENDSELECT%%></td>
+		<td id="Compras-Status-<%%VALUE(id)%%>" class="Compras-Status"><%%SELECT%%><%%VALUE(Status)%%><%%ENDSELECT%%></td>

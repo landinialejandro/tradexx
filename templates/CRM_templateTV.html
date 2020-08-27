@@ -1,0 +1,18 @@
+<!-- Edit this file to change the layout of each record in the table view -->
+<!-- To disable clicking of a field, remove the <%%SELECT%%> and <%%ENDSELECT%%> formatters around it-->
+
+<!-- If you wish to hide the table view header that contains the column titles, -->
+<!-- add the following to the CRM_init() hook (in hooks/CRM.php file) -->
+<!--     $options->ShowTableHeader = 0;     -->
+
+		<td id="CRM-Customer-<%%VALUE(id)%%>" class="CRM-Customer"><%%SELECT%%><%%VALUE(Customer)%%><%%ENDSELECT%%></td>
+		<td id="CRM-Interaction-<%%VALUE(id)%%>" class="CRM-Interaction"><%%SELECT%%><%%VALUE(Interaction)%%><%%ENDSELECT%%></td>
+		<td id="CRM-Inboundtype-<%%VALUE(id)%%>" class="CRM-Inboundtype"><%%SELECT%%><%%VALUE(Inboundtype)%%><%%ENDSELECT%%></td>
+		<td id="CRM-Type-<%%VALUE(id)%%>" class="CRM-Type"><%%SELECT%%><%%VALUE(Type)%%><%%ENDSELECT%%></td>
+		<td id="CRM-Description-<%%VALUE(id)%%>" class="CRM-Description"><%%SELECT%%><%%VALUE(Description)%%><%%ENDSELECT%%></td>
+		<td id="CRM-Comments-<%%VALUE(id)%%>" class="CRM-Comments"><%%SELECT%%><%%VALUE(Comments)%%><%%ENDSELECT%%></td>
+		<td id="CRM-Priority-<%%VALUE(id)%%>" class="CRM-Priority"><%%SELECT%%><%%VALUE(Priority)%%><%%ENDSELECT%%></td>
+		<td id="CRM-Status-<%%VALUE(id)%%>" class="CRM-Status"><%%SELECT%%><%%VALUE(Status)%%><%%ENDSELECT%%></td>
+		<td id="CRM-Timestamp-<%%VALUE(id)%%>" class="CRM-Timestamp"><%%SELECT%%><%%VALUE(Timestamp)%%><%%ENDSELECT%%></td>
+		<td id="CRM-Sent-<%%VALUE(id)%%>" class="CRM-Sent"><%%SELECT%%><%%VALUE(Sent)%%><%%ENDSELECT%%></td>
+		<td id="CRM-Assigned-<%%VALUE(id)%%>" class="CRM-Assigned"><%%SELECT%%><%%VALUE(Assigned)%%><%%ENDSELECT%%></td>

@@ -1,0 +1,14 @@
+<!-- Edit this file to change the layout of each record in the table view -->
+<!-- To disable clicking of a field, remove the  and  formatters around it-->
+
+<!-- If you wish to hide the table view header that contains the column titles, -->
+<!-- add the following to the Activities_init() hook (in hooks/Activities.php file) -->
+<!--     $options->ShowTableHeader = 0;     -->
+
+		<td id="Activities-Date-<%%VALUE(id)%%>" class="Activities-Date"><%%VALUE(Date)%%></td>
+		<td id="Activities-Description-<%%VALUE(id)%%>" class="Activities-Description"><%%VALUE(Description)%%></td>
+		<td id="Activities-Comment-<%%VALUE(id)%%>" class="Activities-Comment"><%%VALUE(Comment)%%></td>
+		<td id="Activities-Priority-<%%VALUE(id)%%>" class="Activities-Priority"><%%VALUE(Priority)%%></td>
+		<td id="Activities-Assigned-<%%VALUE(id)%%>" class="Activities-Assigned"><%%VALUE(Assigned)%%></td>
+		<td id="Activities-Completed-<%%VALUE(id)%%>" class="Activities-Completed"><%%VALUE(Completed)%%></td>
+		<td id="Activities-Stop-<%%VALUE(id)%%>" class="Activities-Stop"><%%VALUE(Stop)%%></td>

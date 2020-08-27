@@ -1,0 +1,102 @@
+<!-- Edit this file to change the layout of the detail view print preview page -->
+
+
+<div class="panel-heading"><h3 class="panel-title">
+	<strong><%%DETAIL_VIEW_TITLE%%></strong>
+	<div class="hidden-print pull-right">
+		<div class="btn-group">
+			<button type="button" id="print" onclick="window.print();" title="<%%TRANSLATION(Print)%%>" class="btn btn-primary"><i class="glyphicon glyphicon-print"></i> <%%TRANSLATION(Print)%%></button>
+			<button type="submit" id="back" title="<%%TRANSLATION(Cancel Printing)%%>" class="btn btn-default"><i class="glyphicon glyphicon-remove-circle"></i> <%%TRANSLATION(Cancel Printing)%%></button>
+		</div>
+	</div>
+	<div class="clearfix"></div>
+</h3></div>
+
+<div class="panel-body">
+	<fieldset class="form-horizontal">
+		<div class="form-group" style="border-bottom: dotted 1px #DDD;">
+			<label class="col-xs-3 control-label">ID</label>
+			<div class="col-xs-9">
+				<div class="form-control-static"><%%VALUE(id)%%></div>
+			</div>
+		</div>
+		<div class="form-group" style="border-bottom: dotted 1px #DDD;">
+			<label class="col-xs-3 control-label">Type</label>
+			<div class="col-xs-9">
+				<div class="form-control-static"><%%COMBOTEXT(Type)%%></div>
+			</div>
+		</div>
+		<div class="form-group" style="border-bottom: dotted 1px #DDD;">
+			<label class="col-xs-3 control-label">Brand</label>
+			<div class="col-xs-9">
+				<div class="form-control-static"><span id="Brand<%%RND1%%>"><%%COMBOTEXT(Brand)%%></span></div>
+			</div>
+		</div>
+		<div class="form-group" style="border-bottom: dotted 1px #DDD;">
+			<label class="col-xs-3 control-label">Model</label>
+			<div class="col-xs-9">
+				<div class="form-control-static"><span id="Model<%%RND1%%>"><%%COMBOTEXT(Model)%%></span></div>
+			</div>
+		</div>
+		<div class="form-group" style="border-bottom: dotted 1px #DDD;">
+			<label class="col-xs-3 control-label">Year</label>
+			<div class="col-xs-9">
+				<div class="form-control-static"><%%VALUE(Year)%%></div>
+			</div>
+		</div>
+		<div class="form-group" style="border-bottom: dotted 1px #DDD;">
+			<label class="col-xs-3 control-label">System</label>
+			<div class="col-xs-9">
+				<div class="form-control-static"><span id="System<%%RND1%%>"><%%COMBOTEXT(System)%%></span></div>
+			</div>
+		</div>
+		<div class="form-group" style="border-bottom: dotted 1px #DDD;">
+			<label class="col-xs-3 control-label">Part</label>
+			<div class="col-xs-9">
+				<div class="form-control-static"><span id="Part<%%RND1%%>"><%%COMBOTEXT(Part)%%></span></div>
+			</div>
+		</div>
+		<div class="form-group" style="border-bottom: dotted 1px #DDD;">
+			<label class="col-xs-3 control-label">Part NO.</label>
+			<div class="col-xs-9">
+				<div class="form-control-static"><%%VALUE(PartNO)%%></div>
+			</div>
+		</div>
+		<div class="form-group" style="border-bottom: dotted 1px #DDD;">
+			<label class="col-xs-3 control-label">Dimensions</label>
+			<div class="col-xs-9">
+				<div class="form-control-static"><%%VALUE(Dimensions)%%></div>
+			</div>
+		</div>
+		<div class="form-group" style="border-bottom: dotted 1px #DDD;">
+			<label class="col-xs-3 control-label">Volume</label>
+			<div class="col-xs-9">
+				<div class="form-control-static"><%%VALUE(Volume)%%></div>
+			</div>
+		</div>
+		<div class="form-group" style="border-bottom: dotted 1px #DDD;">
+			<label class="col-xs-3 control-label">Weight</label>
+			<div class="col-xs-9">
+				<div class="form-control-static"><%%VALUE(Weight)%%></div>
+			</div>
+		</div>
+		<div class="form-group" style="border-bottom: dotted 1px #DDD;">
+			<label class="col-xs-3 control-label">AirFreight</label>
+			<div class="col-xs-9">
+				<div class="form-control-static"><%%VALUE(AirFreight)%%></div>
+			</div>
+		</div>
+		<div class="form-group" style="border-bottom: dotted 1px #DDD;">
+			<label class="col-xs-3 control-label">OceanFreight</label>
+			<div class="col-xs-9">
+				<div class="form-control-static"><%%VALUE(OceanFreight)%%></div>
+			</div>
+		</div>
+		<div class="form-group" style="border-bottom: dotted 1px #DDD;">
+			<label class="col-xs-3 control-label">Picture</label>
+			<div class="col-xs-9">
+				<div class="form-control-static"><%%VALUE(Picture)%%></div>
+			</div>
+		</div>
+	</fieldset>
+</div>

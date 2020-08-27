@@ -1,0 +1,18 @@
+<!-- Edit this file to change the layout of each record in the table view -->
+<!-- To disable clicking of a field, remove the <%%SELECT%%> and <%%ENDSELECT%%> formatters around it-->
+
+<!-- If you wish to hide the table view header that contains the column titles, -->
+<!-- add the following to the CustomerAuto_init() hook (in hooks/CustomerAuto.php file) -->
+<!--     $options->ShowTableHeader = 0;     -->
+
+		<td id="CustomerAuto-Customer-<%%VALUE(id)%%>" class="CustomerAuto-Customer"><%%SELECT%%><%%VALUE(Customer)%%><%%ENDSELECT%%></td>
+		<td id="CustomerAuto-VehicleType-<%%VALUE(id)%%>" class="CustomerAuto-VehicleType"><%%SELECT%%><%%VALUE(VehicleType)%%><%%ENDSELECT%%></td>
+		<td id="CustomerAuto-VIN-<%%VALUE(id)%%>" class="CustomerAuto-VIN"><%%SELECT%%><%%VALUE(VIN)%%><%%ENDSELECT%%></td>
+		<td id="CustomerAuto-Brand-<%%VALUE(id)%%>" class="CustomerAuto-Brand"><%%SELECT%%><%%VALUE(Brand)%%><%%ENDSELECT%%></td>
+		<td id="CustomerAuto-Model-<%%VALUE(id)%%>" class="CustomerAuto-Model"><%%SELECT%%><%%VALUE(Model)%%><%%ENDSELECT%%></td>
+		<td id="CustomerAuto-Year-<%%VALUE(id)%%>" class="CustomerAuto-Year"><%%SELECT%%><%%VALUE(Year)%%><%%ENDSELECT%%></td>
+		<td id="CustomerAuto-EngineNo-<%%VALUE(id)%%>" class="CustomerAuto-EngineNo"><%%SELECT%%><%%VALUE(EngineNo)%%><%%ENDSELECT%%></td>
+		<td id="CustomerAuto-Cylinder-<%%VALUE(id)%%>" class="CustomerAuto-Cylinder"><%%SELECT%%><%%VALUE(Cylinder)%%><%%ENDSELECT%%></td>
+		<td id="CustomerAuto-Liters-<%%VALUE(id)%%>" class="CustomerAuto-Liters"><%%SELECT%%><%%VALUE(Liters)%%><%%ENDSELECT%%></td>
+		<td id="CustomerAuto-Transmission-<%%VALUE(id)%%>" class="CustomerAuto-Transmission"><%%SELECT%%><%%VALUE(Transmission)%%><%%ENDSELECT%%></td>
+		<td id="CustomerAuto-GEAR-<%%VALUE(id)%%>" class="CustomerAuto-GEAR"><%%SELECT%%><%%VALUE(GEAR)%%><%%ENDSELECT%%></td>

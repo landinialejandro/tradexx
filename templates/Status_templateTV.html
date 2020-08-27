@@ -1,0 +1,15 @@
+<!-- Edit this file to change the layout of each record in the table view -->
+<!-- To disable clicking of a field, remove the <%%SELECT%%> and <%%ENDSELECT%%> formatters around it-->
+
+<!-- If you wish to hide the table view header that contains the column titles, -->
+<!-- add the following to the Status_init() hook (in hooks/Status.php file) -->
+<!--     $options->ShowTableHeader = 0;     -->
+
+		<td id="Status-Tracking-<%%VALUE(id)%%>" class="Status-Tracking"><%%SELECT%%><%%VALUE(Tracking)%%><%%ENDSELECT%%></td>
+		<td id="Status-Dimensions-<%%VALUE(id)%%>" class="Status-Dimensions"><%%SELECT%%><%%VALUE(Dimensions)%%><%%ENDSELECT%%></td>
+		<td id="Status-RWeight-<%%VALUE(id)%%>" class="Status-RWeight"><%%SELECT%%><%%VALUE(RWeight)%%><%%ENDSELECT%%></td>
+		<td id="Status-VWeight-<%%VALUE(id)%%>" class="Status-VWeight"><%%SELECT%%><%%VALUE(VWeight)%%><%%ENDSELECT%%></td>
+		<td id="Status-Total-<%%VALUE(id)%%>" class="Status-Total"><%%SELECT%%><%%VALUE(Total)%%><%%ENDSELECT%%></td>
+		<td id="Status-FreightType-<%%VALUE(id)%%>" class="Status-FreightType"><%%SELECT%%><%%VALUE(FreightType)%%><%%ENDSELECT%%></td>
+		<td id="Status-DeliveryDate-<%%VALUE(id)%%>" class="Status-DeliveryDate"><%%SELECT%%><%%VALUE(DeliveryDate)%%><%%ENDSELECT%%></td>
+		<td id="Status-Delivered-<%%VALUE(id)%%>" class="Status-Delivered"><%%SELECT%%><%%VALUE(Delivered)%%><%%ENDSELECT%%></td>

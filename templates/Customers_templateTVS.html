@@ -1,0 +1,15 @@
+<!-- Edit this file to change the layout of each record in the table view -->
+<!-- To disable clicking of a field, remove the  and  formatters around it-->
+
+<!-- If you wish to hide the table view header that contains the column titles, -->
+<!-- add the following to the Customers_init() hook (in hooks/Customers.php file) -->
+<!--     $options->ShowTableHeader = 0;     -->
+
+		<td id="Customers-Title-<%%VALUE(id)%%>" class="Customers-Title"><%%VALUE(Title)%%></td>
+		<td id="Customers-Customer-<%%VALUE(id)%%>" class="Customers-Customer"><%%VALUE(Customer)%%></td>
+		<td id="Customers-Birthdate-<%%VALUE(id)%%>" class="Customers-Birthdate"><%%VALUE(Birthdate)%%></td>
+		<td id="Customers-Type-<%%VALUE(id)%%>" class="Customers-Type"><%%VALUE(Type)%%></td>
+		<td id="Customers-Phone-<%%VALUE(id)%%>" class="Customers-Phone"><%%VALUE(Phone)%%></td>
+		<td id="Customers-Email-<%%VALUE(id)%%>" class="Customers-Email"><a href="mailto:<%%VALUE(Email)%%>" title="<%%VALUE(Email)%%>" class="btn btn-default"><i class="glyphicon glyphicon-envelope text-info"></i></a></td>
+		<td id="Customers-Address-<%%VALUE(id)%%>" class="Customers-Address"><%%VALUE(Address)%%></td>
+		<td id="Customers-Status-<%%VALUE(id)%%>" class="Customers-Status"><%%VALUE(Status)%%></td>

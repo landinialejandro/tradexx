@@ -1,0 +1,14 @@
+<!-- Edit this file to change the layout of each record in the table view -->
+<!-- To disable clicking of a field, remove the <%%SELECT%%> and <%%ENDSELECT%%> formatters around it-->
+
+<!-- If you wish to hide the table view header that contains the column titles, -->
+<!-- add the following to the Claim_init() hook (in hooks/Claim.php file) -->
+<!--     $options->ShowTableHeader = 0;     -->
+
+		<td id="Claim-Date-<%%VALUE(id)%%>" class="Claim-Date"><%%SELECT%%><%%VALUE(Date)%%><%%ENDSELECT%%></td>
+		<td id="Claim-Invoice-<%%VALUE(id)%%>" class="Claim-Invoice"><%%SELECT%%><%%VALUE(Invoice)%%><%%ENDSELECT%%></td>
+		<td id="Claim-Warehouse-<%%VALUE(id)%%>" class="Claim-Warehouse"><%%SELECT%%><%%VALUE(Warehouse)%%><%%ENDSELECT%%></td>
+		<td id="Claim-Tracking-<%%VALUE(id)%%>" class="Claim-Tracking"><%%SELECT%%><%%VALUE(Tracking)%%><%%ENDSELECT%%></td>
+		<td id="Claim-Selecteds-<%%VALUE(id)%%>" class="Claim-Selecteds"><%%SELECT%%><%%VALUE(Selecteds)%%><%%ENDSELECT%%></td>
+		<td id="Claim-Shippingt-<%%VALUE(id)%%>" class="Claim-Shippingt"><%%SELECT%%><%%VALUE(Shippingt)%%><%%ENDSELECT%%></td>
+		<td id="Claim-Status-<%%VALUE(id)%%>" class="Claim-Status"><%%SELECT%%><%%VALUE(Status)%%><%%ENDSELECT%%></td>

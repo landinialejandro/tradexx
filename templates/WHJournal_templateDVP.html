@@ -1,0 +1,108 @@
+<!-- Edit this file to change the layout of the detail view print preview page -->
+
+
+<div class="panel-heading"><h3 class="panel-title">
+	<strong><%%DETAIL_VIEW_TITLE%%></strong>
+	<div class="hidden-print pull-right">
+		<div class="btn-group">
+			<button type="button" id="print" onclick="window.print();" title="<%%TRANSLATION(Print)%%>" class="btn btn-primary"><i class="glyphicon glyphicon-print"></i> <%%TRANSLATION(Print)%%></button>
+			<button type="submit" id="back" title="<%%TRANSLATION(Cancel Printing)%%>" class="btn btn-default"><i class="glyphicon glyphicon-remove-circle"></i> <%%TRANSLATION(Cancel Printing)%%></button>
+		</div>
+	</div>
+	<div class="clearfix"></div>
+</h3></div>
+
+<div class="panel-body">
+	<fieldset class="form-horizontal">
+		<div class="form-group" style="border-bottom: dotted 1px #DDD;">
+			<label class="col-xs-3 control-label">ID</label>
+			<div class="col-xs-9">
+				<div class="form-control-static"><%%VALUE(id)%%></div>
+			</div>
+		</div>
+		<div class="form-group" style="border-bottom: dotted 1px #DDD;">
+			<label class="col-xs-3 control-label">Date</label>
+			<div class="col-xs-9">
+				<div class="form-control-static"><%%COMBOTEXT(Date)%%></div>
+			</div>
+		</div>
+		<div class="form-group" style="border-bottom: dotted 1px #DDD;">
+			<label class="col-xs-3 control-label">Freigh type</label>
+			<div class="col-xs-9">
+				<div class="form-control-static"><%%COMBOTEXT(Freightype)%%></div>
+			</div>
+		</div>
+		<div class="form-group" style="border-bottom: dotted 1px #DDD;">
+			<label class="col-xs-3 control-label">Invoices</label>
+			<div class="col-xs-9">
+				<div class="form-control-static"><%%VALUE(Invoices)%%></div>
+			</div>
+		</div>
+		<div class="form-group" style="border-bottom: dotted 1px #DDD;">
+			<label class="col-xs-3 control-label">Warehouse</label>
+			<div class="col-xs-9">
+				<div class="form-control-static"><%%VALUE(Warehouse)%%></div>
+			</div>
+		</div>
+		<div class="form-group" style="border-bottom: dotted 1px #DDD;">
+			<label class="col-xs-3 control-label">Tracking</label>
+			<div class="col-xs-9">
+				<div class="form-control-static"><%%VALUE(Tracking)%%></div>
+			</div>
+		</div>
+		<div class="form-group" style="border-bottom: dotted 1px #DDD;">
+			<label class="col-xs-3 control-label">Ground freight ID</label>
+			<div class="col-xs-9">
+				<div class="form-control-static"><%%VALUE(GroundFreight)%%></div>
+			</div>
+		</div>
+		<div class="form-group" style="border-bottom: dotted 1px #DDD;">
+			<label class="col-xs-3 control-label">Boxes quantity</label>
+			<div class="col-xs-9">
+				<div class="form-control-static"><%%VALUE(Boxes)%%></div>
+			</div>
+		</div>
+		<div class="form-group" style="border-bottom: dotted 1px #DDD;">
+			<label class="col-xs-3 control-label">Dimensions</label>
+			<div class="col-xs-9">
+				<div class="form-control-static"><%%VALUE(Dimensions)%%></div>
+			</div>
+		</div>
+		<div class="form-group" style="border-bottom: dotted 1px #DDD;">
+			<label class="col-xs-3 control-label">Volume</label>
+			<div class="col-xs-9">
+				<div class="form-control-static"><%%VALUE(Volume)%%></div>
+			</div>
+		</div>
+		<div class="form-group" style="border-bottom: dotted 1px #DDD;">
+			<label class="col-xs-3 control-label">Weight</label>
+			<div class="col-xs-9">
+				<div class="form-control-static"><%%VALUE(Weight)%%></div>
+			</div>
+		</div>
+		<div class="form-group" style="border-bottom: dotted 1px #DDD;">
+			<label class="col-xs-3 control-label">International Freight</label>
+			<div class="col-xs-9">
+				<div class="form-control-static"><%%VALUE(InternationalFreight)%%></div>
+			</div>
+		</div>
+		<div class="form-group" style="border-bottom: dotted 1px #DDD;">
+			<label class="col-xs-3 control-label">LocalFreight</label>
+			<div class="col-xs-9">
+				<div class="form-control-static"><%%VALUE(LocalFreight)%%></div>
+			</div>
+		</div>
+		<div class="form-group" style="border-bottom: dotted 1px #DDD;">
+			<label class="col-xs-3 control-label">Tip</label>
+			<div class="col-xs-9">
+				<div class="form-control-static"><%%VALUE(Tip)%%></div>
+			</div>
+		</div>
+		<div class="form-group" style="border-bottom: dotted 1px #DDD;">
+			<label class="col-xs-3 control-label">Total</label>
+			<div class="col-xs-9">
+				<div class="form-control-static"><%%VALUE(Total)%%></div>
+			</div>
+		</div>
+	</fieldset>
+</div>

@@ -1,0 +1,13 @@
+<!-- Edit this file to change the layout of each record in the table view -->
+<!-- To disable clicking of a field, remove the <%%SELECT%%> and <%%ENDSELECT%%> formatters around it-->
+
+<!-- If you wish to hide the table view header that contains the column titles, -->
+<!-- add the following to the CCJournal_init() hook (in hooks/CCJournal.php file) -->
+<!--     $options->ShowTableHeader = 0;     -->
+
+		<td id="CCJournal-Card-<%%VALUE(id)%%>" class="CCJournal-Card"><%%SELECT%%><%%VALUE(Card)%%><%%ENDSELECT%%></td>
+		<td id="CCJournal-Date-<%%VALUE(id)%%>" class="CCJournal-Date"><%%SELECT%%><%%VALUE(Date)%%><%%ENDSELECT%%></td>
+		<td id="CCJournal-Description-<%%VALUE(id)%%>" class="CCJournal-Description"><%%SELECT%%><%%VALUE(Description)%%><%%ENDSELECT%%></td>
+		<td id="CCJournal-Cleared-<%%VALUE(id)%%>" class="CCJournal-Cleared"><%%SELECT%%><%%VALUE(Cleared)%%><%%ENDSELECT%%></td>
+		<td id="CCJournal-Amount-<%%VALUE(id)%%>" class="CCJournal-Amount"><%%SELECT%%><%%VALUE(Amount)%%><%%ENDSELECT%%></td>
+		<td id="CCJournal-Balance-<%%VALUE(id)%%>" class="CCJournal-Balance text-right"><%%SELECT%%><%%VALUE(Balance)%%><%%ENDSELECT%%></td>

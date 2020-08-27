@@ -1,0 +1,15 @@
+<!-- Edit this file to change the layout of each record in the table view -->
+<!-- To disable clicking of a field, remove the <%%SELECT%%> and <%%ENDSELECT%%> formatters around it-->
+
+<!-- If you wish to hide the table view header that contains the column titles, -->
+<!-- add the following to the Return_init() hook (in hooks/Return.php file) -->
+<!--     $options->ShowTableHeader = 0;     -->
+
+		<td id="Return-Date-<%%VALUE(id)%%>" class="Return-Date"><%%SELECT%%><%%VALUE(Date)%%><%%ENDSELECT%%></td>
+		<td id="Return-Invoice-<%%VALUE(id)%%>" class="Return-Invoice"><%%SELECT%%><%%VALUE(Invoice)%%><%%ENDSELECT%%></td>
+		<td id="Return-Warehouse-<%%VALUE(id)%%>" class="Return-Warehouse"><%%SELECT%%><%%VALUE(Warehouse)%%><%%ENDSELECT%%></td>
+		<td id="Return-Tracking-<%%VALUE(id)%%>" class="Return-Tracking"><%%SELECT%%><%%VALUE(Tracking)%%><%%ENDSELECT%%></td>
+		<td id="Return-Shippingt-<%%VALUE(id)%%>" class="Return-Shippingt"><%%SELECT%%><%%VALUE(Shippingt)%%><%%ENDSELECT%%></td>
+		<td id="Return-Status-<%%VALUE(id)%%>" class="Return-Status"><%%SELECT%%><%%VALUE(Status)%%><%%ENDSELECT%%></td>
+		<td id="Return-Amount-<%%VALUE(id)%%>" class="Return-Amount text-right"><%%SELECT%%><%%VALUE(Amount)%%><%%ENDSELECT%%></td>
+		<td id="Return-Refund-<%%VALUE(id)%%>" class="Return-Refund"><%%SELECT%%><%%VALUE(Refund)%%><%%ENDSELECT%%></td>

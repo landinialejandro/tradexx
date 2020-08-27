@@ -1,0 +1,20 @@
+<!-- Edit this file to change the layout of each record in the table view -->
+<!-- To disable clicking of a field, remove the  and  formatters around it-->
+
+<!-- If you wish to hide the table view header that contains the column titles, -->
+<!-- add the following to the TrackingCenter_init() hook (in hooks/TrackingCenter.php file) -->
+<!--     $options->ShowTableHeader = 0;     -->
+
+		<td id="TrackingCenter-Date-<%%VALUE(id)%%>" class="TrackingCenter-Date"><%%VALUE(Date)%%></td>
+		<td id="TrackingCenter-Name-<%%VALUE(id)%%>" class="TrackingCenter-Name"><%%VALUE(Name)%%></td>
+		<td id="TrackingCenter-Zone-<%%VALUE(id)%%>" class="TrackingCenter-Zone"><%%VALUE(Zone)%%></td>
+		<td id="TrackingCenter-Tracking-<%%VALUE(id)%%>" class="TrackingCenter-Tracking"><%%VALUE(Tracking)%%></td>
+		<td id="TrackingCenter-Carrier-<%%VALUE(id)%%>" class="TrackingCenter-Carrier"><%%VALUE(Carrier)%%></td>
+		<td id="TrackingCenter-Trackingurl-<%%VALUE(id)%%>" class="TrackingCenter-Trackingurl"><a href="link.php?t=TrackingCenter&f=Trackingurl&i=<%%VALUE(id)%%>" target="_blank" title="<%%VALUE(Trackingurl)%%>" class="btn btn-default"><i class="glyphicon glyphicon-globe text-info"></i></a></td>
+		<td id="TrackingCenter-CustStatus-<%%VALUE(id)%%>" class="TrackingCenter-CustStatus"><%%VALUE(CustStatus)%%></td>
+		<td id="TrackingCenter-TRADEXXstatus-<%%VALUE(id)%%>" class="TrackingCenter-TRADEXXstatus"><%%VALUE(TRADEXXstatus)%%></td>
+		<td id="TrackingCenter-Freight-<%%VALUE(id)%%>" class="TrackingCenter-Freight"><%%VALUE(Freight)%%></td>
+		<td id="TrackingCenter-Comments-<%%VALUE(id)%%>" class="TrackingCenter-Comments"><%%VALUE(Comments)%%></td>
+		<script>$j(function(){
+			var e_Trackingurl = '<%%VALUE(Trackingurl)%%>'; if(e_Trackingurl == '' || e_Trackingurl == '&nbsp;') $j(/*<*/ '#TrackingCenter-Trackingurl-<%%VALUE(id)%%>' /*>*/).html('');
+		});</script>

@@ -1,0 +1,21 @@
+<!-- Edit this file to change the layout of each record in the table view -->
+<!-- To disable clicking of a field, remove the  and  formatters around it-->
+
+<!-- If you wish to hide the table view header that contains the column titles, -->
+<!-- add the following to the WHJournal_init() hook (in hooks/WHJournal.php file) -->
+<!--     $options->ShowTableHeader = 0;     -->
+
+		<td id="WHJournal-Date-<%%VALUE(id)%%>" class="WHJournal-Date"><%%VALUE(Date)%%></td>
+		<td id="WHJournal-Freightype-<%%VALUE(id)%%>" class="WHJournal-Freightype"><%%VALUE(Freightype)%%></td>
+		<td id="WHJournal-Invoices-<%%VALUE(id)%%>" class="WHJournal-Invoices"><%%VALUE(Invoices)%%></td>
+		<td id="WHJournal-Warehouse-<%%VALUE(id)%%>" class="WHJournal-Warehouse"><%%VALUE(Warehouse)%%></td>
+		<td id="WHJournal-Tracking-<%%VALUE(id)%%>" class="WHJournal-Tracking"><%%VALUE(Tracking)%%></td>
+		<td id="WHJournal-GroundFreight-<%%VALUE(id)%%>" class="WHJournal-GroundFreight"><%%VALUE(GroundFreight)%%></td>
+		<td id="WHJournal-Boxes-<%%VALUE(id)%%>" class="WHJournal-Boxes"><%%VALUE(Boxes)%%></td>
+		<td id="WHJournal-Dimensions-<%%VALUE(id)%%>" class="WHJournal-Dimensions"><%%VALUE(Dimensions)%%></td>
+		<td id="WHJournal-Volume-<%%VALUE(id)%%>" class="WHJournal-Volume text-right"><%%VALUE(Volume)%%></td>
+		<td id="WHJournal-Weight-<%%VALUE(id)%%>" class="WHJournal-Weight text-right"><%%VALUE(Weight)%%></td>
+		<td id="WHJournal-InternationalFreight-<%%VALUE(id)%%>" class="WHJournal-InternationalFreight text-right"><%%VALUE(InternationalFreight)%%></td>
+		<td id="WHJournal-LocalFreight-<%%VALUE(id)%%>" class="WHJournal-LocalFreight text-right"><%%VALUE(LocalFreight)%%></td>
+		<td id="WHJournal-Tip-<%%VALUE(id)%%>" class="WHJournal-Tip text-right"><%%VALUE(Tip)%%></td>
+		<td id="WHJournal-Total-<%%VALUE(id)%%>" class="WHJournal-Total text-right"><%%VALUE(Total)%%></td>

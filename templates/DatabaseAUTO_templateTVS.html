@@ -1,0 +1,20 @@
+<!-- Edit this file to change the layout of each record in the table view -->
+<!-- To disable clicking of a field, remove the  and  formatters around it-->
+
+<!-- If you wish to hide the table view header that contains the column titles, -->
+<!-- add the following to the DatabaseAUTO_init() hook (in hooks/DatabaseAUTO.php file) -->
+<!--     $options->ShowTableHeader = 0;     -->
+
+		<td id="DatabaseAUTO-Type-<%%VALUE(id)%%>" class="DatabaseAUTO-Type"><%%VALUE(Type)%%></td>
+		<td id="DatabaseAUTO-Brand-<%%VALUE(id)%%>" class="DatabaseAUTO-Brand"><%%VALUE(Brand)%%></td>
+		<td id="DatabaseAUTO-Model-<%%VALUE(id)%%>" class="DatabaseAUTO-Model"><%%VALUE(Model)%%></td>
+		<td id="DatabaseAUTO-Year-<%%VALUE(id)%%>" class="DatabaseAUTO-Year"><%%VALUE(Year)%%></td>
+		<td id="DatabaseAUTO-System-<%%VALUE(id)%%>" class="DatabaseAUTO-System"><%%VALUE(System)%%></td>
+		<td id="DatabaseAUTO-Part-<%%VALUE(id)%%>" class="DatabaseAUTO-Part"><%%VALUE(Part)%%></td>
+		<td id="DatabaseAUTO-PartNO-<%%VALUE(id)%%>" class="DatabaseAUTO-PartNO"><%%VALUE(PartNO)%%></td>
+		<td id="DatabaseAUTO-Dimensions-<%%VALUE(id)%%>" class="DatabaseAUTO-Dimensions"><%%VALUE(Dimensions)%%></td>
+		<td id="DatabaseAUTO-Volume-<%%VALUE(id)%%>" class="DatabaseAUTO-Volume text-right"><%%VALUE(Volume)%%></td>
+		<td id="DatabaseAUTO-Weight-<%%VALUE(id)%%>" class="DatabaseAUTO-Weight text-right"><%%VALUE(Weight)%%></td>
+		<td id="DatabaseAUTO-AirFreight-<%%VALUE(id)%%>" class="DatabaseAUTO-AirFreight text-right"><%%VALUE(AirFreight)%%></td>
+		<td id="DatabaseAUTO-OceanFreight-<%%VALUE(id)%%>" class="DatabaseAUTO-OceanFreight text-right"><%%VALUE(OceanFreight)%%></td>
+		<td id="DatabaseAUTO-Picture-<%%VALUE(id)%%>" class="DatabaseAUTO-Picture"><a href="<%%TRANSLATION(ImageFolder)%%><%%VALUE(Picture)%%>" data-lightbox="DatabaseAUTO-Picture"><img src="thumbnail.php?i=<%%VALUE(Picture)%%>&t=DatabaseAUTO&f=Picture&v=tv" class="img-thumbnail"></a></td>

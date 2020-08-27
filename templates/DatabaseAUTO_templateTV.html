@@ -1,0 +1,20 @@
+<!-- Edit this file to change the layout of each record in the table view -->
+<!-- To disable clicking of a field, remove the <%%SELECT%%> and <%%ENDSELECT%%> formatters around it-->
+
+<!-- If you wish to hide the table view header that contains the column titles, -->
+<!-- add the following to the DatabaseAUTO_init() hook (in hooks/DatabaseAUTO.php file) -->
+<!--     $options->ShowTableHeader = 0;     -->
+
+		<td id="DatabaseAUTO-Type-<%%VALUE(id)%%>" class="DatabaseAUTO-Type"><%%SELECT%%><%%VALUE(Type)%%><%%ENDSELECT%%></td>
+		<td id="DatabaseAUTO-Brand-<%%VALUE(id)%%>" class="DatabaseAUTO-Brand"><%%SELECT%%><%%VALUE(Brand)%%><%%ENDSELECT%%></td>
+		<td id="DatabaseAUTO-Model-<%%VALUE(id)%%>" class="DatabaseAUTO-Model"><%%SELECT%%><%%VALUE(Model)%%><%%ENDSELECT%%></td>
+		<td id="DatabaseAUTO-Year-<%%VALUE(id)%%>" class="DatabaseAUTO-Year"><%%SELECT%%><%%VALUE(Year)%%><%%ENDSELECT%%></td>
+		<td id="DatabaseAUTO-System-<%%VALUE(id)%%>" class="DatabaseAUTO-System"><%%SELECT%%><%%VALUE(System)%%><%%ENDSELECT%%></td>
+		<td id="DatabaseAUTO-Part-<%%VALUE(id)%%>" class="DatabaseAUTO-Part"><%%SELECT%%><%%VALUE(Part)%%><%%ENDSELECT%%></td>
+		<td id="DatabaseAUTO-PartNO-<%%VALUE(id)%%>" class="DatabaseAUTO-PartNO"><%%SELECT%%><%%VALUE(PartNO)%%><%%ENDSELECT%%></td>
+		<td id="DatabaseAUTO-Dimensions-<%%VALUE(id)%%>" class="DatabaseAUTO-Dimensions"><%%SELECT%%><%%VALUE(Dimensions)%%><%%ENDSELECT%%></td>
+		<td id="DatabaseAUTO-Volume-<%%VALUE(id)%%>" class="DatabaseAUTO-Volume text-right"><%%SELECT%%><%%VALUE(Volume)%%><%%ENDSELECT%%></td>
+		<td id="DatabaseAUTO-Weight-<%%VALUE(id)%%>" class="DatabaseAUTO-Weight text-right"><%%SELECT%%><%%VALUE(Weight)%%><%%ENDSELECT%%></td>
+		<td id="DatabaseAUTO-AirFreight-<%%VALUE(id)%%>" class="DatabaseAUTO-AirFreight text-right"><%%SELECT%%><%%VALUE(AirFreight)%%><%%ENDSELECT%%></td>
+		<td id="DatabaseAUTO-OceanFreight-<%%VALUE(id)%%>" class="DatabaseAUTO-OceanFreight text-right"><%%SELECT%%><%%VALUE(OceanFreight)%%><%%ENDSELECT%%></td>
+		<td id="DatabaseAUTO-Picture-<%%VALUE(id)%%>" class="DatabaseAUTO-Picture"><a href="<%%TRANSLATION(ImageFolder)%%><%%VALUE(Picture)%%>" data-lightbox="DatabaseAUTO-Picture"><img src="thumbnail.php?i=<%%VALUE(Picture)%%>&t=DatabaseAUTO&f=Picture&v=tv" class="img-thumbnail"></a></td>

@@ -1,0 +1,14 @@
+<!-- Edit this file to change the layout of each record in the table view -->
+<!-- To disable clicking of a field, remove the <%%SELECT%%> and <%%ENDSELECT%%> formatters around it-->
+
+<!-- If you wish to hide the table view header that contains the column titles, -->
+<!-- add the following to the GeneralDB_init() hook (in hooks/GeneralDB.php file) -->
+<!--     $options->ShowTableHeader = 0;     -->
+
+		<td id="GeneralDB-Description-<%%VALUE(id)%%>" class="GeneralDB-Description"><%%SELECT%%><%%VALUE(Description)%%><%%ENDSELECT%%></td>
+		<td id="GeneralDB-Dimensions-<%%VALUE(id)%%>" class="GeneralDB-Dimensions"><%%SELECT%%><%%VALUE(Dimensions)%%><%%ENDSELECT%%></td>
+		<td id="GeneralDB-Vweight-<%%VALUE(id)%%>" class="GeneralDB-Vweight text-right"><%%SELECT%%><%%VALUE(Vweight)%%><%%ENDSELECT%%></td>
+		<td id="GeneralDB-Rweight-<%%VALUE(id)%%>" class="GeneralDB-Rweight text-right"><%%SELECT%%><%%VALUE(Rweight)%%><%%ENDSELECT%%></td>
+		<td id="GeneralDB-Ofreight-<%%VALUE(id)%%>" class="GeneralDB-Ofreight text-right"><%%SELECT%%><%%VALUE(Ofreight)%%><%%ENDSELECT%%></td>
+		<td id="GeneralDB-Afreight-<%%VALUE(id)%%>" class="GeneralDB-Afreight text-right"><%%SELECT%%><%%VALUE(Afreight)%%><%%ENDSELECT%%></td>
+		<td id="GeneralDB-photo-<%%VALUE(id)%%>" class="GeneralDB-photo"><a href="<%%TRANSLATION(ImageFolder)%%><%%VALUE(photo)%%>" data-lightbox="GeneralDB-photo"><img src="thumbnail.php?i=<%%VALUE(photo)%%>&t=GeneralDB&f=photo&v=tv" class="img-thumbnail"></a></td>

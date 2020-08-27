@@ -1,0 +1,13 @@
+<!-- Edit this file to change the layout of each record in the table view -->
+<!-- To disable clicking of a field, remove the <%%SELECT%%> and <%%ENDSELECT%%> formatters around it-->
+
+<!-- If you wish to hide the table view header that contains the column titles, -->
+<!-- add the following to the Payroll_init() hook (in hooks/Payroll.php file) -->
+<!--     $options->ShowTableHeader = 0;     -->
+
+		<td id="Payroll-employee-<%%VALUE(id)%%>" class="Payroll-employee"><%%SELECT%%><%%VALUE(employee)%%><%%ENDSELECT%%></td>
+		<td id="Payroll-date-<%%VALUE(id)%%>" class="Payroll-date"><%%SELECT%%><%%VALUE(date)%%><%%ENDSELECT%%></td>
+		<td id="Payroll-start-<%%VALUE(id)%%>" class="Payroll-start"><%%SELECT%%><%%VALUE(start)%%><%%ENDSELECT%%></td>
+		<td id="Payroll-stop-<%%VALUE(id)%%>" class="Payroll-stop"><%%SELECT%%><%%VALUE(stop)%%><%%ENDSELECT%%></td>
+		<td id="Payroll-horas-<%%VALUE(id)%%>" class="Payroll-horas"><%%SELECT%%><%%VALUE(horas)%%><%%ENDSELECT%%></td>
+		<td id="Payroll-comment-<%%VALUE(id)%%>" class="Payroll-comment"><%%SELECT%%><%%VALUE(comment)%%><%%ENDSELECT%%></td>

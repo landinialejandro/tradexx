@@ -1,0 +1,20 @@
+<!-- Edit this file to change the layout of each record in the table view -->
+<!-- To disable clicking of a field, remove the <%%SELECT%%> and <%%ENDSELECT%%> formatters around it-->
+
+<!-- If you wish to hide the table view header that contains the column titles, -->
+<!-- add the following to the TrackingCenter_init() hook (in hooks/TrackingCenter.php file) -->
+<!--     $options->ShowTableHeader = 0;     -->
+
+		<td id="TrackingCenter-Date-<%%VALUE(id)%%>" class="TrackingCenter-Date"><%%SELECT%%><%%VALUE(Date)%%><%%ENDSELECT%%></td>
+		<td id="TrackingCenter-Name-<%%VALUE(id)%%>" class="TrackingCenter-Name"><%%SELECT%%><%%VALUE(Name)%%><%%ENDSELECT%%></td>
+		<td id="TrackingCenter-Zone-<%%VALUE(id)%%>" class="TrackingCenter-Zone"><%%SELECT%%><%%VALUE(Zone)%%><%%ENDSELECT%%></td>
+		<td id="TrackingCenter-Tracking-<%%VALUE(id)%%>" class="TrackingCenter-Tracking"><%%SELECT%%><%%VALUE(Tracking)%%><%%ENDSELECT%%></td>
+		<td id="TrackingCenter-Carrier-<%%VALUE(id)%%>" class="TrackingCenter-Carrier"><%%SELECT%%><%%VALUE(Carrier)%%><%%ENDSELECT%%></td>
+		<td id="TrackingCenter-Trackingurl-<%%VALUE(id)%%>" class="TrackingCenter-Trackingurl"><a href="link.php?t=TrackingCenter&f=Trackingurl&i=<%%VALUE(id)%%>" target="_blank" title="<%%VALUE(Trackingurl)%%>" class="btn btn-default"><i class="glyphicon glyphicon-globe text-info"></i></a></td>
+		<td id="TrackingCenter-CustStatus-<%%VALUE(id)%%>" class="TrackingCenter-CustStatus"><%%SELECT%%><%%VALUE(CustStatus)%%><%%ENDSELECT%%></td>
+		<td id="TrackingCenter-TRADEXXstatus-<%%VALUE(id)%%>" class="TrackingCenter-TRADEXXstatus"><%%SELECT%%><%%VALUE(TRADEXXstatus)%%><%%ENDSELECT%%></td>
+		<td id="TrackingCenter-Freight-<%%VALUE(id)%%>" class="TrackingCenter-Freight"><%%SELECT%%><%%VALUE(Freight)%%><%%ENDSELECT%%></td>
+		<td id="TrackingCenter-Comments-<%%VALUE(id)%%>" class="TrackingCenter-Comments"><%%SELECT%%><%%VALUE(Comments)%%><%%ENDSELECT%%></td>
+		<script>$j(function(){
+			var e_Trackingurl = '<%%VALUE(Trackingurl)%%>'; if(e_Trackingurl == '' || e_Trackingurl == '&nbsp;') $j(/*<*/ '#TrackingCenter-Trackingurl-<%%VALUE(id)%%>' /*>*/).html('');
+		});</script>

@@ -1,0 +1,19 @@
+<!-- Edit this file to change the layout of each record in the table view -->
+<!-- To disable clicking of a field, remove the  and  formatters around it-->
+
+<!-- If you wish to hide the table view header that contains the column titles, -->
+<!-- add the following to the Tracking_init() hook (in hooks/Tracking.php file) -->
+<!--     $options->ShowTableHeader = 0;     -->
+
+		<td id="Tracking-Date-<%%VALUE(id)%%>" class="Tracking-Date"><%%VALUE(Date)%%></td>
+		<td id="Tracking-Warehouse-<%%VALUE(id)%%>" class="Tracking-Warehouse"><%%VALUE(Warehouse)%%></td>
+		<td id="Tracking-Tracking-<%%VALUE(id)%%>" class="Tracking-Tracking"><%%VALUE(Tracking)%%></td>
+		<td id="Tracking-Customer-<%%VALUE(id)%%>" class="Tracking-Customer"><%%VALUE(Customer)%%></td>
+		<td id="Tracking-Dimensions-<%%VALUE(id)%%>" class="Tracking-Dimensions"><%%VALUE(Dimensions)%%></td>
+		<td id="Tracking-Weight-<%%VALUE(id)%%>" class="Tracking-Weight text-right"><%%VALUE(Weight)%%></td>
+		<td id="Tracking-Volume-<%%VALUE(id)%%>" class="Tracking-Volume text-right"><%%VALUE(Volume)%%></td>
+		<td id="Tracking-Total-<%%VALUE(id)%%>" class="Tracking-Total text-right"><%%VALUE(Total)%%></td>
+		<td id="Tracking-Freight-<%%VALUE(id)%%>" class="Tracking-Freight"><%%VALUE(Freight)%%></td>
+		<td id="Tracking-Status-<%%VALUE(id)%%>" class="Tracking-Status"><%%VALUE(Status)%%></td>
+		<td id="Tracking-Zone-<%%VALUE(id)%%>" class="Tracking-Zone"><%%VALUE(Zone)%%></td>
+		<td id="Tracking-DeliveredDate-<%%VALUE(id)%%>" class="Tracking-DeliveredDate"><%%VALUE(DeliveredDate)%%></td>
