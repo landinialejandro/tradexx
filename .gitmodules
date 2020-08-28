@@ -1,0 +1,3 @@
+[submodule "plugins/lat"]
+	path = plugins/lat
+	url = git@github.com:myappgini/sbm_lat_plugin_install.git
