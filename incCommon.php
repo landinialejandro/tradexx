@@ -50,9 +50,9 @@
 			'Alert' => array('CUSTOMER ALERT', '', 'resources/table_icons/Warning.png', 'CRM'),
 			'CustomerClass' => array('CUSTOMER TYPE', '', 'resources/table_icons/Customer type.png', 'CRM'),
 			'Staff' => array('STAFF', '', 'resources/table_icons/Staff.png', 'HR'),
-			'Country' => array('Country', '', 'table.gif', 'CRM'),
-			'Province' => array('Province', '', 'table.gif', 'CRM'),
-			'City' => array('City', '', 'table.gif', 'CRM'),
+			'Country' => array('Country', '', 'table.gif', 'hidden'),
+			'Province' => array('Province', '', 'table.gif', 'hidden'),
+			'City' => array('City', '', 'table.gif', 'hidden'),
 			'Warehouse' => array('WAREHOUSE', '', 'resources/table_icons/Warehouse.png', 'Warehouse'),
 			'Tracking' => array('TRACKING', '', 'resources/table_icons/Tracking center 1.png', 'Warehouse'),
 			'Status' => array('STATUS', '', 'resources/table_icons/status.png', 'Warehouse'),
@@ -61,10 +61,10 @@
 			'WHJournal' => array('WH JOURNAL', '', 'resources/table_icons/WH Journal.png', 'Accounting'),
 			'CRM' => array('CRM', '', 'resources/table_icons/CRM.png', 'CRM'),
 			'Payroll' => array('PAYROLL', '', 'resources/table_icons/Subscriptions.png', 'HR'),
-			'Brand' => array('Brand', '', 'table.gif', 'CRM'),
-			'Model' => array('Model', '', 'table.gif', 'CRM'),
-			'System' => array('System', '', 'table.gif', 'CRM'),
-			'Part' => array('Part', '', 'table.gif', 'CRM'),
+			'Brand' => array('Brand', '', 'table.gif', 'hidden'),
+			'Model' => array('Model', '', 'table.gif', 'hidden'),
+			'System' => array('System', '', 'table.gif', 'hidden'),
+			'Part' => array('Part', '', 'table.gif', 'hidden'),
 			'DatabaseAUTO' => array('CAR DATABASE', '', 'resources/table_icons/vehicle 1.png', 'Databases'),
 			'GeneralDB' => array('GENERAL DATABASE', '', 'resources/table_icons/general.png', 'Databases'),
 			'CustomerAuto' => array('CUSTOMER\'S VEHICLES', '', 'resources/table_icons/vehicle 1.png', 'Databases'),
@@ -73,20 +73,20 @@
 			'Claim' => array('CLAIM', '', 'resources/table_icons/Claim.png', 'Accounting'),
 			'Activities' => array('ACTIVITIES', '', 'resources/table_icons/Staff.png', 'CRM'),
 			'Return' => array('RETURN', '', 'resources/table_icons/Products 1.png', 'Accounting'),
-			'Department' => array('Department', '', 'table.gif', 'CRM'),
-			'Position' => array('Position', '', 'table.gif', 'CRM'),
-			'CEO' => array('C.E.O.', '', 'table.gif', 'CRM'),
-			'Manager' => array('MANAGER', '', 'table.gif', 'CRM'),
-			'Supervisor' => array('SUPERVISOR', '', 'table.gif', 'CRM'),
+			'Department' => array('Department', '', 'table.gif', 'hidden'),
+			'Position' => array('Position', '', 'table.gif', 'hidden'),
+			'CEO' => array('C.E.O.', '', 'table.gif', 'hidden'),
+			'Manager' => array('MANAGER', '', 'table.gif', 'hidden'),
+			'Supervisor' => array('SUPERVISOR', '', 'table.gif', 'hidden'),
 			'Losses' => array('LOSSES', '', 'resources/table_icons/Losses.png', 'Accounting'),
 			'Subscriptions' => array('SUSCRIPTIONS', '', 'resources/table_icons/Subscriptions.png', 'CRM'),
 			'Accounting' => array('CASH FLOW', '', 'resources/table_icons/Cashflow.png', 'Accounting'),
-			'MasterAccount' => array('Master Account', '', 'table.gif', 'CRM'),
-			'Account' => array('ACCOUNT', '', 'table.gif', 'CRM'),
-			'SubAccount' => array('SubAccount', '', 'table.gif', 'CRM'),
-			'Type' => array('Type', '', 'table.gif', 'CRM'),
+			'MasterAccount' => array('Master Account', '', 'table.gif', 'hidden'),
+			'Account' => array('ACCOUNT', '', 'table.gif', 'hidden'),
+			'SubAccount' => array('SubAccount', '', 'table.gif', 'hidden'),
+			'Type' => array('Type', '', 'table.gif', 'hidden'),
 			'CCJournal' => array('CC JOURNAL', '', 'resources/table_icons/Purchase order.png', 'Accounting'),
-			'CC' => array('CC', '', 'table.gif', 'CRM'),
+			'CC' => array('CC', '', 'table.gif', 'hidden'),
 			'Receivable' => array('Receivable', '', 'resources/table_icons/Account receivable.png', 'Accounting')
 		);
 		if($skip_authentication || getLoggedAdmin()) return $arrTables;
@@ -107,7 +107,7 @@
 
 	function get_table_groups($skip_authentication = false) {
 		$tables = getTableList($skip_authentication);
-		$all_groups = array('CRM', 'Warehouse', 'Databases', 'HR', 'Accounting');
+		$all_groups = array('CRM', 'Warehouse', 'Databases', 'HR', 'Accounting', 'hidden');
 
 		$groups = array();
 		foreach($all_groups as $grp) {
@@ -1492,7 +1492,7 @@
 		if(is_array($arrTables)) {
 			foreach($arrTables as $tn => $tc) {
 				/* ---- list of tables where hide link in nav menu is set ---- */
-				$tChkHL = array_search($tn, array('Country','Province','City','Brand','Model','System','Part','Department','Position','CEO','Manager','Supervisor','MasterAccount','Account','Type','CC'));
+				$tChkHL = array_search($tn, array('Country','Province','City','Brand','Model','System','Part','Department','Position','CEO','Manager','Supervisor','MasterAccount','Account','SubAccount','Type','CC'));
 
 				/* ---- list of tables where filter first is set ---- */
 				$tChkFF = array_search($tn, array());

@@ -88,7 +88,8 @@
 			'Warehouse',
 			'Databases',
 			'HR',
-			'Accounting'
+			'Accounting',
+			'hidden'
 		);
 
 		$all_tables = array(
@@ -132,21 +133,21 @@
 					'Caption' => 'Country',
 					'Description' => '',
 					'tableIcon' => 'table.gif',
-					'group' => $tg[0],
+					'group' => $tg[5],
 					'homepageShowCount' => 0
 				),
 				'Province' => array(
 					'Caption' => 'Province',
 					'Description' => '',
 					'tableIcon' => 'table.gif',
-					'group' => $tg[0],
+					'group' => $tg[5],
 					'homepageShowCount' => 0
 				),
 				'City' => array(
 					'Caption' => 'City',
 					'Description' => '',
 					'tableIcon' => 'table.gif',
-					'group' => $tg[0],
+					'group' => $tg[5],
 					'homepageShowCount' => 0
 				),
 				'Warehouse' => array(
@@ -209,28 +210,28 @@
 					'Caption' => 'Brand',
 					'Description' => '',
 					'tableIcon' => 'table.gif',
-					'group' => $tg[0],
+					'group' => $tg[5],
 					'homepageShowCount' => 0
 				),
 				'Model' => array(
 					'Caption' => 'Model',
 					'Description' => '',
 					'tableIcon' => 'table.gif',
-					'group' => $tg[0],
+					'group' => $tg[5],
 					'homepageShowCount' => 0
 				),
 				'System' => array(
 					'Caption' => 'System',
 					'Description' => '',
 					'tableIcon' => 'table.gif',
-					'group' => $tg[0],
+					'group' => $tg[5],
 					'homepageShowCount' => 0
 				),
 				'Part' => array(
 					'Caption' => 'Part',
 					'Description' => '',
 					'tableIcon' => 'table.gif',
-					'group' => $tg[0],
+					'group' => $tg[5],
 					'homepageShowCount' => 0
 				),
 				'DatabaseAUTO' => array(
@@ -293,35 +294,35 @@
 					'Caption' => 'Department',
 					'Description' => '',
 					'tableIcon' => 'table.gif',
-					'group' => $tg[0],
+					'group' => $tg[5],
 					'homepageShowCount' => 0
 				),
 				'Position' => array(
 					'Caption' => 'Position',
 					'Description' => '',
 					'tableIcon' => 'table.gif',
-					'group' => $tg[0],
+					'group' => $tg[5],
 					'homepageShowCount' => 0
 				),
 				'CEO' => array(
 					'Caption' => 'C.E.O.',
 					'Description' => '',
 					'tableIcon' => 'table.gif',
-					'group' => $tg[0],
+					'group' => $tg[5],
 					'homepageShowCount' => 0
 				),
 				'Manager' => array(
 					'Caption' => 'MANAGER',
 					'Description' => '',
 					'tableIcon' => 'table.gif',
-					'group' => $tg[0],
+					'group' => $tg[5],
 					'homepageShowCount' => 0
 				),
 				'Supervisor' => array(
 					'Caption' => 'SUPERVISOR',
 					'Description' => '',
 					'tableIcon' => 'table.gif',
-					'group' => $tg[0],
+					'group' => $tg[5],
 					'homepageShowCount' => 0
 				),
 				'Losses' => array(
@@ -349,28 +350,28 @@
 					'Caption' => 'Master Account',
 					'Description' => '',
 					'tableIcon' => 'table.gif',
-					'group' => $tg[0],
+					'group' => $tg[5],
 					'homepageShowCount' => 0
 				),
 				'Account' => array(
 					'Caption' => 'ACCOUNT',
 					'Description' => '',
 					'tableIcon' => 'table.gif',
-					'group' => $tg[0],
+					'group' => $tg[5],
 					'homepageShowCount' => 0
 				),
 				'SubAccount' => array(
 					'Caption' => 'SubAccount',
 					'Description' => '',
 					'tableIcon' => 'table.gif',
-					'group' => $tg[0],
+					'group' => $tg[5],
 					'homepageShowCount' => 0
 				),
 				'Type' => array(
 					'Caption' => 'Type',
 					'Description' => '',
 					'tableIcon' => 'table.gif',
-					'group' => $tg[0],
+					'group' => $tg[5],
 					'homepageShowCount' => 0
 				),
 				'CCJournal' => array(
@@ -384,7 +385,7 @@
 					'Caption' => 'CC',
 					'Description' => '',
 					'tableIcon' => 'table.gif',
-					'group' => $tg[0],
+					'group' => $tg[5],
 					'homepageShowCount' => 0
 				),
 				'Receivable' => array(
