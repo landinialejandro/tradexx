@@ -1,113 +1,143 @@
 <?php
-	// For help on using hooks, please refer to https://bigprof.com/appgini/help/working-with-generated-web-database-application/hooks
+// For help on using hooks, please refer to https://bigprof.com/appgini/help/working-with-generated-web-database-application/hooks
 
-	function Payroll_init(&$options, $memberInfo, &$args) {
+function Payroll_init(&$options, $memberInfo, &$args)
+{
 
-		return TRUE;
+	return TRUE;
+}
+
+function Payroll_header($contentType, $memberInfo, &$args)
+{
+	$header = '';
+
+	switch ($contentType) {
+		case 'tableview':
+			$header = '';
+			break;
+
+		case 'detailview':
+			$header = '';
+			break;
+
+		case 'tableview+detailview':
+			$header = '';
+			break;
+
+		case 'print-tableview':
+			$header = '';
+			break;
+
+		case 'print-detailview':
+			$header = '';
+			break;
+
+		case 'filters':
+			$header = '';
+			break;
 	}
 
-	function Payroll_header($contentType, $memberInfo, &$args) {
-		$header='';
+	return $header;
+}
 
-		switch($contentType) {
-			case 'tableview':
-				$header='';
-				break;
+function Payroll_footer($contentType, $memberInfo, &$args)
+{
+	$footer = '';
 
-			case 'detailview':
-				$header='';
-				break;
+	switch ($contentType) {
+		case 'tableview':
+			$footer = '';
+			break;
 
-			case 'tableview+detailview':
-				$header='';
-				break;
+		case 'detailview':
+			$footer = '';
+			break;
 
-			case 'print-tableview':
-				$header='';
-				break;
+		case 'tableview+detailview':
+			$footer = '';
+			break;
 
-			case 'print-detailview':
-				$header='';
-				break;
+		case 'print-tableview':
+			$footer = '';
+			break;
 
-			case 'filters':
-				$header='';
-				break;
-		}
+		case 'print-detailview':
+			$footer = '';
+			break;
 
-		return $header;
+		case 'filters':
+			$footer = '';
+			break;
 	}
 
-	function Payroll_footer($contentType, $memberInfo, &$args) {
-		$footer='';
+	return $footer;
+}
 
-		switch($contentType) {
-			case 'tableview':
-				$footer='';
-				break;
+function Payroll_before_insert(&$data, $memberInfo, &$args)
+{
 
-			case 'detailview':
-				$footer='';
-				break;
+	return TRUE;
+}
 
-			case 'tableview+detailview':
-				$footer='';
-				break;
+function Payroll_after_insert($data, $memberInfo, &$args)
+{
 
-			case 'print-tableview':
-				$footer='';
-				break;
+	return TRUE;
+}
 
-			case 'print-detailview':
-				$footer='';
-				break;
+function Payroll_before_update(&$data, $memberInfo, &$args)
+{
+	/* retrieve Payroll info */
+	///////////////////////////
+	$Payroll = getDataTable('Payroll', $data['selectedID']);
 
-			case 'filters':
-				$footer='';
-				break;
-		}
-
-		return $footer;
+	if (is_null($Payroll['stop'])) {
+		//TODO: convertir el tiempo en un decimal
+		$interval = formatDateDiff($Payroll['start'], $data['stop']);
+		$deciamal_h = $interval["value"]["i"] / 60;
+		$horas = round($interval["value"]["h"] + $deciamal_h, 2);
+		$data['value'] = $interval["human"];
+		$data['horas'] = $horas;
+	} elseif ($memberInfo['admin']) {
+		$start = ($data['start'] ? $data['start'] : $Payroll['start']);
+		$stop = ($data['stop'] ? $data['stop'] : $Payroll['stop']);
+		$interval = formatDateDiff($start, $stop);
+		$deciamal_h = $interval["value"]["i"] / 60;
+		$horas = round($interval["value"]["h"] + $deciamal_h, 2);
+		$data['value'] = $interval["human"];
+		$data['horas'] = $horas;
+	} else {
+		return false;
 	}
+	return true;
+}
 
-	function Payroll_before_insert(&$data, $memberInfo, &$args) {
+function Payroll_after_update($data, $memberInfo, &$args)
+{
+	return TRUE;
+}
 
-		return TRUE;
-	}
+function Payroll_before_delete($selectedID, &$skipChecks, $memberInfo, &$args)
+{
 
-	function Payroll_after_insert($data, $memberInfo, &$args) {
+	return TRUE;
+}
 
-		return TRUE;
-	}
+function Payroll_after_delete($selectedID, $memberInfo, &$args)
+{
+}
 
-	function Payroll_before_update(&$data, $memberInfo, &$args) {
+function Payroll_dv($selectedID, $memberInfo, &$html, &$args)
+{
+}
 
-		return TRUE;
-	}
+function Payroll_csv($query, $memberInfo, &$args)
+{
 
-	function Payroll_after_update($data, $memberInfo, &$args) {
+	return $query;
+}
+function Payroll_batch_actions(&$args)
+{
 
-		return TRUE;
-	}
-
-	function Payroll_before_delete($selectedID, &$skipChecks, $memberInfo, &$args) {
-
-		return TRUE;
-	}
-
-	function Payroll_after_delete($selectedID, $memberInfo, &$args) {
-
-	}
-
-	function Payroll_dv($selectedID, $memberInfo, &$html, &$args) {
-
-	}
-
-	function Payroll_csv($query, $memberInfo, &$args) {
-
-		return $query;
-	}
-	function Payroll_batch_actions(&$args) {
-
-		return array();
-	}
+	return array();
+}

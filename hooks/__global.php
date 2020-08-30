@@ -4,7 +4,9 @@
 <?php /* End of Landini Admin Template code */ ?>
 <?php
 	// For help on using hooks, please refer to https://bigprof.com/appgini/help/working-with-generated-web-database-application/hooks
-
+	if (!function_exists('getDataTable')){
+		include(dirname(__FILE__).'/../LAT/myLib.php');
+	}
 	function login_ok($memberInfo, &$args) {
 
 		return '';
