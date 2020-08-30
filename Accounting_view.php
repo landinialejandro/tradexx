@@ -40,7 +40,7 @@
 		4 => '`MasterAccount1`.`masterAccount`',
 		5 => '`Account1`.`Account`',
 		6 => '`SubAccount1`.`subAccount`',
-		7 => "IF(, CONCAT_WS('', ), '') /* Type */" => "type",
+		7 => "IF(, CONCAT_WS('', ), '') /* Type */",
 		8 => '`Accounting`.`amount`',
 		9 => '`Accounting`.`balance`',
 	);
