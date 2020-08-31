@@ -1,0 +1,211 @@
+﻿2020/04/30
+- new: new AppGiniField("fieldname").insertBefore().div("inner", "classes");
+- new: new AppGiniField("fieldname").insertBefore().span("inner", "classes");
+       Same for: .insertAbove() | .insertBelow() | .insertBefore() | .insertAfter() | .insertPrepend() | .insertAppend()
+
+- new: var tabs = dv.getTabs();
+- new: dv.getTabs().setPosition(TabPosition.Top);
+       position: TabPosition.Top | TabPosition.top | "top"
+                 TabPosition.Bottom | TabPosition.bottom | "bottom"
+
+2020/03/20
+- new: (experimental) var id_field = new AppGiniDetailView().getField(fieldname); // shortcut function for quickly getting field handles
+- new: new AppGiniDetailView().getChildrenLinks().removeIcons();
+- new: new AppGiniDetailView().getChildrenLinks().replaceIcons();
+
+2020/03/13
+- new: (experimental / BETA) new AppGiniDetailView().autoCompleteOff();
+- new: change login form: new AppGiniLoginView().fix();
+                          new AppGiniLoginView().setIcons("a", "b");
+                          new AppGiniLoginView().center();
+                          new AppGiniLoginView().setVariation(Variation.primary);
+
+2020/03/12
+- new: fade in / fade out field
+       new AppGiniField("fieldname").fade( true|false );
+       new AppGiniField("fieldname").fadeIn();
+       new AppGiniField("fieldname").fadeOut();
+- new: fade in / fade out multiple fields
+       new AppGiniFields(["fieldname1", "fieldname2"]).fade(true);
+       new AppGiniFields(["fieldname1", "fieldname2"]).fade(false);
+2020/03/11
+- new: (unsupported, requires more testing and feedback) .addShortcut() function on AppGiniDetailView and AppGiniTableView allows to define keyvboard shortcuts for focusing inputs
+       Syntax : new AppGiniTableView().addShortcut("fieldname", keycode, CTRL)
+       Example: new AppGiniTableView().addShortcut("appginihelper-navbar-search-input", 70, true); // CTRL+F sets focus on jQuery("#appginihelper-navbar-search-input")
+- new: optimize screen-usage by widening table view: new AppGiniTableView().compact();
+- new: .ready callback now also available for AppGiniTableView:
+       new AppGiniTableView().ready(function(){ ...your code here... });
+- new: new AppGiniTableView().addOpenButton() function as a shortcut for new AppGiniTableView().addButton
+       This will add a button in the first column of table view which opens the record in detail view.
+
+2020/03/10
+- new: add icons to default lookup buttons
+       var field = new AppGiniField("partner_id").dropdown()
+         .getAddButton()
+             .appendIcon("user")
+             .appendText(" New partner");
+
+       var field = new AppGiniField("partner_id").dropdown()
+         .getViewButton()
+             .appendIcon("cog")
+             .appendText(" View/Edit");
+
+
+2020/03/09
+- new: change icon of lookup buttons (view parent / add new parent)
+       new AppGiniField("partner_id").dropdown().fix("pencil", "plus");
+       // parameters:
+       // 1 - glyphicon name for view button
+       // 2 - glyphicon name for add button
+       // 3 - (optional) remove variant from add (boolean true|false)
+
+- new: (unsupported) onChange-Handler for lookup now additionally sends the fieldname to the callback
+
+       new AppGiniField("lookup_fieldname").onChange(test);
+
+       function test(value) {
+           console.log(value);
+           // value.id     =  ID_OF_SELECTED_ITEM
+           // value.text   =  TEXT_OF_SELECTED_ITEM
+           // value.source =  "lookup_fieldname"
+       }
+
+- new: change design of buttons next to lookup dropdowns...
+       for a single dropdpwn         : new AppGiniField(fieldname).dropdown().fix();
+       for all dropdowns of a dv     : new AppGiniDetailView().fixDropdowns()
+       for a group of dropdpwn fields: new AppGiniFields(["fieldname1", "fieldname2"]).fixDropdowns();
+
+2020/03/08
+- new: design fix for image fields       : TABLENAME-dv.js / new AppGiniField("fieldname").fix(); // applies to image fields only
+- fix: small change in .inline() function when  number of widths if different to number of fields
+
+2020/01/05
+- new: (BETA) When following a link (eg from email) and you are not logged in, AppGini will redirect you to login page after 2 seconds. After logging in you will be redirected to index-page, not to the entry-page. This behaviour can be changed now with the following command: new AppGiniCommon().autoRedirect();
+       This new behaviour is very helpful for passing links via email and for QRCode integration
+
+2019/12/30
+- new: (BETA) TableView: Merge identical cells (in column). new AppGiniTableView().merge(["field1", "field2"]); or new AppGiniTableView().merge("field"); Attention: cannot be combined with group-function because group adds additional rows which cannot be merged
+- new: (BETA) Tableview: Group rows. new AppGiniTableView().group("product_id", false, false)
+       Parameters: (fields: string | string[], accordion: boolean = true, autoHide: boolean = true)
+
+2019/12/07
+- new: addLayout(...).add(..., [ "#Headline" ]) will add a class "appginihelper-layout-header" now for further css customization
+
+2019/12/02
+- new: Automatically select text in quicksearch field for easy overwriting. This is extremely helpful for barcode-scanning, for example.
+  Syntax: Globally enable it for all tables in hooks/header-extras.php with: new AppGiniTableViewQuicksearch().autoselect(Autoselect.all);
+          Enable it for a single table in hooks/TABLENAME-tv.js on document ready with: new AppGiniTableView().quicksearch().autoselect(Autoselect.all);
+          Others:
+          .autoselect(Autoselect.start)
+          .autoselect(Autoselect.end)
+          .autoselect(Autoselect.range, start, len) // start: 1-based index, len = length of selection, for example Searchstring = "+49 431 / 12345-67". .autoselect(Autoselect.range, 17, 2) will select the extension "67"
+- new: (UNSUPPORTED) AutoComplete off for quicksearch This may not work in all browsers.
+
+2019/11/30
+- fix: auto-showing formerly collapsed layout rows after being moved into tab
+
+2019/11/29
+- new: new AppGiniCommon().fix().navbar();
+- new: new AppGiniCommon().fix().dropdowns();
+
+2019/11/26
+- fix: AppGiniHelper client side js library expected a server side php script which is non-existant in customer's environment. Removed ajax call for that server side php script.
+
+2019/11/24
+- new (UNSUPPORTED): turn top navbar to the left hand side (sidebar): new AppGiniCommon().navbar.fix().toLeft(true);
+  parameter: true = also on homepage false (default) = not on homepage
+
+- new: Tabs in detail view: new AppGiniDetailView().addTab("tab-name", "Title", "icon").add(["field1", "field2", "field3"]);
+- new: shortcut for (collapsible) layout-rows with variations: new AppGiniDevailView().addLayout(widths[], title, canCollapse, isCollapsed, variation)
+- new: Link-Buttons in table view: new AppGiniTableView().addLink("http://...", "icon", "text", Variation.default, "Confirmation prompt - Are you sure?");
+- new: Buttons in table view: new AppGiniTableVire().addButton(callback, "icon", "text", Variation.default);
+
+2019/11/15
+- new: Get custom title of detail view: new AppGiniDetailView().getTitle()
+       After (!) you have used AppGiniDetailView().setTitle("...") once, you can use .getTitle() to get the text-value (without html-formatting)
+
+2019/11/06
+- fix: addGroup name parameter: special characters will be replaced by -
+
+2019/11/02
+- new: get name of current table in table view: AppGiniTableView().getTableName();
+- new: get name of current table in detail view: AppGiniDetailView().getTableName();
+
+2019/10/28
+- new: fix some ui for image fields: new AppGiniField("imagefield").fix();
+
+2019/10/22
+- new: layout rows now expandable with title: new AppGiniDetailView().addLayout([widths], "title", true|false, true|false, Variation.default)
+  parameter 3: expandable true|false
+  parameter 4: expand by default = true
+
+2019/10/21
+- new: new AppGiniCommon().setHeight(48);
+- new: new AppGiniCommon().setColor(bg, fc);
+- new: (UNSUPPORTED) common.navbar.toLeft() . Use it, if it meets your requirements. There will be no support for this function)
+- new: (UNSUPPORTED) common.navbar.removeProfile();
+
+2019/10/13
+- new: toDatepicker for 2-AppGiniFields as date-range-selector
+- fix: fixed bug with label-width on smaller devices
+
+2019/10/12
+- new: collapsible panels: doubleclick closes other open panels
+
+2019/10/11
+- new: toDropdown(["a", "b", "c"])
+- new: toMembersDropdown()
+- new: toGroupsDropdown()
+- new: .showTypes() for debugging purposes
+
+2019/10/09
+- upd: inline() function now also working for smaller display sizes
+
+2019/10/08
+- new: collapsible panels: new parameter expand by default
+
+2019/09/30
+- new: collapsible panels
+- new: DV.setTitle(text, classes)
+- new: DV.setVariation(Variation.default)
+- new: icons for ActionButton-groups
+- new: css-class for ActionButton-groups
+- new: var id = DV.getSelectedId();
+2019/09/23
+- new: action buttons: move from top-right into tabs
+- new: placeholders
+- new: AppGiniFields([f1, f2, ...]).inline(label, [w1, w2, ...]) functions
+- new: showBadges
+
+2019/09/17
+- new: appendIcon/prependIcon append/prepend icons to input controls and static controls
+- new: append/prepend icons and/or text to input controls and static controls
+- new: AppGiniDetailView.childrenTabs.showBadges(); // attention: requires regexp
+2019/09/16
+- new: AppGiniField: toText() turns inputs' type to "text"
+- new: AppGiniField: toPassword() turns inputs' type to "password".
+       ATTENTION: THIS IS NOT SECURE.
+       PASSWORD CAN STILL BE UNCOVERED.
+       ONLY USE IT IN A SECURE ENVIRONMENT
+2019/09/12-001
+text, tiny_text, text_html, medium_text, long_text
+- new: onChange event for almost all datatypes (missing: timestamp, only event without data: tiny blob, blob, medium_blob, long_blob)
+
+2019/09/11-002
+- new: badges in tabs
+
+2019/09/11-001
+- new: compact mode
+- new: width of tabs
+- new: button sizing
+- new actionbutton container sizing
+
+2019/09/10-002
+- fix: multi-column-layout / resizeLabels() not changes the width of (richtext) areas correctly
+
+2019/09/10-001
+- fix: multi-column-layout / moving radiobutton into columns
+
+2019/09/09
+- new: multi-column-layout /resizeLabels()
+- new: multi-column-layout /wrapLabels();

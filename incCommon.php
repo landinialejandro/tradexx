@@ -57,6 +57,7 @@
 			'Tracking' => array('TRACKING', '', 'resources/table_icons/Tracking center 1.png', 'Warehouse'),
 			'Status' => array('STATUS', '', 'resources/table_icons/status.png', 'Warehouse'),
 			'Invoice' => array('INVOICE', '', 'resources/table_icons/Invoices.png', 'Accounting'),
+			'InvoiceDetails' => array('InvoiceDetails', '', 'table.gif', 'hidden'),
 			'Products' => array('PRODUCTS', '', 'resources/table_icons/general.png', 'Accounting'),
 			'WHJournal' => array('WH JOURNAL', '', 'resources/table_icons/WH Journal.png', 'Accounting'),
 			'CRM' => array('CRM', '', 'resources/table_icons/CRM.png', 'CRM'),
@@ -185,8 +186,9 @@
 			'Warehouse' => "`Warehouse`.`id` as 'id', `Warehouse`.`Warehouse` as 'Warehouse', if(`Warehouse`.`Date`,date_format(`Warehouse`.`Date`,'%m/%d/%Y'),'') as 'Date', `Warehouse`.`Freight` as 'Freight'",
 			'Tracking' => "`Tracking`.`id` as 'id', IF(    CHAR_LENGTH(`Warehouse1`.`id`), CONCAT_WS('',   `Warehouse1`.`id`), '') as 'WhID', IF(    CHAR_LENGTH(if(`Warehouse1`.`Date`,date_format(`Warehouse1`.`Date`,'%m/%d/%Y'),'')), CONCAT_WS('',   if(`Warehouse1`.`Date`,date_format(`Warehouse1`.`Date`,'%m/%d/%Y'),'')), '') as 'Date', IF(    CHAR_LENGTH(`Warehouse1`.`Warehouse`), CONCAT_WS('',   `Warehouse1`.`Warehouse`), '') as 'Warehouse', `Tracking`.`Tracking` as 'Tracking', IF(    CHAR_LENGTH(`Customers1`.`Customer`), CONCAT_WS('',   `Customers1`.`Customer`), '') as 'Customer', `Tracking`.`Dimensions` as 'Dimensions', `Tracking`.`Weight` as 'Weight', `Tracking`.`Volume` as 'Volume', `Tracking`.`Total` as 'Total', IF(    CHAR_LENGTH(`Staff1`.`Employee`), CONCAT_WS('',   `Staff1`.`Employee`), '') as 'Employee', IF(    CHAR_LENGTH(`Warehouse1`.`Freight`), CONCAT_WS('',   `Warehouse1`.`Freight`), '') as 'Freight', `Tracking`.`Status` as 'Status', IF(    CHAR_LENGTH(`Province1`.`Province`), CONCAT_WS('',   `Province1`.`Province`), '') as 'Zone', if(`Tracking`.`DeliveredDate`,date_format(`Tracking`.`DeliveredDate`,'%m/%d/%Y %h:%i %p'),'') as 'DeliveredDate'",
 			'Status' => "`Status`.`id` as 'id', IF(    CHAR_LENGTH(`Tracking1`.`id`), CONCAT_WS('',   `Tracking1`.`id`), '') as 'TrackID', IF(    CHAR_LENGTH(`Invoice1`.`id`), CONCAT_WS('',   `Invoice1`.`id`), '') as 'Invoice', IF(    CHAR_LENGTH(`Tracking1`.`Tracking`), CONCAT_WS('',   `Tracking1`.`Tracking`), '') as 'Tracking', IF(    CHAR_LENGTH(`Tracking1`.`Dimensions`), CONCAT_WS('',   `Tracking1`.`Dimensions`), '') as 'Dimensions', IF(    CHAR_LENGTH(`Tracking1`.`Weight`), CONCAT_WS('',   `Tracking1`.`Weight`), '') as 'RWeight', IF(    CHAR_LENGTH(`Tracking1`.`Volume`), CONCAT_WS('',   `Tracking1`.`Volume`), '') as 'VWeight', IF(    CHAR_LENGTH(`Tracking1`.`Total`), CONCAT_WS('',   `Tracking1`.`Total`), '') as 'Total', `Status`.`FreightType` as 'FreightType', if(`Status`.`DeliveryDate`,date_format(`Status`.`DeliveryDate`,'%m/%d/%Y %h:%i %p'),'') as 'DeliveryDate', `Status`.`Delivered` as 'Delivered'",
-			'Invoice' => "`Invoice`.`id` as 'id', if(`Invoice`.`Date`,date_format(`Invoice`.`Date`,'%m/%d/%Y'),'') as 'Date', IF(    CHAR_LENGTH(`Customers1`.`Title`), CONCAT_WS('',   `Customers1`.`Title`), '') as 'Title', IF(    CHAR_LENGTH(`Customers1`.`Customer`), CONCAT_WS('',   `Customers1`.`Customer`), '') as 'Customer', IF(    CHAR_LENGTH(`Customers1`.`Phone`), CONCAT_WS('',   `Customers1`.`Phone`), '') as 'Phone', IF(    CHAR_LENGTH(`Customers1`.`Email`), CONCAT_WS('',   `Customers1`.`Email`), '') as 'Email', IF(    CHAR_LENGTH(`Customers1`.`Address`), CONCAT_WS('',   `Customers1`.`Address`), '') as 'Address', IF(    CHAR_LENGTH(`City1`.`City`), CONCAT_WS('',   `City1`.`City`), '') as 'City', IF(    CHAR_LENGTH(`Country1`.`Country`), CONCAT_WS('',   `Country1`.`Country`), '') as 'Country', `Invoice`.`PaymentStatus` as 'PaymentStatus', `Invoice`.`AmountDUE` as 'AmountDUE', `Invoice`.`AmountPAID` as 'AmountPAID', `Invoice`.`Balance` as 'Balance', `Invoice`.`Status` as 'Status'",
-			'Products' => "`Products`.`id` as 'id', IF(    CHAR_LENGTH(`Invoice1`.`id`), CONCAT_WS('',   `Invoice1`.`id`), '') as 'invoice', `Products`.`item` as 'item', `Products`.`qty` as 'qty', `Products`.`total` as 'total', `Products`.`uploads` as 'uploads'",
+			'Invoice' => "`Invoice`.`id` as 'id', if(`Invoice`.`Date`,date_format(`Invoice`.`Date`,'%m/%d/%Y'),'') as 'Date', IF(    CHAR_LENGTH(`Customers1`.`Title`), CONCAT_WS('',   `Customers1`.`Title`), '') as 'Title', IF(    CHAR_LENGTH(`Customers1`.`Customer`), CONCAT_WS('',   `Customers1`.`Customer`), '') as 'Customer', IF(    CHAR_LENGTH(`Customers1`.`Phone`), CONCAT_WS('',   `Customers1`.`Phone`), '') as 'Phone', IF(    CHAR_LENGTH(`Customers1`.`Email`), CONCAT_WS('',   `Customers1`.`Email`), '') as 'Email', IF(    CHAR_LENGTH(`Customers1`.`Address`), CONCAT_WS('',   `Customers1`.`Address`), '') as 'Address', IF(    CHAR_LENGTH(`City1`.`City`), CONCAT_WS('',   `City1`.`City`), '') as 'City', IF(    CHAR_LENGTH(`Country1`.`Country`), CONCAT_WS('',   `Country1`.`Country`), '') as 'Country', `Invoice`.`PaymentStatus` as 'PaymentStatus', `Invoice`.`AmountDUE` as 'AmountDUE', `Invoice`.`AmountPAID` as 'AmountPAID', `Invoice`.`Balance` as 'Balance', `Invoice`.`Status` as 'Status', `Invoice`.`tax` as 'tax', `Invoice`.`Total` as 'Total'",
+			'InvoiceDetails' => "`InvoiceDetails`.`id` as 'id', IF(    CHAR_LENGTH(`Invoice1`.`id`), CONCAT_WS('',   `Invoice1`.`id`), '') as 'invoice', `InvoiceDetails`.`order` as 'order', IF(    CHAR_LENGTH(`Products1`.`code`) || CHAR_LENGTH(`Products1`.`item`), CONCAT_WS('',   `Products1`.`code`, ' - ', `Products1`.`item`), '') as 'product', `InvoiceDetails`.`qty` as 'qty', IF(    CHAR_LENGTH(`Products1`.`itemSale`), CONCAT_WS('',   `Products1`.`itemSale`), '') as 'itemSale', `InvoiceDetails`.`SubTotal` as 'SubTotal'",
+			'Products' => "`Products`.`id` as 'id', `Products`.`code` as 'code', `Products`.`item` as 'item', `Products`.`cost` as 'cost', `Products`.`profit` as 'profit', `Products`.`itemSale` as 'itemSale', `Products`.`uploads` as 'uploads'",
 			'WHJournal' => "`WHJournal`.`id` as 'id', if(`WHJournal`.`Date`,date_format(`WHJournal`.`Date`,'%m/%d/%Y'),'') as 'Date', `WHJournal`.`Freightype` as 'Freightype', `WHJournal`.`Invoices` as 'Invoices', `WHJournal`.`Warehouse` as 'Warehouse', `WHJournal`.`Tracking` as 'Tracking', `WHJournal`.`GroundFreight` as 'GroundFreight', `WHJournal`.`Boxes` as 'Boxes', `WHJournal`.`Dimensions` as 'Dimensions', `WHJournal`.`Volume` as 'Volume', `WHJournal`.`Weight` as 'Weight', `WHJournal`.`InternationalFreight` as 'InternationalFreight', `WHJournal`.`LocalFreight` as 'LocalFreight', `WHJournal`.`Tip` as 'Tip', `WHJournal`.`Total` as 'Total'",
 			'CRM' => "`CRM`.`id` as 'id', IF(    CHAR_LENGTH(`Customers1`.`Customer`), CONCAT_WS('',   `Customers1`.`Customer`), '') as 'Customer', `CRM`.`Interaction` as 'Interaction', `CRM`.`Inboundtype` as 'Inboundtype', `CRM`.`Type` as 'Type', `CRM`.`Description` as 'Description', `CRM`.`Comments` as 'Comments', `CRM`.`Priority` as 'Priority', `CRM`.`Status` as 'Status', if(`CRM`.`Timestamp`,date_format(`CRM`.`Timestamp`,'%m/%d/%Y %h:%i %p'),'') as 'Timestamp', `CRM`.`Sent` as 'Sent', IF(    CHAR_LENGTH(`Staff1`.`Employee`), CONCAT_WS('',   `Staff1`.`Employee`), '') as 'Assigned', `CRM`.`Url` as 'Url'",
 			'Payroll' => "`Payroll`.`id` as 'id', IF(    CHAR_LENGTH(`Staff1`.`Employee`), CONCAT_WS('',   `Staff1`.`Employee`), '') as 'employee', if(`Payroll`.`date`,date_format(`Payroll`.`date`,'%m/%d/%Y'),'') as 'date', `Payroll`.`start` as 'start', `Payroll`.`stop` as 'stop', `Payroll`.`horas` as 'horas', `Payroll`.`comment` as 'comment', `Payroll`.`value` as 'value'",
@@ -209,7 +211,7 @@
 			'Supervisor' => "`Supervisor`.`id` as 'id', `Supervisor`.`Supervisor` as 'Supervisor', IF(    CHAR_LENGTH(`Department1`.`Department`), CONCAT_WS('',   `Department1`.`Department`), '') as 'Department'",
 			'Losses' => "`Losses`.`id` as 'id', IF(    CHAR_LENGTH(`Customers1`.`Customer`), CONCAT_WS('',   `Customers1`.`Customer`), '') as 'Customer', `Losses`.`Description` as 'Description', `Losses`.`Saleprice` as 'Saleprice', `Losses`.`OperationCost` as 'OperationCost', `Losses`.`Lost` as 'Lost', `Losses`.`Comment` as 'Comment', `Losses`.`Recovered` as 'Recovered', `Losses`.`Balance` as 'Balance', `Losses`.`Status` as 'Status'",
 			'Subscriptions' => "`Subscriptions`.`id` as 'id', IF(    CHAR_LENGTH(`Customers1`.`Customer`), CONCAT_WS('',   `Customers1`.`Customer`), '') as 'Customer', `Subscriptions`.`Vendor` as 'Vendor', `Subscriptions`.`AccountID` as 'AccountID', if(`Subscriptions`.`LastPayment`,date_format(`Subscriptions`.`LastPayment`,'%m/%d/%Y'),'') as 'LastPayment', if(`Subscriptions`.`DueDate`,date_format(`Subscriptions`.`DueDate`,'%m/%d/%Y'),'') as 'DueDate', `Subscriptions`.`Status` as 'Status', `Subscriptions`.`Rate` as 'Rate', `Subscriptions`.`AmountDue` as 'AmountDue'",
-			'Accounting' => "`Accounting`.`id` as 'id', if(`Accounting`.`date`,date_format(`Accounting`.`date`,'%m/%d/%Y'),'') as 'date', `Accounting`.`description` as 'description', IF(    CHAR_LENGTH(`MasterAccount1`.`masterAccount`), CONCAT_WS('',   `MasterAccount1`.`masterAccount`), '') as 'master_acount', IF(    CHAR_LENGTH(`Account1`.`Account`), CONCAT_WS('',   `Account1`.`Account`), '') as 'account', IF(    CHAR_LENGTH(`SubAccount1`.`subAccount`), CONCAT_WS('',   `SubAccount1`.`subAccount`), '') as 'sub_account', IF(, CONCAT_WS('', ), '') as 'type', FORMAT(`Accounting`.`amount`, 2) as 'amount', `Accounting`.`balance` as 'balance'",
+			'Accounting' => "`Accounting`.`id` as 'id', if(`Accounting`.`date`,date_format(`Accounting`.`date`,'%m/%d/%Y'),'') as 'date', `Accounting`.`description` as 'description', IF(    CHAR_LENGTH(`MasterAccount1`.`masterAccount`), CONCAT_WS('',   `MasterAccount1`.`masterAccount`), '') as 'master_acount', IF(    CHAR_LENGTH(`Account1`.`Account`), CONCAT_WS('',   `Account1`.`Account`), '') as 'account', IF(    CHAR_LENGTH(`SubAccount1`.`subAccount`), CONCAT_WS('',   `SubAccount1`.`subAccount`), '') as 'sub_account', IF(    CHAR_LENGTH(`Type1`.`type`), CONCAT_WS('',   `Type1`.`type`), '') as 'type', FORMAT(`Accounting`.`amount`, 2) as 'amount', `Accounting`.`balance` as 'balance'",
 			'MasterAccount' => "`MasterAccount`.`id` as 'id', `MasterAccount`.`masterAccount` as 'masterAccount'",
 			'Account' => "`Account`.`id` as 'id', `Account`.`Account` as 'Account', IF(    CHAR_LENGTH(`MasterAccount1`.`masterAccount`), CONCAT_WS('',   `MasterAccount1`.`masterAccount`), '') as 'masterAccount'",
 			'SubAccount' => "`SubAccount`.`id` as 'id', IF(    CHAR_LENGTH(`Account1`.`Account`), CONCAT_WS('',   `Account1`.`Account`), '') as 'account', `SubAccount`.`subAccount` as 'subAccount'",
@@ -242,7 +244,8 @@
 			'Tracking' => "`Tracking` LEFT JOIN `Warehouse` as Warehouse1 ON `Warehouse1`.`id`=`Tracking`.`Warehouse` LEFT JOIN `Customers` as Customers1 ON `Customers1`.`id`=`Tracking`.`Customer` LEFT JOIN `Staff` as Staff1 ON `Staff1`.`id`=`Tracking`.`Employee` LEFT JOIN `Province` as Province1 ON `Province1`.`id`=`Customers1`.`Province` ",
 			'Status' => "`Status` LEFT JOIN `Invoice` as Invoice1 ON `Invoice1`.`id`=`Status`.`Invoice` LEFT JOIN `Tracking` as Tracking1 ON `Tracking1`.`id`=`Status`.`Tracking` ",
 			'Invoice' => "`Invoice` LEFT JOIN `Customers` as Customers1 ON `Customers1`.`id`=`Invoice`.`Customer` LEFT JOIN `City` as City1 ON `City1`.`id`=`Customers1`.`City` LEFT JOIN `Country` as Country1 ON `Country1`.`id`=`Customers1`.`Country` ",
-			'Products' => "`Products` LEFT JOIN `Invoice` as Invoice1 ON `Invoice1`.`id`=`Products`.`invoice` ",
+			'InvoiceDetails' => "`InvoiceDetails` LEFT JOIN `Invoice` as Invoice1 ON `Invoice1`.`id`=`InvoiceDetails`.`invoice` LEFT JOIN `Products` as Products1 ON `Products1`.`id`=`InvoiceDetails`.`product` ",
+			'Products' => "`Products` ",
 			'WHJournal' => "`WHJournal` ",
 			'CRM' => "`CRM` LEFT JOIN `Customers` as Customers1 ON `Customers1`.`id`=`CRM`.`Customer` LEFT JOIN `Staff` as Staff1 ON `Staff1`.`id`=`CRM`.`Assigned` ",
 			'Payroll' => "`Payroll` LEFT JOIN `Staff` as Staff1 ON `Staff1`.`id`=`Payroll`.`employee` ",
@@ -265,7 +268,7 @@
 			'Supervisor' => "`Supervisor` LEFT JOIN `Department` as Department1 ON `Department1`.`id`=`Supervisor`.`Department` ",
 			'Losses' => "`Losses` LEFT JOIN `Customers` as Customers1 ON `Customers1`.`id`=`Losses`.`Customer` ",
 			'Subscriptions' => "`Subscriptions` LEFT JOIN `Customers` as Customers1 ON `Customers1`.`id`=`Subscriptions`.`Customer` ",
-			'Accounting' => "`Accounting` LEFT JOIN `MasterAccount` as MasterAccount1 ON `MasterAccount1`.`id`=`Accounting`.`master_acount` LEFT JOIN `Account` as Account1 ON `Account1`.`id`=`Accounting`.`account` LEFT JOIN `SubAccount` as SubAccount1 ON `SubAccount1`.`id`=`Accounting`.`sub_account` ",
+			'Accounting' => "`Accounting` LEFT JOIN `MasterAccount` as MasterAccount1 ON `MasterAccount1`.`id`=`Accounting`.`master_acount` LEFT JOIN `Account` as Account1 ON `Account1`.`id`=`Accounting`.`account` LEFT JOIN `SubAccount` as SubAccount1 ON `SubAccount1`.`id`=`Accounting`.`sub_account` LEFT JOIN `Type` as Type1 ON `Type1`.`id`=`Accounting`.`type` ",
 			'MasterAccount' => "`MasterAccount` ",
 			'Account' => "`Account` LEFT JOIN `MasterAccount` as MasterAccount1 ON `MasterAccount1`.`id`=`Account`.`masterAccount` ",
 			'SubAccount' => "`SubAccount` LEFT JOIN `Account` as Account1 ON `Account1`.`id`=`SubAccount`.`account` ",
@@ -288,6 +291,7 @@
 			'Tracking' => 'id',
 			'Status' => 'id',
 			'Invoice' => 'id',
+			'InvoiceDetails' => 'id',
 			'Products' => 'id',
 			'WHJournal' => 'id',
 			'CRM' => 'id',
@@ -490,14 +494,26 @@
 				'AmountDUE' => '',
 				'AmountPAID' => '',
 				'Balance' => '',
-				'Status' => 'OPEN'
+				'Status' => 'OPEN',
+				'tax' => '',
+				'Total' => ''
+			),
+			'InvoiceDetails' => array(
+				'id' => '',
+				'invoice' => '',
+				'order' => '',
+				'product' => '',
+				'qty' => '',
+				'itemSale' => '',
+				'SubTotal' => ''
 			),
 			'Products' => array(
 				'id' => '',
-				'invoice' => '',
+				'code' => '',
 				'item' => '',
-				'qty' => '',
-				'total' => '',
+				'cost' => '0.00',
+				'profit' => '',
+				'itemSale' => '',
 				'uploads' => ''
 			),
 			'WHJournal' => array(
@@ -1492,7 +1508,7 @@
 		if(is_array($arrTables)) {
 			foreach($arrTables as $tn => $tc) {
 				/* ---- list of tables where hide link in nav menu is set ---- */
-				$tChkHL = array_search($tn, array('Country','Province','City','Brand','Model','System','Part','Department','Position','CEO','Manager','Supervisor','MasterAccount','Account','SubAccount','Type','CC'));
+				$tChkHL = array_search($tn, array('Country','Province','City','InvoiceDetails','Brand','Model','System','Part','Department','Position','CEO','Manager','Supervisor','MasterAccount','Account','SubAccount','Type','CC'));
 
 				/* ---- list of tables where filter first is set ---- */
 				$tChkFF = array_search($tn, array());

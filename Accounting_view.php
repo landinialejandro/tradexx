@@ -28,7 +28,7 @@
 		"IF(    CHAR_LENGTH(`MasterAccount1`.`masterAccount`), CONCAT_WS('',   `MasterAccount1`.`masterAccount`), '') /* Master account */" => "master_acount",
 		"IF(    CHAR_LENGTH(`Account1`.`Account`), CONCAT_WS('',   `Account1`.`Account`), '') /* Account */" => "account",
 		"IF(    CHAR_LENGTH(`SubAccount1`.`subAccount`), CONCAT_WS('',   `SubAccount1`.`subAccount`), '') /* Subaccount */" => "sub_account",
-		"IF(, CONCAT_WS('', ), '') /* Type */" => "type",
+		"IF(    CHAR_LENGTH(`Type1`.`type`), CONCAT_WS('',   `Type1`.`type`), '') /* Type */" => "type",
 		"FORMAT(`Accounting`.`amount`, 2)" => "amount",
 		"`Accounting`.`balance`" => "balance",
 	);
@@ -40,7 +40,7 @@
 		4 => '`MasterAccount1`.`masterAccount`',
 		5 => '`Account1`.`Account`',
 		6 => '`SubAccount1`.`subAccount`',
-		7 => "IF(, CONCAT_WS('', ), '') /* Type */",
+		7 => '`Type1`.`type`',
 		8 => '`Accounting`.`amount`',
 		9 => '`Accounting`.`balance`',
 	);
@@ -53,7 +53,7 @@
 		"IF(    CHAR_LENGTH(`MasterAccount1`.`masterAccount`), CONCAT_WS('',   `MasterAccount1`.`masterAccount`), '') /* Master account */" => "master_acount",
 		"IF(    CHAR_LENGTH(`Account1`.`Account`), CONCAT_WS('',   `Account1`.`Account`), '') /* Account */" => "account",
 		"IF(    CHAR_LENGTH(`SubAccount1`.`subAccount`), CONCAT_WS('',   `SubAccount1`.`subAccount`), '') /* Subaccount */" => "sub_account",
-		"IF(, CONCAT_WS('', ), '') /* Type */" => "type",
+		"IF(    CHAR_LENGTH(`Type1`.`type`), CONCAT_WS('',   `Type1`.`type`), '') /* Type */" => "type",
 		"FORMAT(`Accounting`.`amount`, 2)" => "amount",
 		"`Accounting`.`balance`" => "balance",
 	);
@@ -65,7 +65,7 @@
 		"IF(    CHAR_LENGTH(`MasterAccount1`.`masterAccount`), CONCAT_WS('',   `MasterAccount1`.`masterAccount`), '') /* Master account */" => "Master account",
 		"IF(    CHAR_LENGTH(`Account1`.`Account`), CONCAT_WS('',   `Account1`.`Account`), '') /* Account */" => "Account",
 		"IF(    CHAR_LENGTH(`SubAccount1`.`subAccount`), CONCAT_WS('',   `SubAccount1`.`subAccount`), '') /* Subaccount */" => "Subaccount",
-		"IF(, CONCAT_WS('', ), '') /* Type */" => "Type",
+		"IF(    CHAR_LENGTH(`Type1`.`type`), CONCAT_WS('',   `Type1`.`type`), '') /* Type */" => "Type",
 		"`Accounting`.`amount`" => "Amount",
 		"`Accounting`.`balance`" => "Balance",
 	);
@@ -78,15 +78,15 @@
 		"IF(    CHAR_LENGTH(`MasterAccount1`.`masterAccount`), CONCAT_WS('',   `MasterAccount1`.`masterAccount`), '') /* Master account */" => "master_acount",
 		"IF(    CHAR_LENGTH(`Account1`.`Account`), CONCAT_WS('',   `Account1`.`Account`), '') /* Account */" => "account",
 		"IF(    CHAR_LENGTH(`SubAccount1`.`subAccount`), CONCAT_WS('',   `SubAccount1`.`subAccount`), '') /* Subaccount */" => "sub_account",
-		"IF(, CONCAT_WS('', ), '') /* Type */" => "type",
+		"IF(    CHAR_LENGTH(`Type1`.`type`), CONCAT_WS('',   `Type1`.`type`), '') /* Type */" => "type",
 		"FORMAT(`Accounting`.`amount`, 2)" => "amount",
 		"`Accounting`.`balance`" => "balance",
 	);
 
 	// Lookup fields that can be used as filterers
-	$x->filterers = array('master_acount' => 'Master account', 'account' => 'Account', 'sub_account' => 'Subaccount', );
+	$x->filterers = array('master_acount' => 'Master account', 'account' => 'Account', 'sub_account' => 'Subaccount', 'type' => 'Type', );
 
-	$x->QueryFrom = "`Accounting` LEFT JOIN `MasterAccount` as MasterAccount1 ON `MasterAccount1`.`id`=`Accounting`.`master_acount` LEFT JOIN `Account` as Account1 ON `Account1`.`id`=`Accounting`.`account` LEFT JOIN `SubAccount` as SubAccount1 ON `SubAccount1`.`id`=`Accounting`.`sub_account` ";
+	$x->QueryFrom = "`Accounting` LEFT JOIN `MasterAccount` as MasterAccount1 ON `MasterAccount1`.`id`=`Accounting`.`master_acount` LEFT JOIN `Account` as Account1 ON `Account1`.`id`=`Accounting`.`account` LEFT JOIN `SubAccount` as SubAccount1 ON `SubAccount1`.`id`=`Accounting`.`sub_account` LEFT JOIN `Type` as Type1 ON `Type1`.`id`=`Accounting`.`type` ";
 	$x->QueryWhere = '';
 	$x->QueryOrder = '';
 

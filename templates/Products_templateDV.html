@@ -7,6 +7,9 @@
 	<!-- child links -->
 	<div class="row vspacer-md">
 		<div class="col-xs-12">
+			<a class="hidden-xs btn btn-default btn-lg pull-right hidden hspacer-sm" href="InvoiceDetails_view.php?filterer_product=<%%URLVALUE(id)%%>&<%%EMBEDDED%%>" id="InvoiceDetails_link"><i class="glyphicon glyphicon-list-alt"></i> InvoiceDetails</a>
+			<a class="visible-xs btn btn-default btn-lg btn-block hidden vspacer-sm" href="InvoiceDetails_view.php?filterer_product=<%%URLVALUE(id)%%>&<%%EMBEDDED%%>" id="xs_InvoiceDetails_link"><i class="glyphicon glyphicon-list-alt"></i> InvoiceDetails</a>
+			<input type="hidden" id="InvoiceDetails_hclink" value="InvoiceDetails_view.php?filterer_product=<%%URLVALUE(id)%%>&<%%EMBEDDED%%>">
 			<input type="hidden" id="Compras_hclink" value="Compras_view.php?filterer_Description=<%%URLVALUE(id)%%>&<%%EMBEDDED%%>">
 			<div class="clearfix"></div>
 		</div>
@@ -28,33 +31,51 @@
 
 				<div class="form-group">
 					<hr class="hidden-md hidden-lg">
-					<label for="item" class="control-label col-lg-3">Product</label>
+					<label for="code" class="control-label col-lg-3">Code <i class="glyphicon glyphicon-info-sign text-info" data-toggle="collapse" data-target="#code-description"></i></label>
 					<div class="col-lg-9">
+						<span class="help-block collapse" id="code-description"><div class="alert alert-info">C&#243;digo del producto</div></span>
+
+						<input maxlength="40" type="text" class="form-control" name="code" id="code" value="<%%VALUE(code)%%>">
+					</div>
+				</div>
+
+				<div class="form-group">
+					<hr class="hidden-md hidden-lg">
+					<label for="item" class="control-label col-lg-3">Product <i class="glyphicon glyphicon-info-sign text-info" data-toggle="collapse" data-target="#item-description"></i></label>
+					<div class="col-lg-9">
+						<span class="help-block collapse" id="item-description"><div class="alert alert-info">Descripcion del producto</div></span>
+
 						<input maxlength="40" type="text" class="form-control" name="item" id="item" value="<%%VALUE(item)%%>">
 					</div>
 				</div>
 
 				<div class="form-group">
 					<hr class="hidden-md hidden-lg">
-					<label for="qty" class="control-label col-lg-3">Quantity</label>
+					<label for="cost" class="control-label col-lg-3">Cost <i class="glyphicon glyphicon-info-sign text-info" data-toggle="collapse" data-target="#cost-description"></i></label>
 					<div class="col-lg-9">
-						<input maxlength="40" type="text" class="form-control" name="qty" id="qty" value="<%%VALUE(qty)%%>">
+						<span class="help-block collapse" id="cost-description"><div class="alert alert-info">Valor de costo neto del producto</div></span>
+
+						<input maxlength="13" type="text" class="form-control" name="cost" id="cost" value="<%%VALUE(cost)%%>">
 					</div>
 				</div>
 
 				<div class="form-group">
 					<hr class="hidden-md hidden-lg">
-					<label for="total" class="control-label col-lg-3">Total</label>
+					<label for="profit" class="control-label col-lg-3">Profit <i class="glyphicon glyphicon-info-sign text-info" data-toggle="collapse" data-target="#profit-description"></i></label>
 					<div class="col-lg-9">
-						<input maxlength="40" type="text" class="form-control" name="total" id="total" value="<%%VALUE(total)%%>">
+						<span class="help-block collapse" id="profit-description"><div class="alert alert-info">Factor de ganancia, el valor de costo divido el profit. <br>EJ: profit de 20% y costo $100 el valor del profit ser&#225; de 0,8. <br>100/0,8=125 ahora el valro de venta es 125, al cual se le puede aplicar un descuento de hasta el 20% sin perder costo.</div></span>
+
+						<input maxlength="13" type="text" class="form-control" name="profit" id="profit" value="<%%VALUE(profit)%%>">
 					</div>
 				</div>
 
 				<div class="form-group">
 					<hr class="hidden-md hidden-lg">
-					<label for="uploads" class="control-label col-lg-3">Uploads</label>
+					<label for="itemSale" class="control-label col-lg-3">Total <i class="glyphicon glyphicon-info-sign text-info" data-toggle="collapse" data-target="#itemSale-description"></i></label>
 					<div class="col-lg-9">
-						<input maxlength="40" type="text" class="form-control" name="uploads" id="uploads" value="<%%VALUE(uploads)%%>">
+						<span class="help-block collapse" id="itemSale-description"><div class="alert alert-info">Precio final del producto</div></span>
+
+						<div class="form-control-static" id="itemSale"><%%VALUE(itemSale)%%></div>
 					</div>
 				</div>
 
@@ -80,7 +101,6 @@
 		</div>
 	</div>
 
-	<input type="hidden" name="invoice" value="<%%VALUE(invoice)%%>">
 
 	<!-- child records -->
 	<hr>

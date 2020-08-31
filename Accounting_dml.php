@@ -189,6 +189,7 @@ function Accounting_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, 
 	$filterer_master_acount = thisOr(undo_magic_quotes($_REQUEST['filterer_master_acount']), '');
 	$filterer_account = thisOr(undo_magic_quotes($_REQUEST['filterer_account']), '');
 	$filterer_sub_account = thisOr(undo_magic_quotes($_REQUEST['filterer_sub_account']), '');
+	$filterer_type = thisOr(undo_magic_quotes($_REQUEST['filterer_type']), '');
 
 	// populate filterers, starting from children to grand-parents
 	if($filterer_account && !$filterer_master_acount) $filterer_master_acount = sqlValue("select masterAccount from Account where id='" . makeSafe($filterer_account) . "'");
@@ -270,12 +271,14 @@ function Accounting_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, 
 		AppGini.current_master_acount__RAND__ = { text: "", value: "<?php echo addslashes($selected_id ? $urow['master_acount'] : $filterer_master_acount); ?>"};
 		AppGini.current_account__RAND__ = { text: "", value: "<?php echo addslashes($selected_id ? $urow['account'] : $filterer_account); ?>"};
 		AppGini.current_sub_account__RAND__ = { text: "", value: "<?php echo addslashes($selected_id ? $urow['sub_account'] : $filterer_sub_account); ?>"};
+		AppGini.current_type__RAND__ = { text: "", value: "<?php echo addslashes($selected_id ? $urow['type'] : $filterer_type); ?>"};
 
 		jQuery(function() {
 			setTimeout(function() {
 				if(typeof(master_acount_reload__RAND__) == 'function') master_acount_reload__RAND__();
 				<?php echo (!$AllowUpdate || $dvprint ? 'if(typeof(account_reload__RAND__) == \'function\') account_reload__RAND__(AppGini.current_master_acount__RAND__.value);' : ''); ?>
 				<?php echo (!$AllowUpdate || $dvprint ? 'if(typeof(sub_account_reload__RAND__) == \'function\') sub_account_reload__RAND__(AppGini.current_account__RAND__.value);' : ''); ?>
+				if(typeof(type_reload__RAND__) == 'function') type_reload__RAND__();
 			}, 10); /* we need to slightly delay client-side execution of the above code to allow AppGini.ajaxCache to work */
 		});
 		function master_acount_reload__RAND__() {
@@ -513,6 +516,83 @@ function Accounting_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, 
 		<?php } ?>
 
 		}
+		function type_reload__RAND__() {
+		<?php if(($AllowUpdate || $AllowInsert) && !$dvprint) { ?>
+
+			$j("#type-container__RAND__").select2({
+				/* initial default value */
+				initSelection: function(e, c) {
+					$j.ajax({
+						url: 'ajax_combo.php',
+						dataType: 'json',
+						data: { id: AppGini.current_type__RAND__.value, t: 'Accounting', f: 'type' },
+						success: function(resp) {
+							c({
+								id: resp.results[0].id,
+								text: resp.results[0].text
+							});
+							$j('[name="type"]').val(resp.results[0].id);
+							$j('[id=type-container-readonly__RAND__]').html('<span id="type-match-text">' + resp.results[0].text + '</span>');
+							if(resp.results[0].id == '<?php echo empty_lookup_value; ?>') { $j('.btn[id=Type_view_parent]').hide(); }else{ $j('.btn[id=Type_view_parent]').show(); }
+
+
+							if(typeof(type_update_autofills__RAND__) == 'function') type_update_autofills__RAND__();
+						}
+					});
+				},
+				width: '100%',
+				formatNoMatches: function(term) { /* */ return '<?php echo addslashes($Translation['No matches found!']); ?>'; },
+				minimumResultsForSearch: 5,
+				loadMorePadding: 200,
+				ajax: {
+					url: 'ajax_combo.php',
+					dataType: 'json',
+					cache: true,
+					data: function(term, page) { /* */ return { s: term, p: page, t: 'Accounting', f: 'type' }; },
+					results: function(resp, page) { /* */ return resp; }
+				},
+				escapeMarkup: function(str) { /* */ return str; }
+			}).on('change', function(e) {
+				AppGini.current_type__RAND__.value = e.added.id;
+				AppGini.current_type__RAND__.text = e.added.text;
+				$j('[name="type"]').val(e.added.id);
+				if(e.added.id == '<?php echo empty_lookup_value; ?>') { $j('.btn[id=Type_view_parent]').hide(); }else{ $j('.btn[id=Type_view_parent]').show(); }
+
+
+				if(typeof(type_update_autofills__RAND__) == 'function') type_update_autofills__RAND__();
+			});
+
+			if(!$j("#type-container__RAND__").length) {
+				$j.ajax({
+					url: 'ajax_combo.php',
+					dataType: 'json',
+					data: { id: AppGini.current_type__RAND__.value, t: 'Accounting', f: 'type' },
+					success: function(resp) {
+						$j('[name="type"]').val(resp.results[0].id);
+						$j('[id=type-container-readonly__RAND__]').html('<span id="type-match-text">' + resp.results[0].text + '</span>');
+						if(resp.results[0].id == '<?php echo empty_lookup_value; ?>') { $j('.btn[id=Type_view_parent]').hide(); }else{ $j('.btn[id=Type_view_parent]').show(); }
+
+						if(typeof(type_update_autofills__RAND__) == 'function') type_update_autofills__RAND__();
+					}
+				});
+			}
+
+		<?php }else{ ?>
+
+			$j.ajax({
+				url: 'ajax_combo.php',
+				dataType: 'json',
+				data: { id: AppGini.current_type__RAND__.value, t: 'Accounting', f: 'type' },
+				success: function(resp) {
+					$j('[id=type-container__RAND__], [id=type-container-readonly__RAND__]').html('<span id="type-match-text">' + resp.results[0].text + '</span>');
+					if(resp.results[0].id == '<?php echo empty_lookup_value; ?>') { $j('.btn[id=Type_view_parent]').hide(); }else{ $j('.btn[id=Type_view_parent]').show(); }
+
+					if(typeof(type_update_autofills__RAND__) == 'function') type_update_autofills__RAND__();
+				}
+			});
+		<?php } ?>
+
+		}
 	</script>
 	<?php
 
@@ -580,6 +660,7 @@ function Accounting_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, 
 		$jsReadOnly .= "\tjQuery('#sub_account').prop('disabled', true).css({ color: '#555', backgroundColor: '#fff' });\n";
 		$jsReadOnly .= "\tjQuery('#sub_account_caption').prop('disabled', true).css({ color: '#555', backgroundColor: 'white' });\n";
 		$jsReadOnly .= "\tjQuery('#type').prop('disabled', true).css({ color: '#555', backgroundColor: '#fff' });\n";
+		$jsReadOnly .= "\tjQuery('#type_caption').prop('disabled', true).css({ color: '#555', backgroundColor: 'white' });\n";
 		$jsReadOnly .= "\tjQuery('#amount').replaceWith('<div class=\"form-control-static\" id=\"amount\">' + (jQuery('#amount').val() || '') + '</div>');\n";
 		$jsReadOnly .= "\tjQuery('.select2-container').hide();\n";
 
@@ -606,7 +687,7 @@ function Accounting_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, 
 	$templateCode = str_replace('<%%URLCOMBOTEXT(type)%%>', urlencode($combo_type->MatchText), $templateCode);
 
 	/* lookup fields array: 'lookup field name' => array('parent table name', 'lookup field caption') */
-	$lookup_fields = array('master_acount' => array('MasterAccount', 'Master account'), 'account' => array('Account', 'Account'), 'sub_account' => array('SubAccount', 'Subaccount'), );
+	$lookup_fields = array('master_acount' => array('MasterAccount', 'Master account'), 'account' => array('Account', 'Account'), 'sub_account' => array('SubAccount', 'Subaccount'), 'type' => array('Type', 'Type'), );
 	foreach($lookup_fields as $luf => $ptfc) {
 		$pt_perm = getTablePermissions($ptfc[0]);
 

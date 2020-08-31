@@ -508,7 +508,7 @@
 				'not_null' => false
 			),
 		),
-		'Products' => array(
+		'InvoiceDetails' => array(
 			'invoice' => array(
 				'parent_table' => 'Invoice',
 				'parent_pk_field' => 'id',
@@ -520,6 +520,30 @@
 				'list_type' => 0,
 				'not_null' => false
 			),
+			'product' => array(
+				'parent_table' => 'Products',
+				'parent_pk_field' => 'id',
+				'parent_caption' => 'IF(CHAR_LENGTH(`Products`.`code`) || CHAR_LENGTH(`Products`.`item`), CONCAT_WS(\'\', `Products`.`code`, \' - \', `Products`.`item`), \'\')',
+				'parent_from' => '`Products` ',
+				'filterers' => array(),
+				'custom_query' => '',
+				'inherit_permissions' => false,
+				'list_type' => 0,
+				'not_null' => false
+			),
+			'itemSale' => array(
+				'parent_table' => 'Products',
+				'parent_pk_field' => 'id',
+				'parent_caption' => '`Products`.`itemSale`',
+				'parent_from' => '`Products` ',
+				'filterers' => array(),
+				'custom_query' => '',
+				'inherit_permissions' => false,
+				'list_type' => 0,
+				'not_null' => false
+			),
+		),
+		'Products' => array(
 		),
 		'WHJournal' => array(
 		),
@@ -700,7 +724,7 @@
 				'parent_table' => 'Products',
 				'parent_pk_field' => 'id',
 				'parent_caption' => '`Products`.`item`',
-				'parent_from' => '`Products` LEFT JOIN `Invoice` as Invoice1 ON `Invoice1`.`id`=`Products`.`invoice` ',
+				'parent_from' => '`Products` ',
 				'filterers' => array(),
 				'custom_query' => '',
 				'inherit_permissions' => false,

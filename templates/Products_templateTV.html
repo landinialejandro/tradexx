@@ -5,7 +5,8 @@
 <!-- add the following to the Products_init() hook (in hooks/Products.php file) -->
 <!--     $options->ShowTableHeader = 0;     -->
 
+		<td id="Products-code-<%%VALUE(id)%%>" class="Products-code"><%%SELECT%%><%%VALUE(code)%%><%%ENDSELECT%%></td>
 		<td id="Products-item-<%%VALUE(id)%%>" class="Products-item"><%%SELECT%%><%%VALUE(item)%%><%%ENDSELECT%%></td>
-		<td id="Products-qty-<%%VALUE(id)%%>" class="Products-qty"><%%SELECT%%><%%VALUE(qty)%%><%%ENDSELECT%%></td>
-		<td id="Products-total-<%%VALUE(id)%%>" class="Products-total"><%%SELECT%%><%%VALUE(total)%%><%%ENDSELECT%%></td>
-		<td id="Products-uploads-<%%VALUE(id)%%>" class="Products-uploads"><%%SELECT%%><%%VALUE(uploads)%%><%%ENDSELECT%%></td>
+		<td id="Products-cost-<%%VALUE(id)%%>" class="Products-cost text-right"><%%SELECT%%><%%VALUE(cost)%%><%%ENDSELECT%%></td>
+		<td id="Products-profit-<%%VALUE(id)%%>" class="Products-profit text-right"><%%SELECT%%><%%VALUE(profit)%%><%%ENDSELECT%%></td>
+		<td id="Products-itemSale-<%%VALUE(id)%%>" class="Products-itemSale text-right"><%%SELECT%%><%%VALUE(itemSale)%%><%%ENDSELECT%%></td>

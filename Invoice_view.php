@@ -36,6 +36,8 @@
 		"`Invoice`.`AmountPAID`" => "AmountPAID",
 		"`Invoice`.`Balance`" => "Balance",
 		"`Invoice`.`Status`" => "Status",
+		"`Invoice`.`tax`" => "tax",
+		"`Invoice`.`Total`" => "Total",
 	);
 	// mapping incoming sort by requests to actual query fields
 	$x->SortFields = array(
@@ -53,6 +55,8 @@
 		12 => '`Invoice`.`AmountPAID`',
 		13 => '`Invoice`.`Balance`',
 		14 => 14,
+		15 => 15,
+		16 => 16,
 	);
 
 	// Fields that can be displayed in the csv file
@@ -71,6 +75,8 @@
 		"`Invoice`.`AmountPAID`" => "AmountPAID",
 		"`Invoice`.`Balance`" => "Balance",
 		"`Invoice`.`Status`" => "Status",
+		"`Invoice`.`tax`" => "tax",
+		"`Invoice`.`Total`" => "Total",
 	);
 	// Fields that can be filtered
 	$x->QueryFieldsFilters = array(
@@ -88,6 +94,8 @@
 		"`Invoice`.`AmountPAID`" => "Amount paid",
 		"`Invoice`.`Balance`" => "Balance",
 		"`Invoice`.`Status`" => "Status",
+		"`Invoice`.`tax`" => "Tax",
+		"`Invoice`.`Total`" => "Total",
 	);
 
 	// Fields that can be quick searched
@@ -106,6 +114,8 @@
 		"`Invoice`.`AmountPAID`" => "AmountPAID",
 		"`Invoice`.`Balance`" => "Balance",
 		"`Invoice`.`Status`" => "Status",
+		"`Invoice`.`tax`" => "tax",
+		"`Invoice`.`Total`" => "Total",
 	);
 
 	// Lookup fields that can be used as filterers
@@ -139,10 +149,10 @@
 	$x->TableIcon = "resources/table_icons/Invoices.png";
 	$x->PrimaryKey = "`Invoice`.`id`";
 
-	$x->ColWidth   = array(  150, 150, 150, 150, 150, 150, 150, 150, 150, 150, 150);
-	$x->ColCaption = array("ID", "Date", "Customer", "Phone", "Email", "Country", "Payment Status", "Due amount", "Amount paid", "Balance", "Status");
-	$x->ColFieldName = array('id', 'Date', 'Customer', 'Phone', 'Email', 'Country', 'PaymentStatus', 'AmountDUE', 'AmountPAID', 'Balance', 'Status');
-	$x->ColNumber  = array(1, 2, 4, 5, 6, 9, 10, 11, 12, 13, 14);
+	$x->ColWidth   = array(  150, 150, 150, 150, 150, 150, 150, 150, 150, 150, 150, 150, 150);
+	$x->ColCaption = array("ID", "Date", "Customer", "Phone", "Email", "Country", "Payment Status", "Due amount", "Amount paid", "Balance", "Status", "Tax", "Total");
+	$x->ColFieldName = array('id', 'Date', 'Customer', 'Phone', 'Email', 'Country', 'PaymentStatus', 'AmountDUE', 'AmountPAID', 'Balance', 'Status', 'tax', 'Total');
+	$x->ColNumber  = array(1, 2, 4, 5, 6, 9, 10, 11, 12, 13, 14, 15, 16);
 
 	// template paths below are based on the app main directory
 	$x->Template = 'templates/Invoice_templateTV.html';
@@ -154,7 +164,7 @@
 	$x->TVClasses = "";
 	$x->DVClasses = "";
 	$x->HighlightColor = '#FFF0C2';
-	$x->HasCalculatedFields = false;
+	$x->HasCalculatedFields = true;
 
 	// mm: build the query based on current member's permissions
 	$DisplayRecords = $_REQUEST['DisplayRecords'];
@@ -215,6 +225,8 @@
 			$sumRow .= "<td class=\"Invoice-AmountPAID text-right\">{$row[1]}</td>";
 			$sumRow .= '<td class="Invoice-Balance"></td>';
 			$sumRow .= '<td class="Invoice-Status"></td>';
+			$sumRow .= '<td class="Invoice-tax"></td>';
+			$sumRow .= '<td class="Invoice-Total"></td>';
 			$sumRow .= '</tr>';
 
 			$x->HTML = str_replace('<!-- tv data below -->', '', $x->HTML);

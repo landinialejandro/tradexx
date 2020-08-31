@@ -375,6 +375,10 @@ function Invoice_validateData() {
 	$j('.has-error').removeClass('has-error');
 	return true;
 }
+function InvoiceDetails_validateData() {
+	$j('.has-error').removeClass('has-error');
+	return true;
+}
 function Products_validateData() {
 	$j('.has-error').removeClass('has-error');
 	return true;

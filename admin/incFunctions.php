@@ -178,6 +178,13 @@
 					'group' => $tg[4],
 					'homepageShowCount' => 1
 				),
+				'InvoiceDetails' => array(
+					'Caption' => 'InvoiceDetails',
+					'Description' => '',
+					'tableIcon' => 'table.gif',
+					'group' => $tg[5],
+					'homepageShowCount' => 0
+				),
 				'Products' => array(
 					'Caption' => 'PRODUCTS',
 					'Description' => '',
@@ -422,6 +429,7 @@
 				'Tracking' => 'TRACKING',
 				'Status' => 'STATUS',
 				'Invoice' => 'INVOICE',
+				'InvoiceDetails' => 'InvoiceDetails',
 				'Products' => 'PRODUCTS',
 				'WHJournal' => 'WH JOURNAL',
 				'CRM' => 'CRM',
@@ -2268,8 +2276,9 @@
 			'Invoice' => array(
 				'Customers' => array('Customer'),
 			),
-			'Products' => array(
+			'InvoiceDetails' => array(
 				'Invoice' => array('invoice'),
+				'Products' => array('product'),
 			),
 			'CRM' => array(
 				'Customers' => array('Customer'),
@@ -2337,6 +2346,7 @@
 				'MasterAccount' => array('master_acount'),
 				'Account' => array('account'),
 				'SubAccount' => array('sub_account'),
+				'Type' => array('type'),
 			),
 			'Account' => array(
 				'MasterAccount' => array('masterAccount'),
@@ -2400,8 +2410,18 @@
 			'Status' => array(
 			),
 			'Invoice' => array(
+				'Total' => 'SELECT SUM(`InvoiceDetails`.`SubTotal`) FROM `Invoice` 
+LEFT JOIN `InvoiceDetails` ON `InvoiceDetails`.`invoice`=`Invoice`.`id` 
+WHERE `Invoice`.`id`=\'%ID%\'',
+			),
+			'InvoiceDetails' => array(
+				'SubTotal' => 'SELECT `InvoiceDetails`.`qty` * `Products`.`itemSale`  FROM `InvoiceDetails` 
+LEFT JOIN `Products` ON `Products`.`id`=`InvoiceDetails`.`product` 
+WHERE `InvoiceDetails`.`id`=\'%ID%\'',
 			),
 			'Products' => array(
+				'itemSale' => 'SELECT FORMAT(`Products`.`cost` / `Products`.`profit`,2)  FROM `Products` 
+WHERE `Products`.`id`=\'%ID%\'',
 			),
 			'WHJournal' => array(
 				'Total' => 'SELECT `WHJournal`.`InternationalFreight`+`WHJournal`.`LocalFreight`+`WHJournal`.`Tip` FROM `WHJournal` WHERE `WHJournal`.`id`',

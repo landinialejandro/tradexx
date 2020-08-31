@@ -39,6 +39,8 @@ function Invoice_insert() {
 		if($data['Balance'] == empty_lookup_value) { $data['Balance'] = ''; }
 	$data['Status'] = $_REQUEST['Status'];
 		if($data['Status'] == empty_lookup_value) { $data['Status'] = ''; }
+	$data['tax'] = $_REQUEST['tax'];
+		if($data['tax'] == empty_lookup_value) { $data['tax'] = ''; }
 	if($data['PaymentStatus'] == '') $data['PaymentStatus'] = "UNPAID";
 	if($data['Status'] == '') $data['Status'] = "OPEN";
 
@@ -83,6 +85,22 @@ function Invoice_copy_children($destination_id, $source_id) {
 	$eo = array('silentErrors' => true);
 	$uploads_dir = realpath(dirname(__FILE__) . '/../' . $Translation['ImageFolder']);
 	$safe_sid = makeSafe($source_id);
+
+	// copy InvoiceDetails
+	$res = sql("SELECT * FROM `InvoiceDetails` WHERE `invoice`='{$safe_sid}'", $eo);
+	while($row = db_fetch_assoc($res)) {
+		$data = array(
+			'SelectedID' => $row['id'],
+			'invoice' => $destination_id,
+			'order' => $row['order'],
+			'product' => $row['product'],
+			'qty' => $row['qty'],
+			'itemSale' => $row['itemSale'],
+		);
+
+		$ch = curl_insert_handler('InvoiceDetails', $data);
+		if($ch !== false) $requests[] = $ch;
+	}
 
 	// launch requests, asynchronously
 	curl_batch($requests);
@@ -129,20 +147,20 @@ function Invoice_delete($selected_id, $AllowDeleteOfParents=false, $skipChecks=f
 		return $RetMsg;
 	}
 
-	// child table: Products
+	// child table: InvoiceDetails
 	$res = sql("select `id` from `Invoice` where `id`='$selected_id'", $eo);
 	$id = db_fetch_row($res);
-	$rires = sql("select count(1) from `Products` where `invoice`='".addslashes($id[0])."'", $eo);
+	$rires = sql("select count(1) from `InvoiceDetails` where `invoice`='".addslashes($id[0])."'", $eo);
 	$rirow = db_fetch_row($rires);
 	if($rirow[0] && !$AllowDeleteOfParents && !$skipChecks) {
 		$RetMsg = $Translation["couldn't delete"];
 		$RetMsg = str_replace("<RelatedRecords>", $rirow[0], $RetMsg);
-		$RetMsg = str_replace("<TableName>", "Products", $RetMsg);
+		$RetMsg = str_replace("<TableName>", "InvoiceDetails", $RetMsg);
 		return $RetMsg;
 	}elseif($rirow[0] && $AllowDeleteOfParents && !$skipChecks) {
 		$RetMsg = $Translation["confirm delete"];
 		$RetMsg = str_replace("<RelatedRecords>", $rirow[0], $RetMsg);
-		$RetMsg = str_replace("<TableName>", "Products", $RetMsg);
+		$RetMsg = str_replace("<TableName>", "InvoiceDetails", $RetMsg);
 		$RetMsg = str_replace("<Delete>", "<input type=\"button\" class=\"button\" value=\"".$Translation['yes']."\" onClick=\"window.location='Invoice_view.php?SelectedID=".urlencode($selected_id)."&delete_x=1&confirmed=1';\">", $RetMsg);
 		$RetMsg = str_replace("<Cancel>", "<input type=\"button\" class=\"button\" value=\"".$Translation['no']."\" onClick=\"window.location='Invoice_view.php?SelectedID=".urlencode($selected_id)."';\">", $RetMsg);
 		return $RetMsg;
@@ -199,6 +217,8 @@ function Invoice_update($selected_id) {
 		if($data['Balance'] == empty_lookup_value) { $data['Balance'] = ''; }
 	$data['Status'] = makeSafe($_REQUEST['Status']);
 		if($data['Status'] == empty_lookup_value) { $data['Status'] = ''; }
+	$data['tax'] = makeSafe($_REQUEST['tax']);
+		if($data['tax'] == empty_lookup_value) { $data['tax'] = ''; }
 	$data['selectedID'] = makeSafe($selected_id);
 
 	// hook: Invoice_before_update
@@ -208,7 +228,7 @@ function Invoice_update($selected_id) {
 	}
 
 	$o = array('silentErrors' => true);
-	sql('update `Invoice` set       `Date`=' . (($data['Date'] !== '' && $data['Date'] !== NULL) ? "'{$data['Date']}'" : 'NULL') . ', `Title`=' . (($data['Title'] !== '' && $data['Title'] !== NULL) ? "'{$data['Title']}'" : 'NULL') . ', `Customer`=' . (($data['Customer'] !== '' && $data['Customer'] !== NULL) ? "'{$data['Customer']}'" : 'NULL') . ', `Phone`=' . (($data['Phone'] !== '' && $data['Phone'] !== NULL) ? "'{$data['Phone']}'" : 'NULL') . ', `Email`=' . (($data['Email'] !== '' && $data['Email'] !== NULL) ? "'{$data['Email']}'" : 'NULL') . ', `Address`=' . (($data['Address'] !== '' && $data['Address'] !== NULL) ? "'{$data['Address']}'" : 'NULL') . ', `City`=' . (($data['City'] !== '' && $data['City'] !== NULL) ? "'{$data['City']}'" : 'NULL') . ', `Country`=' . (($data['Country'] !== '' && $data['Country'] !== NULL) ? "'{$data['Country']}'" : 'NULL') . ', `PaymentStatus`=' . (($data['PaymentStatus'] !== '' && $data['PaymentStatus'] !== NULL) ? "'{$data['PaymentStatus']}'" : 'NULL') . ', `AmountDUE`=' . (($data['AmountDUE'] !== '' && $data['AmountDUE'] !== NULL) ? "'{$data['AmountDUE']}'" : 'NULL') . ', `AmountPAID`=' . (($data['AmountPAID'] !== '' && $data['AmountPAID'] !== NULL) ? "'{$data['AmountPAID']}'" : 'NULL') . ', `Balance`=' . (($data['Balance'] !== '' && $data['Balance'] !== NULL) ? "'{$data['Balance']}'" : 'NULL') . ', `Status`=' . (($data['Status'] !== '' && $data['Status'] !== NULL) ? "'{$data['Status']}'" : 'NULL') . " where `id`='".makeSafe($selected_id)."'", $o);
+	sql('update `Invoice` set       `Date`=' . (($data['Date'] !== '' && $data['Date'] !== NULL) ? "'{$data['Date']}'" : 'NULL') . ', `Title`=' . (($data['Title'] !== '' && $data['Title'] !== NULL) ? "'{$data['Title']}'" : 'NULL') . ', `Customer`=' . (($data['Customer'] !== '' && $data['Customer'] !== NULL) ? "'{$data['Customer']}'" : 'NULL') . ', `Phone`=' . (($data['Phone'] !== '' && $data['Phone'] !== NULL) ? "'{$data['Phone']}'" : 'NULL') . ', `Email`=' . (($data['Email'] !== '' && $data['Email'] !== NULL) ? "'{$data['Email']}'" : 'NULL') . ', `Address`=' . (($data['Address'] !== '' && $data['Address'] !== NULL) ? "'{$data['Address']}'" : 'NULL') . ', `City`=' . (($data['City'] !== '' && $data['City'] !== NULL) ? "'{$data['City']}'" : 'NULL') . ', `Country`=' . (($data['Country'] !== '' && $data['Country'] !== NULL) ? "'{$data['Country']}'" : 'NULL') . ', `PaymentStatus`=' . (($data['PaymentStatus'] !== '' && $data['PaymentStatus'] !== NULL) ? "'{$data['PaymentStatus']}'" : 'NULL') . ', `AmountDUE`=' . (($data['AmountDUE'] !== '' && $data['AmountDUE'] !== NULL) ? "'{$data['AmountDUE']}'" : 'NULL') . ', `AmountPAID`=' . (($data['AmountPAID'] !== '' && $data['AmountPAID'] !== NULL) ? "'{$data['AmountPAID']}'" : 'NULL') . ', `Balance`=' . (($data['Balance'] !== '' && $data['Balance'] !== NULL) ? "'{$data['Balance']}'" : 'NULL') . ', `Status`=' . (($data['Status'] !== '' && $data['Status'] !== NULL) ? "'{$data['Status']}'" : 'NULL') . ', `tax`=' . (($data['tax'] !== '' && $data['tax'] !== NULL) ? "'{$data['tax']}'" : 'NULL') . " where `id`='".makeSafe($selected_id)."'", $o);
 	if($o['error']!='') {
 		echo $o['error'];
 		echo '<a href="Invoice_view.php?SelectedID='.urlencode($selected_id)."\">{$Translation['< back']}</a>";
@@ -497,6 +517,7 @@ function Invoice_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, $Al
 		$jsReadOnly .= "\tjQuery('#AmountPAID').replaceWith('<div class=\"form-control-static\" id=\"AmountPAID\">' + (jQuery('#AmountPAID').val() || '') + '</div>');\n";
 		$jsReadOnly .= "\tjQuery('#Balance').replaceWith('<div class=\"form-control-static\" id=\"Balance\">' + (jQuery('#Balance').val() || '') + '</div>');\n";
 		$jsReadOnly .= "\tjQuery('#Status').replaceWith('<div class=\"form-control-static\" id=\"Status\">' + (jQuery('#Status').val() || '') + '</div>'); jQuery('#Status-multi-selection-help').hide();\n";
+		$jsReadOnly .= "\tjQuery('#tax').replaceWith('<div class=\"form-control-static\" id=\"tax\">' + (jQuery('#tax').val() || '') + '</div>');\n";
 		$jsReadOnly .= "\tjQuery('.select2-container').hide();\n";
 
 		$noUploads = true;
@@ -541,6 +562,8 @@ function Invoice_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, $Al
 	$templateCode = str_replace('<%%UPLOADFILE(AmountPAID)%%>', '', $templateCode);
 	$templateCode = str_replace('<%%UPLOADFILE(Balance)%%>', '', $templateCode);
 	$templateCode = str_replace('<%%UPLOADFILE(Status)%%>', '', $templateCode);
+	$templateCode = str_replace('<%%UPLOADFILE(tax)%%>', '', $templateCode);
+	$templateCode = str_replace('<%%UPLOADFILE(Total)%%>', '', $templateCode);
 
 	// process values
 	if($selected_id) {
@@ -567,6 +590,11 @@ function Invoice_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, $Al
 		if( $dvprint) $templateCode = str_replace('<%%VALUE(Status)%%>', safe_html($urow['Status']), $templateCode);
 		if(!$dvprint) $templateCode = str_replace('<%%VALUE(Status)%%>', html_attr($row['Status']), $templateCode);
 		$templateCode = str_replace('<%%URLVALUE(Status)%%>', urlencode($urow['Status']), $templateCode);
+		if( $dvprint) $templateCode = str_replace('<%%VALUE(tax)%%>', safe_html($urow['tax']), $templateCode);
+		if(!$dvprint) $templateCode = str_replace('<%%VALUE(tax)%%>', html_attr($row['tax']), $templateCode);
+		$templateCode = str_replace('<%%URLVALUE(tax)%%>', urlencode($urow['tax']), $templateCode);
+		$templateCode = str_replace('<%%VALUE(Total)%%>', safe_html($urow['Total']), $templateCode);
+		$templateCode = str_replace('<%%URLVALUE(Total)%%>', urlencode($urow['Total']), $templateCode);
 	}else{
 		$templateCode = str_replace('<%%VALUE(id)%%>', '', $templateCode);
 		$templateCode = str_replace('<%%URLVALUE(id)%%>', urlencode(''), $templateCode);
@@ -584,6 +612,10 @@ function Invoice_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, $Al
 		$templateCode = str_replace('<%%URLVALUE(Balance)%%>', urlencode(''), $templateCode);
 		$templateCode = str_replace('<%%VALUE(Status)%%>', 'OPEN', $templateCode);
 		$templateCode = str_replace('<%%URLVALUE(Status)%%>', urlencode('OPEN'), $templateCode);
+		$templateCode = str_replace('<%%VALUE(tax)%%>', '', $templateCode);
+		$templateCode = str_replace('<%%URLVALUE(tax)%%>', urlencode(''), $templateCode);
+		$templateCode = str_replace('<%%VALUE(Total)%%>', '', $templateCode);
+		$templateCode = str_replace('<%%URLVALUE(Total)%%>', urlencode(''), $templateCode);
 	}
 
 	// process translations

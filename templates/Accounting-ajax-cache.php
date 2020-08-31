@@ -11,7 +11,7 @@
 			master_acount: <?php echo json_encode(array('id' => $rdata['master_acount'], 'value' => $rdata['master_acount'], 'text' => $jdata['master_acount'])); ?>,
 			account: <?php echo json_encode(array('id' => $rdata['account'], 'value' => $rdata['account'], 'text' => $jdata['account'])); ?>,
 			sub_account: <?php echo json_encode(array('id' => $rdata['sub_account'], 'value' => $rdata['sub_account'], 'text' => $jdata['sub_account'])); ?>,
-			type: <?php echo json_encode($jdata['type']); ?>
+			type: <?php echo json_encode(array('id' => $rdata['type'], 'value' => $rdata['type'], 'text' => $jdata['type'])); ?>
 		};
 
 		/* initialize or continue using AppGini.cache for the current table */
@@ -40,6 +40,14 @@
 			if(u != 'ajax_combo.php') return false;
 			if(d.t == tn && d.f == 'sub_account' && d.id == data.sub_account.id)
 				return { results: [ data.sub_account ], more: false, elapsed: 0.01 };
+			return false;
+		});
+
+		/* saved value for type */
+		cache.addCheck(function(u, d) {
+			if(u != 'ajax_combo.php') return false;
+			if(d.t == tn && d.f == 'type' && d.id == data.type.id)
+				return { results: [ data.type ], more: false, elapsed: 0.01 };
 			return false;
 		});
 

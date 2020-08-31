@@ -23,55 +23,58 @@
 	// Fields that can be displayed in the table view
 	$x->QueryFieldsTV = array(
 		"`Products`.`id`" => "id",
-		"IF(    CHAR_LENGTH(`Invoice1`.`id`), CONCAT_WS('',   `Invoice1`.`id`), '') /* Invoice */" => "invoice",
+		"`Products`.`code`" => "code",
 		"`Products`.`item`" => "item",
-		"`Products`.`qty`" => "qty",
-		"`Products`.`total`" => "total",
+		"`Products`.`cost`" => "cost",
+		"`Products`.`profit`" => "profit",
+		"`Products`.`itemSale`" => "itemSale",
 		"`Products`.`uploads`" => "uploads",
 	);
 	// mapping incoming sort by requests to actual query fields
 	$x->SortFields = array(
 		1 => '`Products`.`id`',
-		2 => '`Invoice1`.`id`',
+		2 => 2,
 		3 => 3,
-		4 => 4,
-		5 => 5,
-		6 => 6,
+		4 => '`Products`.`cost`',
+		5 => '`Products`.`profit`',
+		6 => '`Products`.`itemSale`',
+		7 => 7,
 	);
 
 	// Fields that can be displayed in the csv file
 	$x->QueryFieldsCSV = array(
 		"`Products`.`id`" => "id",
-		"IF(    CHAR_LENGTH(`Invoice1`.`id`), CONCAT_WS('',   `Invoice1`.`id`), '') /* Invoice */" => "invoice",
+		"`Products`.`code`" => "code",
 		"`Products`.`item`" => "item",
-		"`Products`.`qty`" => "qty",
-		"`Products`.`total`" => "total",
+		"`Products`.`cost`" => "cost",
+		"`Products`.`profit`" => "profit",
+		"`Products`.`itemSale`" => "itemSale",
 		"`Products`.`uploads`" => "uploads",
 	);
 	// Fields that can be filtered
 	$x->QueryFieldsFilters = array(
 		"`Products`.`id`" => "ID",
-		"IF(    CHAR_LENGTH(`Invoice1`.`id`), CONCAT_WS('',   `Invoice1`.`id`), '') /* Invoice */" => "Invoice",
+		"`Products`.`code`" => "Code",
 		"`Products`.`item`" => "Product",
-		"`Products`.`qty`" => "Quantity",
-		"`Products`.`total`" => "Total",
-		"`Products`.`uploads`" => "Uploads",
+		"`Products`.`cost`" => "Cost",
+		"`Products`.`profit`" => "Profit",
+		"`Products`.`itemSale`" => "Total",
 	);
 
 	// Fields that can be quick searched
 	$x->QueryFieldsQS = array(
 		"`Products`.`id`" => "id",
-		"IF(    CHAR_LENGTH(`Invoice1`.`id`), CONCAT_WS('',   `Invoice1`.`id`), '') /* Invoice */" => "invoice",
+		"`Products`.`code`" => "code",
 		"`Products`.`item`" => "item",
-		"`Products`.`qty`" => "qty",
-		"`Products`.`total`" => "total",
-		"`Products`.`uploads`" => "uploads",
+		"`Products`.`cost`" => "cost",
+		"`Products`.`profit`" => "profit",
+		"`Products`.`itemSale`" => "itemSale",
 	);
 
 	// Lookup fields that can be used as filterers
-	$x->filterers = array('invoice' => 'Invoice', );
+	$x->filterers = array();
 
-	$x->QueryFrom = "`Products` LEFT JOIN `Invoice` as Invoice1 ON `Invoice1`.`id`=`Products`.`invoice` ";
+	$x->QueryFrom = "`Products` ";
 	$x->QueryWhere = '';
 	$x->QueryOrder = '';
 
@@ -99,10 +102,10 @@
 	$x->TableIcon = "resources/table_icons/general.png";
 	$x->PrimaryKey = "`Products`.`id`";
 
-	$x->ColWidth   = array(  150, 150, 150, 150);
-	$x->ColCaption = array("Product", "Quantity", "Total", "Uploads");
-	$x->ColFieldName = array('item', 'qty', 'total', 'uploads');
-	$x->ColNumber  = array(3, 4, 5, 6);
+	$x->ColWidth   = array(  150, 150, 80, 150, 150);
+	$x->ColCaption = array("Code", "Product", "Cost", "Profit", "Total");
+	$x->ColFieldName = array('code', 'item', 'cost', 'profit', 'itemSale');
+	$x->ColNumber  = array(2, 3, 4, 5, 6);
 
 	// template paths below are based on the app main directory
 	$x->Template = 'templates/Products_templateTV.html';
@@ -114,7 +117,7 @@
 	$x->TVClasses = "";
 	$x->DVClasses = "";
 	$x->HighlightColor = '#FFF0C2';
-	$x->HasCalculatedFields = false;
+	$x->HasCalculatedFields = true;
 
 	// mm: build the query based on current member's permissions
 	$DisplayRecords = $_REQUEST['DisplayRecords'];

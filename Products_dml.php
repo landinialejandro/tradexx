@@ -13,16 +13,17 @@ function Products_insert() {
 	if(!$arrPerm[1]) return false;
 
 	$data = array();
-	$data['invoice'] = $_REQUEST['invoice'];
-		if($data['invoice'] == empty_lookup_value) { $data['invoice'] = ''; }
+	$data['code'] = $_REQUEST['code'];
+		if($data['code'] == empty_lookup_value) { $data['code'] = ''; }
 	$data['item'] = $_REQUEST['item'];
 		if($data['item'] == empty_lookup_value) { $data['item'] = ''; }
-	$data['qty'] = $_REQUEST['qty'];
-		if($data['qty'] == empty_lookup_value) { $data['qty'] = ''; }
-	$data['total'] = $_REQUEST['total'];
-		if($data['total'] == empty_lookup_value) { $data['total'] = ''; }
+	$data['cost'] = $_REQUEST['cost'];
+		if($data['cost'] == empty_lookup_value) { $data['cost'] = ''; }
+	$data['profit'] = $_REQUEST['profit'];
+		if($data['profit'] == empty_lookup_value) { $data['profit'] = ''; }
 	$data['uploads'] = $_REQUEST['uploads'];
 		if($data['uploads'] == empty_lookup_value) { $data['uploads'] = ''; }
+	if($data['cost'] == '') $data['cost'] = "0.00";
 
 	// hook: Products_before_insert
 	if(function_exists('Products_before_insert')) {
@@ -38,11 +39,6 @@ function Products_insert() {
 		die("{$error}<br><a href=\"#\" onclick=\"history.go(-1);\">{$Translation['< back']}</a>");
 
 	$recID = db_insert_id(db_link());
-
-	// automatic invoice if passed as filterer
-	if($_REQUEST['filterer_invoice']) {
-		sql("update `Products` set `invoice`='" . makeSafe($_REQUEST['filterer_invoice']) . "' where `id`='" . makeSafe($recID, false) . "'", $eo);
-	}
 
 	// hook: Products_after_insert
 	if(function_exists('Products_after_insert')) {
@@ -97,6 +93,25 @@ function Products_delete($selected_id, $AllowDeleteOfParents=false, $skipChecks=
 			return $Translation['Couldn\'t delete this record'];
 	}
 
+	// child table: InvoiceDetails
+	$res = sql("select `id` from `Products` where `id`='$selected_id'", $eo);
+	$id = db_fetch_row($res);
+	$rires = sql("select count(1) from `InvoiceDetails` where `product`='".addslashes($id[0])."'", $eo);
+	$rirow = db_fetch_row($rires);
+	if($rirow[0] && !$AllowDeleteOfParents && !$skipChecks) {
+		$RetMsg = $Translation["couldn't delete"];
+		$RetMsg = str_replace("<RelatedRecords>", $rirow[0], $RetMsg);
+		$RetMsg = str_replace("<TableName>", "InvoiceDetails", $RetMsg);
+		return $RetMsg;
+	}elseif($rirow[0] && $AllowDeleteOfParents && !$skipChecks) {
+		$RetMsg = $Translation["confirm delete"];
+		$RetMsg = str_replace("<RelatedRecords>", $rirow[0], $RetMsg);
+		$RetMsg = str_replace("<TableName>", "InvoiceDetails", $RetMsg);
+		$RetMsg = str_replace("<Delete>", "<input type=\"button\" class=\"button\" value=\"".$Translation['yes']."\" onClick=\"window.location='Products_view.php?SelectedID=".urlencode($selected_id)."&delete_x=1&confirmed=1';\">", $RetMsg);
+		$RetMsg = str_replace("<Cancel>", "<input type=\"button\" class=\"button\" value=\"".$Translation['no']."\" onClick=\"window.location='Products_view.php?SelectedID=".urlencode($selected_id)."';\">", $RetMsg);
+		return $RetMsg;
+	}
+
 	// child table: Compras
 	$res = sql("select `id` from `Products` where `id`='$selected_id'", $eo);
 	$id = db_fetch_row($res);
@@ -141,14 +156,14 @@ function Products_update($selected_id) {
 		return false;
 	}
 
-	$data['invoice'] = makeSafe($_REQUEST['invoice']);
-		if($data['invoice'] == empty_lookup_value) { $data['invoice'] = ''; }
+	$data['code'] = makeSafe($_REQUEST['code']);
+		if($data['code'] == empty_lookup_value) { $data['code'] = ''; }
 	$data['item'] = makeSafe($_REQUEST['item']);
 		if($data['item'] == empty_lookup_value) { $data['item'] = ''; }
-	$data['qty'] = makeSafe($_REQUEST['qty']);
-		if($data['qty'] == empty_lookup_value) { $data['qty'] = ''; }
-	$data['total'] = makeSafe($_REQUEST['total']);
-		if($data['total'] == empty_lookup_value) { $data['total'] = ''; }
+	$data['cost'] = makeSafe($_REQUEST['cost']);
+		if($data['cost'] == empty_lookup_value) { $data['cost'] = ''; }
+	$data['profit'] = makeSafe($_REQUEST['profit']);
+		if($data['profit'] == empty_lookup_value) { $data['profit'] = ''; }
 	$data['uploads'] = makeSafe($_REQUEST['uploads']);
 		if($data['uploads'] == empty_lookup_value) { $data['uploads'] = ''; }
 	$data['selectedID'] = makeSafe($selected_id);
@@ -160,7 +175,7 @@ function Products_update($selected_id) {
 	}
 
 	$o = array('silentErrors' => true);
-	sql('update `Products` set       `item`=' . (($data['item'] !== '' && $data['item'] !== NULL) ? "'{$data['item']}'" : 'NULL') . ', `qty`=' . (($data['qty'] !== '' && $data['qty'] !== NULL) ? "'{$data['qty']}'" : 'NULL') . ', `total`=' . (($data['total'] !== '' && $data['total'] !== NULL) ? "'{$data['total']}'" : 'NULL') . ', `uploads`=' . (($data['uploads'] !== '' && $data['uploads'] !== NULL) ? "'{$data['uploads']}'" : 'NULL') . " where `id`='".makeSafe($selected_id)."'", $o);
+	sql('update `Products` set       `code`=' . (($data['code'] !== '' && $data['code'] !== NULL) ? "'{$data['code']}'" : 'NULL') . ', `item`=' . (($data['item'] !== '' && $data['item'] !== NULL) ? "'{$data['item']}'" : 'NULL') . ', `cost`=' . (($data['cost'] !== '' && $data['cost'] !== NULL) ? "'{$data['cost']}'" : 'NULL') . ', `profit`=' . (($data['profit'] !== '' && $data['profit'] !== NULL) ? "'{$data['profit']}'" : 'NULL') . " where `id`='".makeSafe($selected_id)."'", $o);
 	if($o['error']!='') {
 		echo $o['error'];
 		echo '<a href="Products_view.php?SelectedID='.urlencode($selected_id)."\">{$Translation['< back']}</a>";
@@ -202,14 +217,11 @@ function Products_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, $A
 		$dvprint = true;
 	}
 
-	$filterer_invoice = thisOr(undo_magic_quotes($_REQUEST['filterer_invoice']), '');
 
 	// populate filterers, starting from children to grand-parents
 
 	// unique random identifier
 	$rnd1 = ($dvprint ? rand(1000000, 9999999) : '');
-	// combobox: invoice
-	$combo_invoice = new DataCombo;
 
 	if($selected_id) {
 		// mm: check member permissions
@@ -237,105 +249,22 @@ function Products_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, $A
 		if(!($row = db_fetch_array($res))) {
 			return error_message($Translation['No records found'], 'Products_view.php', false);
 		}
-		$combo_invoice->SelectedData = $row['invoice'];
 		$urow = $row; /* unsanitized data */
 		$hc = new CI_Input();
 		$row = $hc->xss_clean($row); /* sanitize data */
 	} else {
-		$combo_invoice->SelectedData = $filterer_invoice;
 	}
-	$combo_invoice->HTML = '<span id="invoice-container' . $rnd1 . '"></span><input type="hidden" name="invoice" id="invoice' . $rnd1 . '" value="' . html_attr($combo_invoice->SelectedData) . '">';
-	$combo_invoice->MatchText = '<span id="invoice-container-readonly' . $rnd1 . '"></span><input type="hidden" name="invoice" id="invoice' . $rnd1 . '" value="' . html_attr($combo_invoice->SelectedData) . '">';
 
 	ob_start();
 	?>
 
 	<script>
 		// initial lookup values
-		AppGini.current_invoice__RAND__ = { text: "", value: "<?php echo addslashes($selected_id ? $urow['invoice'] : $filterer_invoice); ?>"};
 
 		jQuery(function() {
 			setTimeout(function() {
-				if(typeof(invoice_reload__RAND__) == 'function') invoice_reload__RAND__();
 			}, 10); /* we need to slightly delay client-side execution of the above code to allow AppGini.ajaxCache to work */
 		});
-		function invoice_reload__RAND__() {
-		<?php if(($AllowUpdate || $AllowInsert) && !$dvprint) { ?>
-
-			$j("#invoice-container__RAND__").select2({
-				/* initial default value */
-				initSelection: function(e, c) {
-					$j.ajax({
-						url: 'ajax_combo.php',
-						dataType: 'json',
-						data: { id: AppGini.current_invoice__RAND__.value, t: 'Products', f: 'invoice' },
-						success: function(resp) {
-							c({
-								id: resp.results[0].id,
-								text: resp.results[0].text
-							});
-							$j('[name="invoice"]').val(resp.results[0].id);
-							$j('[id=invoice-container-readonly__RAND__]').html('<span id="invoice-match-text">' + resp.results[0].text + '</span>');
-							if(resp.results[0].id == '<?php echo empty_lookup_value; ?>') { $j('.btn[id=Invoice_view_parent]').hide(); }else{ $j('.btn[id=Invoice_view_parent]').show(); }
-
-
-							if(typeof(invoice_update_autofills__RAND__) == 'function') invoice_update_autofills__RAND__();
-						}
-					});
-				},
-				width: '100%',
-				formatNoMatches: function(term) { /* */ return '<?php echo addslashes($Translation['No matches found!']); ?>'; },
-				minimumResultsForSearch: 5,
-				loadMorePadding: 200,
-				ajax: {
-					url: 'ajax_combo.php',
-					dataType: 'json',
-					cache: true,
-					data: function(term, page) { /* */ return { s: term, p: page, t: 'Products', f: 'invoice' }; },
-					results: function(resp, page) { /* */ return resp; }
-				},
-				escapeMarkup: function(str) { /* */ return str; }
-			}).on('change', function(e) {
-				AppGini.current_invoice__RAND__.value = e.added.id;
-				AppGini.current_invoice__RAND__.text = e.added.text;
-				$j('[name="invoice"]').val(e.added.id);
-				if(e.added.id == '<?php echo empty_lookup_value; ?>') { $j('.btn[id=Invoice_view_parent]').hide(); }else{ $j('.btn[id=Invoice_view_parent]').show(); }
-
-
-				if(typeof(invoice_update_autofills__RAND__) == 'function') invoice_update_autofills__RAND__();
-			});
-
-			if(!$j("#invoice-container__RAND__").length) {
-				$j.ajax({
-					url: 'ajax_combo.php',
-					dataType: 'json',
-					data: { id: AppGini.current_invoice__RAND__.value, t: 'Products', f: 'invoice' },
-					success: function(resp) {
-						$j('[name="invoice"]').val(resp.results[0].id);
-						$j('[id=invoice-container-readonly__RAND__]').html('<span id="invoice-match-text">' + resp.results[0].text + '</span>');
-						if(resp.results[0].id == '<?php echo empty_lookup_value; ?>') { $j('.btn[id=Invoice_view_parent]').hide(); }else{ $j('.btn[id=Invoice_view_parent]').show(); }
-
-						if(typeof(invoice_update_autofills__RAND__) == 'function') invoice_update_autofills__RAND__();
-					}
-				});
-			}
-
-		<?php }else{ ?>
-
-			$j.ajax({
-				url: 'ajax_combo.php',
-				dataType: 'json',
-				data: { id: AppGini.current_invoice__RAND__.value, t: 'Products', f: 'invoice' },
-				success: function(resp) {
-					$j('[id=invoice-container__RAND__], [id=invoice-container-readonly__RAND__]').html('<span id="invoice-match-text">' + resp.results[0].text + '</span>');
-					if(resp.results[0].id == '<?php echo empty_lookup_value; ?>') { $j('.btn[id=Invoice_view_parent]').hide(); }else{ $j('.btn[id=Invoice_view_parent]').show(); }
-
-					if(typeof(invoice_update_autofills__RAND__) == 'function') invoice_update_autofills__RAND__();
-				}
-			});
-		<?php } ?>
-
-		}
 	</script>
 	<?php
 
@@ -394,10 +323,10 @@ function Products_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, $A
 
 	// set records to read only if user can't insert new records and can't edit current record
 	if(($selected_id && !$AllowUpdate && !$AllowInsert) || (!$selected_id && !$AllowInsert)) {
+		$jsReadOnly .= "\tjQuery('#code').replaceWith('<div class=\"form-control-static\" id=\"code\">' + (jQuery('#code').val() || '') + '</div>');\n";
 		$jsReadOnly .= "\tjQuery('#item').replaceWith('<div class=\"form-control-static\" id=\"item\">' + (jQuery('#item').val() || '') + '</div>');\n";
-		$jsReadOnly .= "\tjQuery('#qty').replaceWith('<div class=\"form-control-static\" id=\"qty\">' + (jQuery('#qty').val() || '') + '</div>');\n";
-		$jsReadOnly .= "\tjQuery('#total').replaceWith('<div class=\"form-control-static\" id=\"total\">' + (jQuery('#total').val() || '') + '</div>');\n";
-		$jsReadOnly .= "\tjQuery('#uploads').replaceWith('<div class=\"form-control-static\" id=\"uploads\">' + (jQuery('#uploads').val() || '') + '</div>');\n";
+		$jsReadOnly .= "\tjQuery('#cost').replaceWith('<div class=\"form-control-static\" id=\"cost\">' + (jQuery('#cost').val() || '') + '</div>');\n";
+		$jsReadOnly .= "\tjQuery('#profit').replaceWith('<div class=\"form-control-static\" id=\"profit\">' + (jQuery('#profit').val() || '') + '</div>');\n";
 		$jsReadOnly .= "\tjQuery('.select2-container').hide();\n";
 
 		$noUploads = true;
@@ -407,12 +336,9 @@ function Products_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, $A
 	}
 
 	// process combos
-	$templateCode = str_replace('<%%COMBO(invoice)%%>', $combo_invoice->HTML, $templateCode);
-	$templateCode = str_replace('<%%COMBOTEXT(invoice)%%>', $combo_invoice->MatchText, $templateCode);
-	$templateCode = str_replace('<%%URLCOMBOTEXT(invoice)%%>', urlencode($combo_invoice->MatchText), $templateCode);
 
 	/* lookup fields array: 'lookup field name' => array('parent table name', 'lookup field caption') */
-	$lookup_fields = array('invoice' => array('Invoice', 'Invoice'), );
+	$lookup_fields = array();
 	foreach($lookup_fields as $luf => $ptfc) {
 		$pt_perm = getTablePermissions($ptfc[0]);
 
@@ -429,10 +355,11 @@ function Products_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, $A
 
 	// process images
 	$templateCode = str_replace('<%%UPLOADFILE(id)%%>', '', $templateCode);
-	$templateCode = str_replace('<%%UPLOADFILE(invoice)%%>', '', $templateCode);
+	$templateCode = str_replace('<%%UPLOADFILE(code)%%>', '', $templateCode);
 	$templateCode = str_replace('<%%UPLOADFILE(item)%%>', '', $templateCode);
-	$templateCode = str_replace('<%%UPLOADFILE(qty)%%>', '', $templateCode);
-	$templateCode = str_replace('<%%UPLOADFILE(total)%%>', '', $templateCode);
+	$templateCode = str_replace('<%%UPLOADFILE(cost)%%>', '', $templateCode);
+	$templateCode = str_replace('<%%UPLOADFILE(profit)%%>', '', $templateCode);
+	$templateCode = str_replace('<%%UPLOADFILE(itemSale)%%>', '', $templateCode);
 	$templateCode = str_replace('<%%UPLOADFILE(uploads)%%>', '', $templateCode);
 
 	// process values
@@ -440,32 +367,36 @@ function Products_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, $A
 		if( $dvprint) $templateCode = str_replace('<%%VALUE(id)%%>', safe_html($urow['id']), $templateCode);
 		if(!$dvprint) $templateCode = str_replace('<%%VALUE(id)%%>', html_attr($row['id']), $templateCode);
 		$templateCode = str_replace('<%%URLVALUE(id)%%>', urlencode($urow['id']), $templateCode);
-		if( $dvprint) $templateCode = str_replace('<%%VALUE(invoice)%%>', safe_html($urow['invoice']), $templateCode);
-		if(!$dvprint) $templateCode = str_replace('<%%VALUE(invoice)%%>', html_attr($row['invoice']), $templateCode);
-		$templateCode = str_replace('<%%URLVALUE(invoice)%%>', urlencode($urow['invoice']), $templateCode);
+		if( $dvprint) $templateCode = str_replace('<%%VALUE(code)%%>', safe_html($urow['code']), $templateCode);
+		if(!$dvprint) $templateCode = str_replace('<%%VALUE(code)%%>', html_attr($row['code']), $templateCode);
+		$templateCode = str_replace('<%%URLVALUE(code)%%>', urlencode($urow['code']), $templateCode);
 		if( $dvprint) $templateCode = str_replace('<%%VALUE(item)%%>', safe_html($urow['item']), $templateCode);
 		if(!$dvprint) $templateCode = str_replace('<%%VALUE(item)%%>', html_attr($row['item']), $templateCode);
 		$templateCode = str_replace('<%%URLVALUE(item)%%>', urlencode($urow['item']), $templateCode);
-		if( $dvprint) $templateCode = str_replace('<%%VALUE(qty)%%>', safe_html($urow['qty']), $templateCode);
-		if(!$dvprint) $templateCode = str_replace('<%%VALUE(qty)%%>', html_attr($row['qty']), $templateCode);
-		$templateCode = str_replace('<%%URLVALUE(qty)%%>', urlencode($urow['qty']), $templateCode);
-		if( $dvprint) $templateCode = str_replace('<%%VALUE(total)%%>', safe_html($urow['total']), $templateCode);
-		if(!$dvprint) $templateCode = str_replace('<%%VALUE(total)%%>', html_attr($row['total']), $templateCode);
-		$templateCode = str_replace('<%%URLVALUE(total)%%>', urlencode($urow['total']), $templateCode);
+		if( $dvprint) $templateCode = str_replace('<%%VALUE(cost)%%>', safe_html($urow['cost']), $templateCode);
+		if(!$dvprint) $templateCode = str_replace('<%%VALUE(cost)%%>', html_attr($row['cost']), $templateCode);
+		$templateCode = str_replace('<%%URLVALUE(cost)%%>', urlencode($urow['cost']), $templateCode);
+		if( $dvprint) $templateCode = str_replace('<%%VALUE(profit)%%>', safe_html($urow['profit']), $templateCode);
+		if(!$dvprint) $templateCode = str_replace('<%%VALUE(profit)%%>', html_attr($row['profit']), $templateCode);
+		$templateCode = str_replace('<%%URLVALUE(profit)%%>', urlencode($urow['profit']), $templateCode);
+		$templateCode = str_replace('<%%VALUE(itemSale)%%>', safe_html($urow['itemSale']), $templateCode);
+		$templateCode = str_replace('<%%URLVALUE(itemSale)%%>', urlencode($urow['itemSale']), $templateCode);
 		if( $dvprint) $templateCode = str_replace('<%%VALUE(uploads)%%>', safe_html($urow['uploads']), $templateCode);
 		if(!$dvprint) $templateCode = str_replace('<%%VALUE(uploads)%%>', html_attr($row['uploads']), $templateCode);
 		$templateCode = str_replace('<%%URLVALUE(uploads)%%>', urlencode($urow['uploads']), $templateCode);
 	}else{
 		$templateCode = str_replace('<%%VALUE(id)%%>', '', $templateCode);
 		$templateCode = str_replace('<%%URLVALUE(id)%%>', urlencode(''), $templateCode);
-		$templateCode = str_replace('<%%VALUE(invoice)%%>', ( $_REQUEST['FilterField'][1]=='2' && $_REQUEST['FilterOperator'][1]=='<=>' ? $combo_invoice->SelectedData : ''), $templateCode);
-		$templateCode = str_replace('<%%URLVALUE(invoice)%%>', urlencode( $_REQUEST['FilterField'][1]=='2' && $_REQUEST['FilterOperator'][1]=='<=>' ? $combo_invoice->SelectedData : ''), $templateCode);
+		$templateCode = str_replace('<%%VALUE(code)%%>', '', $templateCode);
+		$templateCode = str_replace('<%%URLVALUE(code)%%>', urlencode(''), $templateCode);
 		$templateCode = str_replace('<%%VALUE(item)%%>', '', $templateCode);
 		$templateCode = str_replace('<%%URLVALUE(item)%%>', urlencode(''), $templateCode);
-		$templateCode = str_replace('<%%VALUE(qty)%%>', '', $templateCode);
-		$templateCode = str_replace('<%%URLVALUE(qty)%%>', urlencode(''), $templateCode);
-		$templateCode = str_replace('<%%VALUE(total)%%>', '', $templateCode);
-		$templateCode = str_replace('<%%URLVALUE(total)%%>', urlencode(''), $templateCode);
+		$templateCode = str_replace('<%%VALUE(cost)%%>', '0.00', $templateCode);
+		$templateCode = str_replace('<%%URLVALUE(cost)%%>', urlencode('0.00'), $templateCode);
+		$templateCode = str_replace('<%%VALUE(profit)%%>', '', $templateCode);
+		$templateCode = str_replace('<%%URLVALUE(profit)%%>', urlencode(''), $templateCode);
+		$templateCode = str_replace('<%%VALUE(itemSale)%%>', '', $templateCode);
+		$templateCode = str_replace('<%%URLVALUE(itemSale)%%>', urlencode(''), $templateCode);
 		$templateCode = str_replace('<%%VALUE(uploads)%%>', '', $templateCode);
 		$templateCode = str_replace('<%%URLVALUE(uploads)%%>', urlencode(''), $templateCode);
 	}

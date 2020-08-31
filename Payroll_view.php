@@ -63,7 +63,7 @@
 		"`Payroll`.`stop`" => "Stop",
 		"`Payroll`.`horas`" => "horas",
 		"`Payroll`.`comment`" => "Comment",
-		"`Payroll`.`value`" => "Value",
+		"`Payroll`.`value`" => "Time",
 	);
 
 	// Fields that can be quick searched
@@ -109,10 +109,10 @@
 	$x->TableIcon = "resources/table_icons/Subscriptions.png";
 	$x->PrimaryKey = "`Payroll`.`id`";
 
-	$x->ColWidth   = array(  150, 150, 150, 150, 150, 150);
-	$x->ColCaption = array("Employee", "Date", "Start", "Stop", "horas", "Comment");
-	$x->ColFieldName = array('employee', 'date', 'start', 'stop', 'horas', 'comment');
-	$x->ColNumber  = array(2, 3, 4, 5, 6, 7);
+	$x->ColWidth   = array(  150, 150, 150, 150, 150, 150, 150);
+	$x->ColCaption = array("Employee", "Date", "Start", "Stop", "horas", "Comment", "Time");
+	$x->ColFieldName = array('employee', 'date', 'start', 'stop', 'horas', 'comment', 'value');
+	$x->ColNumber  = array(2, 3, 4, 5, 6, 7, 8);
 
 	// template paths below are based on the app main directory
 	$x->Template = 'templates/Payroll_templateTV.html';
@@ -180,6 +180,7 @@
 			$sumRow .= '<td class="Payroll-stop"></td>';
 			$sumRow .= "<td class=\"Payroll-horas text-right\">{$row[0]}</td>";
 			$sumRow .= '<td class="Payroll-comment"></td>';
+			$sumRow .= '<td class="Payroll-value"></td>';
 			$sumRow .= '</tr>';
 
 			$x->HTML = str_replace('<!-- tv data below -->', '', $x->HTML);
