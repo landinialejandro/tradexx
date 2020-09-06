@@ -13,6 +13,8 @@ function Accounting_insert() {
 	if(!$arrPerm[1]) return false;
 
 	$data = array();
+	$data['invoice'] = $_REQUEST['invoice'];
+		if($data['invoice'] == empty_lookup_value) { $data['invoice'] = ''; }
 	$data['date'] = intval($_REQUEST['dateYear']) . '-' . intval($_REQUEST['dateMonth']) . '-' . intval($_REQUEST['dateDay']);
 	$data['date'] = parseMySQLDate($data['date'], '1');
 	$data['description'] = $_REQUEST['description'];
@@ -121,6 +123,8 @@ function Accounting_update($selected_id) {
 		return false;
 	}
 
+	$data['invoice'] = makeSafe($_REQUEST['invoice']);
+		if($data['invoice'] == empty_lookup_value) { $data['invoice'] = ''; }
 	$data['date'] = intval($_REQUEST['dateYear']) . '-' . intval($_REQUEST['dateMonth']) . '-' . intval($_REQUEST['dateDay']);
 	$data['date'] = parseMySQLDate($data['date'], '1');
 	$data['description'] = makeSafe($_REQUEST['description']);
@@ -144,7 +148,7 @@ function Accounting_update($selected_id) {
 	}
 
 	$o = array('silentErrors' => true);
-	sql('update `Accounting` set       `date`=' . (($data['date'] !== '' && $data['date'] !== NULL) ? "'{$data['date']}'" : 'NULL') . ', `description`=' . (($data['description'] !== '' && $data['description'] !== NULL) ? "'{$data['description']}'" : 'NULL') . ', `master_acount`=' . (($data['master_acount'] !== '' && $data['master_acount'] !== NULL) ? "'{$data['master_acount']}'" : 'NULL') . ', `account`=' . (($data['account'] !== '' && $data['account'] !== NULL) ? "'{$data['account']}'" : 'NULL') . ', `sub_account`=' . (($data['sub_account'] !== '' && $data['sub_account'] !== NULL) ? "'{$data['sub_account']}'" : 'NULL') . ', `type`=' . (($data['type'] !== '' && $data['type'] !== NULL) ? "'{$data['type']}'" : 'NULL') . ', `amount`=' . (($data['amount'] !== '' && $data['amount'] !== NULL) ? "'{$data['amount']}'" : 'NULL') . " where `id`='".makeSafe($selected_id)."'", $o);
+	sql('update `Accounting` set       `invoice`=' . (($data['invoice'] !== '' && $data['invoice'] !== NULL) ? "'{$data['invoice']}'" : 'NULL') . ', `date`=' . (($data['date'] !== '' && $data['date'] !== NULL) ? "'{$data['date']}'" : 'NULL') . ', `description`=' . (($data['description'] !== '' && $data['description'] !== NULL) ? "'{$data['description']}'" : 'NULL') . ', `master_acount`=' . (($data['master_acount'] !== '' && $data['master_acount'] !== NULL) ? "'{$data['master_acount']}'" : 'NULL') . ', `account`=' . (($data['account'] !== '' && $data['account'] !== NULL) ? "'{$data['account']}'" : 'NULL') . ', `sub_account`=' . (($data['sub_account'] !== '' && $data['sub_account'] !== NULL) ? "'{$data['sub_account']}'" : 'NULL') . ', `type`=' . (($data['type'] !== '' && $data['type'] !== NULL) ? "'{$data['type']}'" : 'NULL') . ', `amount`=' . (($data['amount'] !== '' && $data['amount'] !== NULL) ? "'{$data['amount']}'" : 'NULL') . " where `id`='".makeSafe($selected_id)."'", $o);
 	if($o['error']!='') {
 		echo $o['error'];
 		echo '<a href="Accounting_view.php?SelectedID='.urlencode($selected_id)."\">{$Translation['< back']}</a>";
@@ -186,6 +190,7 @@ function Accounting_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, 
 		$dvprint = true;
 	}
 
+	$filterer_invoice = thisOr(undo_magic_quotes($_REQUEST['filterer_invoice']), '');
 	$filterer_master_acount = thisOr(undo_magic_quotes($_REQUEST['filterer_master_acount']), '');
 	$filterer_account = thisOr(undo_magic_quotes($_REQUEST['filterer_account']), '');
 	$filterer_sub_account = thisOr(undo_magic_quotes($_REQUEST['filterer_sub_account']), '');
@@ -197,6 +202,8 @@ function Accounting_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, 
 
 	// unique random identifier
 	$rnd1 = ($dvprint ? rand(1000000, 9999999) : '');
+	// combobox: invoice
+	$combo_invoice = new DataCombo;
 	// combobox: date
 	$combo_date = new DateCombo;
 	$combo_date->DateFormat = "mdy";
@@ -240,6 +247,7 @@ function Accounting_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, 
 		if(!($row = db_fetch_array($res))) {
 			return error_message($Translation['No records found'], 'Accounting_view.php', false);
 		}
+		$combo_invoice->SelectedData = $row['invoice'];
 		$combo_date->DefaultDate = $row['date'];
 		$combo_master_acount->SelectedData = $row['master_acount'];
 		$combo_account->SelectedData = $row['account'];
@@ -249,11 +257,14 @@ function Accounting_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, 
 		$hc = new CI_Input();
 		$row = $hc->xss_clean($row); /* sanitize data */
 	} else {
+		$combo_invoice->SelectedData = $filterer_invoice;
 		$combo_master_acount->SelectedData = $filterer_master_acount;
 		$combo_account->SelectedData = $filterer_account;
 		$combo_sub_account->SelectedData = $filterer_sub_account;
 		$combo_type->SelectedData = $filterer_type;
 	}
+	$combo_invoice->HTML = '<span id="invoice-container' . $rnd1 . '"></span><input type="hidden" name="invoice" id="invoice' . $rnd1 . '" value="' . html_attr($combo_invoice->SelectedData) . '">';
+	$combo_invoice->MatchText = '<span id="invoice-container-readonly' . $rnd1 . '"></span><input type="hidden" name="invoice" id="invoice' . $rnd1 . '" value="' . html_attr($combo_invoice->SelectedData) . '">';
 	$combo_master_acount->HTML = '<span id="master_acount-container' . $rnd1 . '"></span><input type="hidden" name="master_acount" id="master_acount' . $rnd1 . '" value="' . html_attr($combo_master_acount->SelectedData) . '">';
 	$combo_master_acount->MatchText = '<span id="master_acount-container-readonly' . $rnd1 . '"></span><input type="hidden" name="master_acount" id="master_acount' . $rnd1 . '" value="' . html_attr($combo_master_acount->SelectedData) . '">';
 	$combo_account->HTML = '<span id="account-container' . $rnd1 . '"></span><input type="hidden" name="account" id="account' . $rnd1 . '" value="' . html_attr($combo_account->SelectedData) . '">';
@@ -268,6 +279,7 @@ function Accounting_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, 
 
 	<script>
 		// initial lookup values
+		AppGini.current_invoice__RAND__ = { text: "", value: "<?php echo addslashes($selected_id ? $urow['invoice'] : $filterer_invoice); ?>"};
 		AppGini.current_master_acount__RAND__ = { text: "", value: "<?php echo addslashes($selected_id ? $urow['master_acount'] : $filterer_master_acount); ?>"};
 		AppGini.current_account__RAND__ = { text: "", value: "<?php echo addslashes($selected_id ? $urow['account'] : $filterer_account); ?>"};
 		AppGini.current_sub_account__RAND__ = { text: "", value: "<?php echo addslashes($selected_id ? $urow['sub_account'] : $filterer_sub_account); ?>"};
@@ -275,12 +287,90 @@ function Accounting_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, 
 
 		jQuery(function() {
 			setTimeout(function() {
+				if(typeof(invoice_reload__RAND__) == 'function') invoice_reload__RAND__();
 				if(typeof(master_acount_reload__RAND__) == 'function') master_acount_reload__RAND__();
 				<?php echo (!$AllowUpdate || $dvprint ? 'if(typeof(account_reload__RAND__) == \'function\') account_reload__RAND__(AppGini.current_master_acount__RAND__.value);' : ''); ?>
 				<?php echo (!$AllowUpdate || $dvprint ? 'if(typeof(sub_account_reload__RAND__) == \'function\') sub_account_reload__RAND__(AppGini.current_account__RAND__.value);' : ''); ?>
 				if(typeof(type_reload__RAND__) == 'function') type_reload__RAND__();
 			}, 10); /* we need to slightly delay client-side execution of the above code to allow AppGini.ajaxCache to work */
 		});
+		function invoice_reload__RAND__() {
+		<?php if(($AllowUpdate || $AllowInsert) && !$dvprint) { ?>
+
+			$j("#invoice-container__RAND__").select2({
+				/* initial default value */
+				initSelection: function(e, c) {
+					$j.ajax({
+						url: 'ajax_combo.php',
+						dataType: 'json',
+						data: { id: AppGini.current_invoice__RAND__.value, t: 'Accounting', f: 'invoice' },
+						success: function(resp) {
+							c({
+								id: resp.results[0].id,
+								text: resp.results[0].text
+							});
+							$j('[name="invoice"]').val(resp.results[0].id);
+							$j('[id=invoice-container-readonly__RAND__]').html('<span id="invoice-match-text">' + resp.results[0].text + '</span>');
+							if(resp.results[0].id == '<?php echo empty_lookup_value; ?>') { $j('.btn[id=Invoice_view_parent]').hide(); }else{ $j('.btn[id=Invoice_view_parent]').show(); }
+
+
+							if(typeof(invoice_update_autofills__RAND__) == 'function') invoice_update_autofills__RAND__();
+						}
+					});
+				},
+				width: '100%',
+				formatNoMatches: function(term) { /* */ return '<?php echo addslashes($Translation['No matches found!']); ?>'; },
+				minimumResultsForSearch: 5,
+				loadMorePadding: 200,
+				ajax: {
+					url: 'ajax_combo.php',
+					dataType: 'json',
+					cache: true,
+					data: function(term, page) { /* */ return { s: term, p: page, t: 'Accounting', f: 'invoice' }; },
+					results: function(resp, page) { /* */ return resp; }
+				},
+				escapeMarkup: function(str) { /* */ return str; }
+			}).on('change', function(e) {
+				AppGini.current_invoice__RAND__.value = e.added.id;
+				AppGini.current_invoice__RAND__.text = e.added.text;
+				$j('[name="invoice"]').val(e.added.id);
+				if(e.added.id == '<?php echo empty_lookup_value; ?>') { $j('.btn[id=Invoice_view_parent]').hide(); }else{ $j('.btn[id=Invoice_view_parent]').show(); }
+
+
+				if(typeof(invoice_update_autofills__RAND__) == 'function') invoice_update_autofills__RAND__();
+			});
+
+			if(!$j("#invoice-container__RAND__").length) {
+				$j.ajax({
+					url: 'ajax_combo.php',
+					dataType: 'json',
+					data: { id: AppGini.current_invoice__RAND__.value, t: 'Accounting', f: 'invoice' },
+					success: function(resp) {
+						$j('[name="invoice"]').val(resp.results[0].id);
+						$j('[id=invoice-container-readonly__RAND__]').html('<span id="invoice-match-text">' + resp.results[0].text + '</span>');
+						if(resp.results[0].id == '<?php echo empty_lookup_value; ?>') { $j('.btn[id=Invoice_view_parent]').hide(); }else{ $j('.btn[id=Invoice_view_parent]').show(); }
+
+						if(typeof(invoice_update_autofills__RAND__) == 'function') invoice_update_autofills__RAND__();
+					}
+				});
+			}
+
+		<?php }else{ ?>
+
+			$j.ajax({
+				url: 'ajax_combo.php',
+				dataType: 'json',
+				data: { id: AppGini.current_invoice__RAND__.value, t: 'Accounting', f: 'invoice' },
+				success: function(resp) {
+					$j('[id=invoice-container__RAND__], [id=invoice-container-readonly__RAND__]').html('<span id="invoice-match-text">' + resp.results[0].text + '</span>');
+					if(resp.results[0].id == '<?php echo empty_lookup_value; ?>') { $j('.btn[id=Invoice_view_parent]').hide(); }else{ $j('.btn[id=Invoice_view_parent]').show(); }
+
+					if(typeof(invoice_update_autofills__RAND__) == 'function') invoice_update_autofills__RAND__();
+				}
+			});
+		<?php } ?>
+
+		}
 		function master_acount_reload__RAND__() {
 		<?php if(($AllowUpdate || $AllowInsert) && !$dvprint) { ?>
 
@@ -651,6 +741,8 @@ function Accounting_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, 
 
 	// set records to read only if user can't insert new records and can't edit current record
 	if(($selected_id && !$AllowUpdate && !$AllowInsert) || (!$selected_id && !$AllowInsert)) {
+		$jsReadOnly .= "\tjQuery('#invoice').prop('disabled', true).css({ color: '#555', backgroundColor: '#fff' });\n";
+		$jsReadOnly .= "\tjQuery('#invoice_caption').prop('disabled', true).css({ color: '#555', backgroundColor: 'white' });\n";
 		$jsReadOnly .= "\tjQuery('#date').prop('readonly', true);\n";
 		$jsReadOnly .= "\tjQuery('#dateDay, #dateMonth, #dateYear').prop('disabled', true).css({ color: '#555', backgroundColor: '#fff' });\n";
 		$jsReadOnly .= "\tjQuery('#master_acount').prop('disabled', true).css({ color: '#555', backgroundColor: '#fff' });\n";
@@ -671,6 +763,9 @@ function Accounting_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, 
 	}
 
 	// process combos
+	$templateCode = str_replace('<%%COMBO(invoice)%%>', $combo_invoice->HTML, $templateCode);
+	$templateCode = str_replace('<%%COMBOTEXT(invoice)%%>', $combo_invoice->MatchText, $templateCode);
+	$templateCode = str_replace('<%%URLCOMBOTEXT(invoice)%%>', urlencode($combo_invoice->MatchText), $templateCode);
 	$templateCode = str_replace('<%%COMBO(date)%%>', ($selected_id && !$arrPerm[3] ? '<div class="form-control-static">' . $combo_date->GetHTML(true) . '</div>' : $combo_date->GetHTML()), $templateCode);
 	$templateCode = str_replace('<%%COMBOTEXT(date)%%>', $combo_date->GetHTML(true), $templateCode);
 	$templateCode = str_replace('<%%COMBO(master_acount)%%>', $combo_master_acount->HTML, $templateCode);
@@ -687,7 +782,7 @@ function Accounting_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, 
 	$templateCode = str_replace('<%%URLCOMBOTEXT(type)%%>', urlencode($combo_type->MatchText), $templateCode);
 
 	/* lookup fields array: 'lookup field name' => array('parent table name', 'lookup field caption') */
-	$lookup_fields = array('master_acount' => array('MasterAccount', 'Master account'), 'account' => array('Account', 'Account'), 'sub_account' => array('SubAccount', 'Subaccount'), 'type' => array('Type', 'Type'), );
+	$lookup_fields = array('invoice' => array('Invoice', 'Invoice'), 'master_acount' => array('MasterAccount', 'Master account'), 'account' => array('Account', 'Account'), 'sub_account' => array('SubAccount', 'Subaccount'), 'type' => array('Type', 'Type'), );
 	foreach($lookup_fields as $luf => $ptfc) {
 		$pt_perm = getTablePermissions($ptfc[0]);
 
@@ -704,6 +799,7 @@ function Accounting_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, 
 
 	// process images
 	$templateCode = str_replace('<%%UPLOADFILE(id)%%>', '', $templateCode);
+	$templateCode = str_replace('<%%UPLOADFILE(invoice)%%>', '', $templateCode);
 	$templateCode = str_replace('<%%UPLOADFILE(date)%%>', '', $templateCode);
 	$templateCode = str_replace('<%%UPLOADFILE(description)%%>', '', $templateCode);
 	$templateCode = str_replace('<%%UPLOADFILE(master_acount)%%>', '', $templateCode);
@@ -718,6 +814,9 @@ function Accounting_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, 
 		if( $dvprint) $templateCode = str_replace('<%%VALUE(id)%%>', safe_html($urow['id']), $templateCode);
 		if(!$dvprint) $templateCode = str_replace('<%%VALUE(id)%%>', html_attr($row['id']), $templateCode);
 		$templateCode = str_replace('<%%URLVALUE(id)%%>', urlencode($urow['id']), $templateCode);
+		if( $dvprint) $templateCode = str_replace('<%%VALUE(invoice)%%>', safe_html($urow['invoice']), $templateCode);
+		if(!$dvprint) $templateCode = str_replace('<%%VALUE(invoice)%%>', html_attr($row['invoice']), $templateCode);
+		$templateCode = str_replace('<%%URLVALUE(invoice)%%>', urlencode($urow['invoice']), $templateCode);
 		$templateCode = str_replace('<%%VALUE(date)%%>', @date('m/d/Y', @strtotime(html_attr($row['date']))), $templateCode);
 		$templateCode = str_replace('<%%URLVALUE(date)%%>', urlencode(@date('m/d/Y', @strtotime(html_attr($urow['date'])))), $templateCode);
 		if($AllowUpdate || $AllowInsert) {
@@ -747,6 +846,8 @@ function Accounting_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, 
 	}else{
 		$templateCode = str_replace('<%%VALUE(id)%%>', '', $templateCode);
 		$templateCode = str_replace('<%%URLVALUE(id)%%>', urlencode(''), $templateCode);
+		$templateCode = str_replace('<%%VALUE(invoice)%%>', '', $templateCode);
+		$templateCode = str_replace('<%%URLVALUE(invoice)%%>', urlencode(''), $templateCode);
 		$templateCode = str_replace('<%%VALUE(date)%%>', '1', $templateCode);
 		$templateCode = str_replace('<%%URLVALUE(date)%%>', urlencode('1'), $templateCode);
 		$templateCode = str_replace('<%%HTMLAREA(description)%%>', '<textarea name="description" id="description" rows="5"></textarea>', $templateCode);

@@ -13,6 +13,10 @@ function Invoice_insert() {
 	if(!$arrPerm[1]) return false;
 
 	$data = array();
+	$data['type'] = $_REQUEST['type'];
+		if($data['type'] == empty_lookup_value) { $data['type'] = ''; }
+	$data['number'] = $_REQUEST['number'];
+		if($data['number'] == empty_lookup_value) { $data['number'] = ''; }
 	$data['Date'] = intval($_REQUEST['DateYear']) . '-' . intval($_REQUEST['DateMonth']) . '-' . intval($_REQUEST['DateDay']);
 	$data['Date'] = parseMySQLDate($data['Date'], '1');
 	$data['Title'] = $_REQUEST['Customer'];
@@ -41,6 +45,14 @@ function Invoice_insert() {
 		if($data['Status'] == empty_lookup_value) { $data['Status'] = ''; }
 	$data['tax'] = $_REQUEST['tax'];
 		if($data['tax'] == empty_lookup_value) { $data['tax'] = ''; }
+	$data['usrAdd'] = parseCode('<%%creatorUsername%%>', true);
+	$data['whenAdd'] = parseCode('<%%creationDateTime%%>', true);
+	if($data['type'] == '') $data['type'] = "Quote";
+	if($data['number']== '') {
+		echo StyleSheet() . "\n\n<div class=\"alert alert-danger\">" . $Translation['error:'] . " 'Number': " . $Translation['field not null'] . '<br><br>';
+		echo '<a href="" onclick="history.go(-1); return false;">'.$Translation['< back'].'</a></div>';
+		exit;
+	}
 	if($data['PaymentStatus'] == '') $data['PaymentStatus'] = "UNPAID";
 	if($data['Status'] == '') $data['Status'] = "OPEN";
 
@@ -58,6 +70,11 @@ function Invoice_insert() {
 		die("{$error}<br><a href=\"#\" onclick=\"history.go(-1);\">{$Translation['< back']}</a>");
 
 	$recID = db_insert_id(db_link());
+
+	// automatic realted if passed as filterer
+	if($_REQUEST['filterer_realted']) {
+		sql("update `Invoice` set `realted`='" . makeSafe($_REQUEST['filterer_realted']) . "' where `id`='" . makeSafe($recID, false) . "'", $eo);
+	}
 
 	// hook: Invoice_after_insert
 	if(function_exists('Invoice_after_insert')) {
@@ -147,6 +164,25 @@ function Invoice_delete($selected_id, $AllowDeleteOfParents=false, $skipChecks=f
 		return $RetMsg;
 	}
 
+	// child table: Invoice
+	$res = sql("select `id` from `Invoice` where `id`='$selected_id'", $eo);
+	$id = db_fetch_row($res);
+	$rires = sql("select count(1) from `Invoice` where `realted`='".addslashes($id[0])."'", $eo);
+	$rirow = db_fetch_row($rires);
+	if($rirow[0] && !$AllowDeleteOfParents && !$skipChecks) {
+		$RetMsg = $Translation["couldn't delete"];
+		$RetMsg = str_replace("<RelatedRecords>", $rirow[0], $RetMsg);
+		$RetMsg = str_replace("<TableName>", "Invoice", $RetMsg);
+		return $RetMsg;
+	}elseif($rirow[0] && $AllowDeleteOfParents && !$skipChecks) {
+		$RetMsg = $Translation["confirm delete"];
+		$RetMsg = str_replace("<RelatedRecords>", $rirow[0], $RetMsg);
+		$RetMsg = str_replace("<TableName>", "Invoice", $RetMsg);
+		$RetMsg = str_replace("<Delete>", "<input type=\"button\" class=\"button\" value=\"".$Translation['yes']."\" onClick=\"window.location='Invoice_view.php?SelectedID=".urlencode($selected_id)."&delete_x=1&confirmed=1';\">", $RetMsg);
+		$RetMsg = str_replace("<Cancel>", "<input type=\"button\" class=\"button\" value=\"".$Translation['no']."\" onClick=\"window.location='Invoice_view.php?SelectedID=".urlencode($selected_id)."';\">", $RetMsg);
+		return $RetMsg;
+	}
+
 	// child table: InvoiceDetails
 	$res = sql("select `id` from `Invoice` where `id`='$selected_id'", $eo);
 	$id = db_fetch_row($res);
@@ -161,6 +197,25 @@ function Invoice_delete($selected_id, $AllowDeleteOfParents=false, $skipChecks=f
 		$RetMsg = $Translation["confirm delete"];
 		$RetMsg = str_replace("<RelatedRecords>", $rirow[0], $RetMsg);
 		$RetMsg = str_replace("<TableName>", "InvoiceDetails", $RetMsg);
+		$RetMsg = str_replace("<Delete>", "<input type=\"button\" class=\"button\" value=\"".$Translation['yes']."\" onClick=\"window.location='Invoice_view.php?SelectedID=".urlencode($selected_id)."&delete_x=1&confirmed=1';\">", $RetMsg);
+		$RetMsg = str_replace("<Cancel>", "<input type=\"button\" class=\"button\" value=\"".$Translation['no']."\" onClick=\"window.location='Invoice_view.php?SelectedID=".urlencode($selected_id)."';\">", $RetMsg);
+		return $RetMsg;
+	}
+
+	// child table: Accounting
+	$res = sql("select `id` from `Invoice` where `id`='$selected_id'", $eo);
+	$id = db_fetch_row($res);
+	$rires = sql("select count(1) from `Accounting` where `invoice`='".addslashes($id[0])."'", $eo);
+	$rirow = db_fetch_row($rires);
+	if($rirow[0] && !$AllowDeleteOfParents && !$skipChecks) {
+		$RetMsg = $Translation["couldn't delete"];
+		$RetMsg = str_replace("<RelatedRecords>", $rirow[0], $RetMsg);
+		$RetMsg = str_replace("<TableName>", "Accounting", $RetMsg);
+		return $RetMsg;
+	}elseif($rirow[0] && $AllowDeleteOfParents && !$skipChecks) {
+		$RetMsg = $Translation["confirm delete"];
+		$RetMsg = str_replace("<RelatedRecords>", $rirow[0], $RetMsg);
+		$RetMsg = str_replace("<TableName>", "Accounting", $RetMsg);
 		$RetMsg = str_replace("<Delete>", "<input type=\"button\" class=\"button\" value=\"".$Translation['yes']."\" onClick=\"window.location='Invoice_view.php?SelectedID=".urlencode($selected_id)."&delete_x=1&confirmed=1';\">", $RetMsg);
 		$RetMsg = str_replace("<Cancel>", "<input type=\"button\" class=\"button\" value=\"".$Translation['no']."\" onClick=\"window.location='Invoice_view.php?SelectedID=".urlencode($selected_id)."';\">", $RetMsg);
 		return $RetMsg;
@@ -191,6 +246,15 @@ function Invoice_update($selected_id) {
 		return false;
 	}
 
+	$data['type'] = makeSafe($_REQUEST['type']);
+		if($data['type'] == empty_lookup_value) { $data['type'] = ''; }
+	$data['number'] = makeSafe($_REQUEST['number']);
+		if($data['number'] == empty_lookup_value) { $data['number'] = ''; }
+	if($data['number']=='') {
+		echo StyleSheet() . "\n\n<div class=\"alert alert-danger\">{$Translation['error:']} 'Number': {$Translation['field not null']}<br><br>";
+		echo '<a href="" onclick="history.go(-1); return false;">'.$Translation['< back'].'</a></div>';
+		exit;
+	}
 	$data['Date'] = intval($_REQUEST['DateYear']) . '-' . intval($_REQUEST['DateMonth']) . '-' . intval($_REQUEST['DateDay']);
 	$data['Date'] = parseMySQLDate($data['Date'], '1');
 	$data['Title'] = makeSafe($_REQUEST['Customer']);
@@ -219,6 +283,8 @@ function Invoice_update($selected_id) {
 		if($data['Status'] == empty_lookup_value) { $data['Status'] = ''; }
 	$data['tax'] = makeSafe($_REQUEST['tax']);
 		if($data['tax'] == empty_lookup_value) { $data['tax'] = ''; }
+	$data['usrUpdated'] = parseCode('<%%editorUsername%%>', false);
+	$data['whenUpdated'] = parseCode('<%%editingDateTime%%>', false);
 	$data['selectedID'] = makeSafe($selected_id);
 
 	// hook: Invoice_before_update
@@ -228,7 +294,7 @@ function Invoice_update($selected_id) {
 	}
 
 	$o = array('silentErrors' => true);
-	sql('update `Invoice` set       `Date`=' . (($data['Date'] !== '' && $data['Date'] !== NULL) ? "'{$data['Date']}'" : 'NULL') . ', `Title`=' . (($data['Title'] !== '' && $data['Title'] !== NULL) ? "'{$data['Title']}'" : 'NULL') . ', `Customer`=' . (($data['Customer'] !== '' && $data['Customer'] !== NULL) ? "'{$data['Customer']}'" : 'NULL') . ', `Phone`=' . (($data['Phone'] !== '' && $data['Phone'] !== NULL) ? "'{$data['Phone']}'" : 'NULL') . ', `Email`=' . (($data['Email'] !== '' && $data['Email'] !== NULL) ? "'{$data['Email']}'" : 'NULL') . ', `Address`=' . (($data['Address'] !== '' && $data['Address'] !== NULL) ? "'{$data['Address']}'" : 'NULL') . ', `City`=' . (($data['City'] !== '' && $data['City'] !== NULL) ? "'{$data['City']}'" : 'NULL') . ', `Country`=' . (($data['Country'] !== '' && $data['Country'] !== NULL) ? "'{$data['Country']}'" : 'NULL') . ', `PaymentStatus`=' . (($data['PaymentStatus'] !== '' && $data['PaymentStatus'] !== NULL) ? "'{$data['PaymentStatus']}'" : 'NULL') . ', `AmountDUE`=' . (($data['AmountDUE'] !== '' && $data['AmountDUE'] !== NULL) ? "'{$data['AmountDUE']}'" : 'NULL') . ', `AmountPAID`=' . (($data['AmountPAID'] !== '' && $data['AmountPAID'] !== NULL) ? "'{$data['AmountPAID']}'" : 'NULL') . ', `Balance`=' . (($data['Balance'] !== '' && $data['Balance'] !== NULL) ? "'{$data['Balance']}'" : 'NULL') . ', `Status`=' . (($data['Status'] !== '' && $data['Status'] !== NULL) ? "'{$data['Status']}'" : 'NULL') . ', `tax`=' . (($data['tax'] !== '' && $data['tax'] !== NULL) ? "'{$data['tax']}'" : 'NULL') . " where `id`='".makeSafe($selected_id)."'", $o);
+	sql('update `Invoice` set       `type`=' . (($data['type'] !== '' && $data['type'] !== NULL) ? "'{$data['type']}'" : 'NULL') . ', `number`=' . (($data['number'] !== '' && $data['number'] !== NULL) ? "'{$data['number']}'" : 'NULL') . ', `Date`=' . (($data['Date'] !== '' && $data['Date'] !== NULL) ? "'{$data['Date']}'" : 'NULL') . ', `Title`=' . (($data['Title'] !== '' && $data['Title'] !== NULL) ? "'{$data['Title']}'" : 'NULL') . ', `Customer`=' . (($data['Customer'] !== '' && $data['Customer'] !== NULL) ? "'{$data['Customer']}'" : 'NULL') . ', `Phone`=' . (($data['Phone'] !== '' && $data['Phone'] !== NULL) ? "'{$data['Phone']}'" : 'NULL') . ', `Email`=' . (($data['Email'] !== '' && $data['Email'] !== NULL) ? "'{$data['Email']}'" : 'NULL') . ', `Address`=' . (($data['Address'] !== '' && $data['Address'] !== NULL) ? "'{$data['Address']}'" : 'NULL') . ', `City`=' . (($data['City'] !== '' && $data['City'] !== NULL) ? "'{$data['City']}'" : 'NULL') . ', `Country`=' . (($data['Country'] !== '' && $data['Country'] !== NULL) ? "'{$data['Country']}'" : 'NULL') . ', `PaymentStatus`=' . (($data['PaymentStatus'] !== '' && $data['PaymentStatus'] !== NULL) ? "'{$data['PaymentStatus']}'" : 'NULL') . ', `AmountDUE`=' . (($data['AmountDUE'] !== '' && $data['AmountDUE'] !== NULL) ? "'{$data['AmountDUE']}'" : 'NULL') . ', `AmountPAID`=' . (($data['AmountPAID'] !== '' && $data['AmountPAID'] !== NULL) ? "'{$data['AmountPAID']}'" : 'NULL') . ', `Balance`=' . (($data['Balance'] !== '' && $data['Balance'] !== NULL) ? "'{$data['Balance']}'" : 'NULL') . ', `Status`=' . (($data['Status'] !== '' && $data['Status'] !== NULL) ? "'{$data['Status']}'" : 'NULL') . ', `tax`=' . (($data['tax'] !== '' && $data['tax'] !== NULL) ? "'{$data['tax']}'" : 'NULL') . ', `whenAdd`=`whenAdd`' . ', `usrUpdated`=' . "'{$data['usrUpdated']}'" . ', `whenUpdated`=' . "'{$data['whenUpdated']}'" . " where `id`='".makeSafe($selected_id)."'", $o);
 	if($o['error']!='') {
 		echo $o['error'];
 		echo '<a href="Invoice_view.php?SelectedID='.urlencode($selected_id)."\">{$Translation['< back']}</a>";
@@ -271,11 +337,27 @@ function Invoice_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, $Al
 	}
 
 	$filterer_Customer = thisOr(undo_magic_quotes($_REQUEST['filterer_Customer']), '');
+	$filterer_realted = thisOr(undo_magic_quotes($_REQUEST['filterer_realted']), '');
 
 	// populate filterers, starting from children to grand-parents
 
 	// unique random identifier
 	$rnd1 = ($dvprint ? rand(1000000, 9999999) : '');
+	// combobox: type
+	$combo_type = new Combo;
+	$combo_type->ListType = 0;
+	$combo_type->MultipleSeparator = ', ';
+	$combo_type->ListBoxHeight = 10;
+	$combo_type->RadiosPerLine = 1;
+	if(is_file(dirname(__FILE__).'/hooks/Invoice.type.csv')) {
+		$type_data = addslashes(implode('', @file(dirname(__FILE__).'/hooks/Invoice.type.csv')));
+		$combo_type->ListItem = explode('||', entitiesToUTF8(convertLegacyOptions($type_data)));
+		$combo_type->ListData = $combo_type->ListItem;
+	}else{
+		$combo_type->ListItem = explode('||', entitiesToUTF8(convertLegacyOptions("Quote;;Invoice")));
+		$combo_type->ListData = $combo_type->ListItem;
+	}
+	$combo_type->SelectName = 'type';
 	// combobox: Date
 	$combo_Date = new DateCombo;
 	$combo_Date->DateFormat = "mdy";
@@ -316,6 +398,8 @@ function Invoice_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, $Al
 		$combo_Status->ListData = $combo_Status->ListItem;
 	}
 	$combo_Status->SelectName = 'Status';
+	// combobox: realted
+	$combo_realted = new DataCombo;
 
 	if($selected_id) {
 		// mm: check member permissions
@@ -343,22 +427,29 @@ function Invoice_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, $Al
 		if(!($row = db_fetch_array($res))) {
 			return error_message($Translation['No records found'], 'Invoice_view.php', false);
 		}
+		$combo_type->SelectedData = $row['type'];
 		$combo_Date->DefaultDate = $row['Date'];
 		$combo_Customer->SelectedData = $row['Customer'];
 		$combo_PaymentStatus->SelectedData = $row['PaymentStatus'];
 		$combo_Status->SelectedData = $row['Status'];
+		$combo_realted->SelectedData = $row['realted'];
 		$urow = $row; /* unsanitized data */
 		$hc = new CI_Input();
 		$row = $hc->xss_clean($row); /* sanitize data */
 	} else {
+		$combo_type->SelectedText = ( $_REQUEST['FilterField'][1]=='2' && $_REQUEST['FilterOperator'][1]=='<=>' ? (get_magic_quotes_gpc() ? stripslashes($_REQUEST['FilterValue'][1]) : $_REQUEST['FilterValue'][1]) : "Quote");
 		$combo_Customer->SelectedData = $filterer_Customer;
-		$combo_PaymentStatus->SelectedText = ( $_REQUEST['FilterField'][1]=='10' && $_REQUEST['FilterOperator'][1]=='<=>' ? (get_magic_quotes_gpc() ? stripslashes($_REQUEST['FilterValue'][1]) : $_REQUEST['FilterValue'][1]) : "UNPAID");
-		$combo_Status->SelectedText = ( $_REQUEST['FilterField'][1]=='14' && $_REQUEST['FilterOperator'][1]=='<=>' ? (get_magic_quotes_gpc() ? stripslashes($_REQUEST['FilterValue'][1]) : $_REQUEST['FilterValue'][1]) : "OPEN");
+		$combo_PaymentStatus->SelectedText = ( $_REQUEST['FilterField'][1]=='12' && $_REQUEST['FilterOperator'][1]=='<=>' ? (get_magic_quotes_gpc() ? stripslashes($_REQUEST['FilterValue'][1]) : $_REQUEST['FilterValue'][1]) : "UNPAID");
+		$combo_Status->SelectedText = ( $_REQUEST['FilterField'][1]=='16' && $_REQUEST['FilterOperator'][1]=='<=>' ? (get_magic_quotes_gpc() ? stripslashes($_REQUEST['FilterValue'][1]) : $_REQUEST['FilterValue'][1]) : "OPEN");
+		$combo_realted->SelectedData = $filterer_realted;
 	}
+	$combo_type->Render();
 	$combo_Customer->HTML = '<span id="Customer-container' . $rnd1 . '"></span><input type="hidden" name="Customer" id="Customer' . $rnd1 . '" value="' . html_attr($combo_Customer->SelectedData) . '">';
 	$combo_Customer->MatchText = '<span id="Customer-container-readonly' . $rnd1 . '"></span><input type="hidden" name="Customer" id="Customer' . $rnd1 . '" value="' . html_attr($combo_Customer->SelectedData) . '">';
 	$combo_PaymentStatus->Render();
 	$combo_Status->Render();
+	$combo_realted->HTML = '<span id="realted-container' . $rnd1 . '"></span><input type="hidden" name="realted" id="realted' . $rnd1 . '" value="' . html_attr($combo_realted->SelectedData) . '">';
+	$combo_realted->MatchText = '<span id="realted-container-readonly' . $rnd1 . '"></span><input type="hidden" name="realted" id="realted' . $rnd1 . '" value="' . html_attr($combo_realted->SelectedData) . '">';
 
 	ob_start();
 	?>
@@ -366,10 +457,12 @@ function Invoice_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, $Al
 	<script>
 		// initial lookup values
 		AppGini.current_Customer__RAND__ = { text: "", value: "<?php echo addslashes($selected_id ? $urow['Customer'] : $filterer_Customer); ?>"};
+		AppGini.current_realted__RAND__ = { text: "", value: "<?php echo addslashes($selected_id ? $urow['realted'] : $filterer_realted); ?>"};
 
 		jQuery(function() {
 			setTimeout(function() {
 				if(typeof(Customer_reload__RAND__) == 'function') Customer_reload__RAND__();
+				if(typeof(realted_reload__RAND__) == 'function') realted_reload__RAND__();
 			}, 10); /* we need to slightly delay client-side execution of the above code to allow AppGini.ajaxCache to work */
 		});
 		function Customer_reload__RAND__() {
@@ -449,6 +542,83 @@ function Invoice_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, $Al
 		<?php } ?>
 
 		}
+		function realted_reload__RAND__() {
+		<?php if(($AllowUpdate || $AllowInsert) && !$dvprint) { ?>
+
+			$j("#realted-container__RAND__").select2({
+				/* initial default value */
+				initSelection: function(e, c) {
+					$j.ajax({
+						url: 'ajax_combo.php',
+						dataType: 'json',
+						data: { id: AppGini.current_realted__RAND__.value, t: 'Invoice', f: 'realted' },
+						success: function(resp) {
+							c({
+								id: resp.results[0].id,
+								text: resp.results[0].text
+							});
+							$j('[name="realted"]').val(resp.results[0].id);
+							$j('[id=realted-container-readonly__RAND__]').html('<span id="realted-match-text">' + resp.results[0].text + '</span>');
+							if(resp.results[0].id == '<?php echo empty_lookup_value; ?>') { $j('.btn[id=Invoice_view_parent]').hide(); }else{ $j('.btn[id=Invoice_view_parent]').show(); }
+
+
+							if(typeof(realted_update_autofills__RAND__) == 'function') realted_update_autofills__RAND__();
+						}
+					});
+				},
+				width: '100%',
+				formatNoMatches: function(term) { /* */ return '<?php echo addslashes($Translation['No matches found!']); ?>'; },
+				minimumResultsForSearch: 5,
+				loadMorePadding: 200,
+				ajax: {
+					url: 'ajax_combo.php',
+					dataType: 'json',
+					cache: true,
+					data: function(term, page) { /* */ return { s: term, p: page, t: 'Invoice', f: 'realted' }; },
+					results: function(resp, page) { /* */ return resp; }
+				},
+				escapeMarkup: function(str) { /* */ return str; }
+			}).on('change', function(e) {
+				AppGini.current_realted__RAND__.value = e.added.id;
+				AppGini.current_realted__RAND__.text = e.added.text;
+				$j('[name="realted"]').val(e.added.id);
+				if(e.added.id == '<?php echo empty_lookup_value; ?>') { $j('.btn[id=Invoice_view_parent]').hide(); }else{ $j('.btn[id=Invoice_view_parent]').show(); }
+
+
+				if(typeof(realted_update_autofills__RAND__) == 'function') realted_update_autofills__RAND__();
+			});
+
+			if(!$j("#realted-container__RAND__").length) {
+				$j.ajax({
+					url: 'ajax_combo.php',
+					dataType: 'json',
+					data: { id: AppGini.current_realted__RAND__.value, t: 'Invoice', f: 'realted' },
+					success: function(resp) {
+						$j('[name="realted"]').val(resp.results[0].id);
+						$j('[id=realted-container-readonly__RAND__]').html('<span id="realted-match-text">' + resp.results[0].text + '</span>');
+						if(resp.results[0].id == '<?php echo empty_lookup_value; ?>') { $j('.btn[id=Invoice_view_parent]').hide(); }else{ $j('.btn[id=Invoice_view_parent]').show(); }
+
+						if(typeof(realted_update_autofills__RAND__) == 'function') realted_update_autofills__RAND__();
+					}
+				});
+			}
+
+		<?php }else{ ?>
+
+			$j.ajax({
+				url: 'ajax_combo.php',
+				dataType: 'json',
+				data: { id: AppGini.current_realted__RAND__.value, t: 'Invoice', f: 'realted' },
+				success: function(resp) {
+					$j('[id=realted-container__RAND__], [id=realted-container-readonly__RAND__]').html('<span id="realted-match-text">' + resp.results[0].text + '</span>');
+					if(resp.results[0].id == '<?php echo empty_lookup_value; ?>') { $j('.btn[id=Invoice_view_parent]').hide(); }else{ $j('.btn[id=Invoice_view_parent]').show(); }
+
+					if(typeof(realted_update_autofills__RAND__) == 'function') realted_update_autofills__RAND__();
+				}
+			});
+		<?php } ?>
+
+		}
 	</script>
 	<?php
 
@@ -507,6 +677,8 @@ function Invoice_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, $Al
 
 	// set records to read only if user can't insert new records and can't edit current record
 	if(($selected_id && !$AllowUpdate && !$AllowInsert) || (!$selected_id && !$AllowInsert)) {
+		$jsReadOnly .= "\tjQuery('#type').replaceWith('<div class=\"form-control-static\" id=\"type\">' + (jQuery('#type').val() || '') + '</div>'); jQuery('#type-multi-selection-help').hide();\n";
+		$jsReadOnly .= "\tjQuery('#number').replaceWith('<div class=\"form-control-static\" id=\"number\">' + (jQuery('#number').val() || '') + '</div>');\n";
 		$jsReadOnly .= "\tjQuery('#Date').prop('readonly', true);\n";
 		$jsReadOnly .= "\tjQuery('#DateDay, #DateMonth, #DateYear').prop('disabled', true).css({ color: '#555', backgroundColor: '#fff' });\n";
 		$jsReadOnly .= "\tjQuery('#Customer').prop('disabled', true).css({ color: '#555', backgroundColor: '#fff' });\n";
@@ -527,6 +699,8 @@ function Invoice_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, $Al
 	}
 
 	// process combos
+	$templateCode = str_replace('<%%COMBO(type)%%>', $combo_type->HTML, $templateCode);
+	$templateCode = str_replace('<%%COMBOTEXT(type)%%>', $combo_type->SelectedData, $templateCode);
 	$templateCode = str_replace('<%%COMBO(Date)%%>', ($selected_id && !$arrPerm[3] ? '<div class="form-control-static">' . $combo_Date->GetHTML(true) . '</div>' : $combo_Date->GetHTML()), $templateCode);
 	$templateCode = str_replace('<%%COMBOTEXT(Date)%%>', $combo_Date->GetHTML(true), $templateCode);
 	$templateCode = str_replace('<%%COMBO(Customer)%%>', $combo_Customer->HTML, $templateCode);
@@ -536,9 +710,12 @@ function Invoice_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, $Al
 	$templateCode = str_replace('<%%COMBOTEXT(PaymentStatus)%%>', $combo_PaymentStatus->SelectedData, $templateCode);
 	$templateCode = str_replace('<%%COMBO(Status)%%>', $combo_Status->HTML, $templateCode);
 	$templateCode = str_replace('<%%COMBOTEXT(Status)%%>', $combo_Status->SelectedData, $templateCode);
+	$templateCode = str_replace('<%%COMBO(realted)%%>', $combo_realted->HTML, $templateCode);
+	$templateCode = str_replace('<%%COMBOTEXT(realted)%%>', $combo_realted->MatchText, $templateCode);
+	$templateCode = str_replace('<%%URLCOMBOTEXT(realted)%%>', urlencode($combo_realted->MatchText), $templateCode);
 
 	/* lookup fields array: 'lookup field name' => array('parent table name', 'lookup field caption') */
-	$lookup_fields = array('Customer' => array('Customers', 'Customer'), );
+	$lookup_fields = array('Customer' => array('Customers', 'Customer'), 'realted' => array('Invoice', 'Realted'), );
 	foreach($lookup_fields as $luf => $ptfc) {
 		$pt_perm = getTablePermissions($ptfc[0]);
 
@@ -555,6 +732,8 @@ function Invoice_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, $Al
 
 	// process images
 	$templateCode = str_replace('<%%UPLOADFILE(id)%%>', '', $templateCode);
+	$templateCode = str_replace('<%%UPLOADFILE(type)%%>', '', $templateCode);
+	$templateCode = str_replace('<%%UPLOADFILE(number)%%>', '', $templateCode);
 	$templateCode = str_replace('<%%UPLOADFILE(Date)%%>', '', $templateCode);
 	$templateCode = str_replace('<%%UPLOADFILE(Customer)%%>', '', $templateCode);
 	$templateCode = str_replace('<%%UPLOADFILE(PaymentStatus)%%>', '', $templateCode);
@@ -564,12 +743,23 @@ function Invoice_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, $Al
 	$templateCode = str_replace('<%%UPLOADFILE(Status)%%>', '', $templateCode);
 	$templateCode = str_replace('<%%UPLOADFILE(tax)%%>', '', $templateCode);
 	$templateCode = str_replace('<%%UPLOADFILE(Total)%%>', '', $templateCode);
+	$templateCode = str_replace('<%%UPLOADFILE(usrAdd)%%>', '', $templateCode);
+	$templateCode = str_replace('<%%UPLOADFILE(whenAdd)%%>', '', $templateCode);
+	$templateCode = str_replace('<%%UPLOADFILE(usrUpdated)%%>', '', $templateCode);
+	$templateCode = str_replace('<%%UPLOADFILE(whenUpdated)%%>', '', $templateCode);
+	$templateCode = str_replace('<%%UPLOADFILE(realted)%%>', '', $templateCode);
 
 	// process values
 	if($selected_id) {
 		if( $dvprint) $templateCode = str_replace('<%%VALUE(id)%%>', safe_html($urow['id']), $templateCode);
 		if(!$dvprint) $templateCode = str_replace('<%%VALUE(id)%%>', html_attr($row['id']), $templateCode);
 		$templateCode = str_replace('<%%URLVALUE(id)%%>', urlencode($urow['id']), $templateCode);
+		if( $dvprint) $templateCode = str_replace('<%%VALUE(type)%%>', safe_html($urow['type']), $templateCode);
+		if(!$dvprint) $templateCode = str_replace('<%%VALUE(type)%%>', html_attr($row['type']), $templateCode);
+		$templateCode = str_replace('<%%URLVALUE(type)%%>', urlencode($urow['type']), $templateCode);
+		if( $dvprint) $templateCode = str_replace('<%%VALUE(number)%%>', safe_html($urow['number']), $templateCode);
+		if(!$dvprint) $templateCode = str_replace('<%%VALUE(number)%%>', html_attr($row['number']), $templateCode);
+		$templateCode = str_replace('<%%URLVALUE(number)%%>', urlencode($urow['number']), $templateCode);
 		$templateCode = str_replace('<%%VALUE(Date)%%>', @date('m/d/Y', @strtotime(html_attr($row['Date']))), $templateCode);
 		$templateCode = str_replace('<%%URLVALUE(Date)%%>', urlencode(@date('m/d/Y', @strtotime(html_attr($urow['Date'])))), $templateCode);
 		if( $dvprint) $templateCode = str_replace('<%%VALUE(Customer)%%>', safe_html($urow['Customer']), $templateCode);
@@ -595,9 +785,23 @@ function Invoice_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, $Al
 		$templateCode = str_replace('<%%URLVALUE(tax)%%>', urlencode($urow['tax']), $templateCode);
 		$templateCode = str_replace('<%%VALUE(Total)%%>', safe_html($urow['Total']), $templateCode);
 		$templateCode = str_replace('<%%URLVALUE(Total)%%>', urlencode($urow['Total']), $templateCode);
+		$templateCode = str_replace('<%%VALUE(usrAdd)%%>', safe_html($urow['usrAdd']), $templateCode);
+		$templateCode = str_replace('<%%URLVALUE(usrAdd)%%>', urlencode($urow['usrAdd']), $templateCode);
+		$templateCode = str_replace('<%%VALUE(whenAdd)%%>', safe_html($urow['whenAdd']), $templateCode);
+		$templateCode = str_replace('<%%URLVALUE(whenAdd)%%>', urlencode($urow['whenAdd']), $templateCode);
+		$templateCode = str_replace('<%%VALUE(usrUpdated)%%>', safe_html($urow['usrUpdated']), $templateCode);
+		$templateCode = str_replace('<%%URLVALUE(usrUpdated)%%>', urlencode($urow['usrUpdated']), $templateCode);
+		$templateCode = str_replace('<%%VALUE(whenUpdated)%%>', safe_html($urow['whenUpdated']), $templateCode);
+		$templateCode = str_replace('<%%URLVALUE(whenUpdated)%%>', urlencode($urow['whenUpdated']), $templateCode);
+		$templateCode = str_replace('<%%VALUE(realted)%%>', safe_html($urow['realted']), $templateCode);
+		$templateCode = str_replace('<%%URLVALUE(realted)%%>', urlencode($urow['realted']), $templateCode);
 	}else{
 		$templateCode = str_replace('<%%VALUE(id)%%>', '', $templateCode);
 		$templateCode = str_replace('<%%URLVALUE(id)%%>', urlencode(''), $templateCode);
+		$templateCode = str_replace('<%%VALUE(type)%%>', 'Quote', $templateCode);
+		$templateCode = str_replace('<%%URLVALUE(type)%%>', urlencode('Quote'), $templateCode);
+		$templateCode = str_replace('<%%VALUE(number)%%>', '', $templateCode);
+		$templateCode = str_replace('<%%URLVALUE(number)%%>', urlencode(''), $templateCode);
 		$templateCode = str_replace('<%%VALUE(Date)%%>', '1', $templateCode);
 		$templateCode = str_replace('<%%URLVALUE(Date)%%>', urlencode('1'), $templateCode);
 		$templateCode = str_replace('<%%VALUE(Customer)%%>', '', $templateCode);
@@ -616,6 +820,16 @@ function Invoice_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, $Al
 		$templateCode = str_replace('<%%URLVALUE(tax)%%>', urlencode(''), $templateCode);
 		$templateCode = str_replace('<%%VALUE(Total)%%>', '', $templateCode);
 		$templateCode = str_replace('<%%URLVALUE(Total)%%>', urlencode(''), $templateCode);
+		$templateCode = str_replace('<%%VALUE(usrAdd)%%>', '<%%creatorUsername%%>', $templateCode);
+		$templateCode = str_replace('<%%URLVALUE(usrAdd)%%>', urlencode('<%%creatorUsername%%>'), $templateCode);
+		$templateCode = str_replace('<%%VALUE(whenAdd)%%>', '<%%creationDateTime%%>', $templateCode);
+		$templateCode = str_replace('<%%URLVALUE(whenAdd)%%>', urlencode('<%%creationDateTime%%>'), $templateCode);
+		$templateCode = str_replace('<%%VALUE(usrUpdated)%%>', '<%%editorUsername%%>', $templateCode);
+		$templateCode = str_replace('<%%URLVALUE(usrUpdated)%%>', urlencode('<%%editorUsername%%>'), $templateCode);
+		$templateCode = str_replace('<%%VALUE(whenUpdated)%%>', '<%%editingDateTime%%>', $templateCode);
+		$templateCode = str_replace('<%%URLVALUE(whenUpdated)%%>', urlencode('<%%editingDateTime%%>'), $templateCode);
+		$templateCode = str_replace('<%%VALUE(realted)%%>', '', $templateCode);
+		$templateCode = str_replace('<%%URLVALUE(realted)%%>', urlencode(''), $templateCode);
 	}
 
 	// process translations
@@ -674,6 +888,9 @@ function Invoice_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, $Al
 	$templateCode .= $lookups;
 
 	// handle enforced parent values for read-only lookup fields
+	if( $_REQUEST['FilterField'][1]=='23' && $_REQUEST['FilterOperator'][1]=='<=>') {
+		$templateCode.="\n<input type=hidden name=realted value=\"" . html_attr((get_magic_quotes_gpc() ? stripslashes($_REQUEST['FilterValue'][1]) : $_REQUEST['FilterValue'][1]))."\">\n";
+	}
 
 	// don't include blank images in lightbox gallery
 	$templateCode = preg_replace('/blank.gif" data-lightbox=".*?"/', 'blank.gif"', $templateCode);

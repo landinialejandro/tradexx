@@ -14,7 +14,8 @@
 			Email: <?php echo json_encode($jdata['Email']); ?>,
 			Address: <?php echo json_encode($jdata['Address']); ?>,
 			City: <?php echo json_encode($jdata['City']); ?>,
-			Country: <?php echo json_encode($jdata['Country']); ?>
+			Country: <?php echo json_encode($jdata['Country']); ?>,
+			realted: <?php echo json_encode(array('id' => $rdata['realted'], 'value' => $rdata['realted'], 'text' => $jdata['realted'])); ?>
 		};
 
 		/* initialize or continue using AppGini.cache for the current table */
@@ -46,6 +47,14 @@
 				return true;
 			}
 
+			return false;
+		});
+
+		/* saved value for realted */
+		cache.addCheck(function(u, d) {
+			if(u != 'ajax_combo.php') return false;
+			if(d.t == tn && d.f == 'realted' && d.id == data.realted.id)
+				return { results: [ data.realted ], more: false, elapsed: 0.01 };
 			return false;
 		});
 

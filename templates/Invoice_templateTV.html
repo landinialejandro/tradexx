@@ -6,6 +6,8 @@
 <!--     $options->ShowTableHeader = 0;     -->
 
 		<td id="Invoice-id-<%%VALUE(id)%%>" class="Invoice-id text-right"><%%SELECT%%><%%VALUE(id)%%><%%ENDSELECT%%></td>
+		<td id="Invoice-type-<%%VALUE(id)%%>" class="Invoice-type"><%%SELECT%%><%%VALUE(type)%%><%%ENDSELECT%%></td>
+		<td id="Invoice-number-<%%VALUE(id)%%>" class="Invoice-number text-right"><%%SELECT%%><%%VALUE(number)%%><%%ENDSELECT%%></td>
 		<td id="Invoice-Date-<%%VALUE(id)%%>" class="Invoice-Date"><%%SELECT%%><%%VALUE(Date)%%><%%ENDSELECT%%></td>
 		<td id="Invoice-Customer-<%%VALUE(id)%%>" class="Invoice-Customer"><%%SELECT%%><%%VALUE(Customer)%%><%%ENDSELECT%%></td>
 		<td id="Invoice-Phone-<%%VALUE(id)%%>" class="Invoice-Phone"><%%SELECT%%><%%VALUE(Phone)%%><%%ENDSELECT%%></td>
@@ -18,3 +20,4 @@
 		<td id="Invoice-Status-<%%VALUE(id)%%>" class="Invoice-Status"><%%SELECT%%><%%VALUE(Status)%%><%%ENDSELECT%%></td>
 		<td id="Invoice-tax-<%%VALUE(id)%%>" class="Invoice-tax"><%%SELECT%%><%%VALUE(tax)%%><%%ENDSELECT%%></td>
 		<td id="Invoice-Total-<%%VALUE(id)%%>" class="Invoice-Total"><%%SELECT%%><%%VALUE(Total)%%><%%ENDSELECT%%></td>
+		<td id="Invoice-realted-<%%VALUE(id)%%>" class="Invoice-realted"><%%SELECT%%><%%VALUE(realted)%%><%%ENDSELECT%%></td>

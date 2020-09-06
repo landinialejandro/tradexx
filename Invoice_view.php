@@ -23,6 +23,8 @@
 	// Fields that can be displayed in the table view
 	$x->QueryFieldsTV = array(
 		"`Invoice`.`id`" => "id",
+		"`Invoice`.`type`" => "type",
+		"`Invoice`.`number`" => "number",
 		"if(`Invoice`.`Date`,date_format(`Invoice`.`Date`,'%m/%d/%Y'),'')" => "Date",
 		"IF(    CHAR_LENGTH(`Customers1`.`Title`), CONCAT_WS('',   `Customers1`.`Title`), '') /* Title */" => "Title",
 		"IF(    CHAR_LENGTH(`Customers1`.`Customer`), CONCAT_WS('',   `Customers1`.`Customer`), '') /* Customer */" => "Customer",
@@ -38,30 +40,44 @@
 		"`Invoice`.`Status`" => "Status",
 		"`Invoice`.`tax`" => "tax",
 		"`Invoice`.`Total`" => "Total",
+		"`Invoice`.`usrAdd`" => "usrAdd",
+		"`Invoice`.`whenAdd`" => "whenAdd",
+		"`Invoice`.`usrUpdated`" => "usrUpdated",
+		"`Invoice`.`whenUpdated`" => "whenUpdated",
+		"IF(    CHAR_LENGTH(`Invoice1`.`id`) || CHAR_LENGTH(`Invoice1`.`number`), CONCAT_WS('',   `Invoice1`.`id`, ' - ', `Invoice1`.`number`), '') /* Realted */" => "realted",
 	);
 	// mapping incoming sort by requests to actual query fields
 	$x->SortFields = array(
 		1 => '`Invoice`.`id`',
-		2 => '`Invoice`.`Date`',
-		3 => '`Customers1`.`Title`',
-		4 => '`Customers1`.`Customer`',
-		5 => '`Customers1`.`Phone`',
-		6 => '`Customers1`.`Email`',
-		7 => '`Customers1`.`Address`',
-		8 => 8,
-		9 => 9,
+		2 => 2,
+		3 => '`Invoice`.`number`',
+		4 => '`Invoice`.`Date`',
+		5 => '`Customers1`.`Title`',
+		6 => '`Customers1`.`Customer`',
+		7 => '`Customers1`.`Phone`',
+		8 => '`Customers1`.`Email`',
+		9 => '`Customers1`.`Address`',
 		10 => 10,
-		11 => '`Invoice`.`AmountDUE`',
-		12 => '`Invoice`.`AmountPAID`',
-		13 => '`Invoice`.`Balance`',
-		14 => 14,
-		15 => 15,
+		11 => 11,
+		12 => 12,
+		13 => '`Invoice`.`AmountDUE`',
+		14 => '`Invoice`.`AmountPAID`',
+		15 => '`Invoice`.`Balance`',
 		16 => 16,
+		17 => 17,
+		18 => 18,
+		19 => 19,
+		20 => 20,
+		21 => 21,
+		22 => 22,
+		23 => 23,
 	);
 
 	// Fields that can be displayed in the csv file
 	$x->QueryFieldsCSV = array(
 		"`Invoice`.`id`" => "id",
+		"`Invoice`.`type`" => "type",
+		"`Invoice`.`number`" => "number",
 		"if(`Invoice`.`Date`,date_format(`Invoice`.`Date`,'%m/%d/%Y'),'')" => "Date",
 		"IF(    CHAR_LENGTH(`Customers1`.`Title`), CONCAT_WS('',   `Customers1`.`Title`), '') /* Title */" => "Title",
 		"IF(    CHAR_LENGTH(`Customers1`.`Customer`), CONCAT_WS('',   `Customers1`.`Customer`), '') /* Customer */" => "Customer",
@@ -77,10 +93,17 @@
 		"`Invoice`.`Status`" => "Status",
 		"`Invoice`.`tax`" => "tax",
 		"`Invoice`.`Total`" => "Total",
+		"`Invoice`.`usrAdd`" => "usrAdd",
+		"`Invoice`.`whenAdd`" => "whenAdd",
+		"`Invoice`.`usrUpdated`" => "usrUpdated",
+		"`Invoice`.`whenUpdated`" => "whenUpdated",
+		"IF(    CHAR_LENGTH(`Invoice1`.`id`) || CHAR_LENGTH(`Invoice1`.`number`), CONCAT_WS('',   `Invoice1`.`id`, ' - ', `Invoice1`.`number`), '') /* Realted */" => "realted",
 	);
 	// Fields that can be filtered
 	$x->QueryFieldsFilters = array(
 		"`Invoice`.`id`" => "ID",
+		"`Invoice`.`type`" => "Type",
+		"`Invoice`.`number`" => "Number",
 		"`Invoice`.`Date`" => "Date",
 		"IF(    CHAR_LENGTH(`Customers1`.`Title`), CONCAT_WS('',   `Customers1`.`Title`), '') /* Title */" => "Title",
 		"IF(    CHAR_LENGTH(`Customers1`.`Customer`), CONCAT_WS('',   `Customers1`.`Customer`), '') /* Customer */" => "Customer",
@@ -96,11 +119,18 @@
 		"`Invoice`.`Status`" => "Status",
 		"`Invoice`.`tax`" => "Tax",
 		"`Invoice`.`Total`" => "Total",
+		"`Invoice`.`usrAdd`" => "Created By",
+		"`Invoice`.`whenAdd`" => "When is Added",
+		"`Invoice`.`usrUpdated`" => "UsrUpdated",
+		"`Invoice`.`whenUpdated`" => "WhenUpdated",
+		"IF(    CHAR_LENGTH(`Invoice1`.`id`) || CHAR_LENGTH(`Invoice1`.`number`), CONCAT_WS('',   `Invoice1`.`id`, ' - ', `Invoice1`.`number`), '') /* Realted */" => "Realted",
 	);
 
 	// Fields that can be quick searched
 	$x->QueryFieldsQS = array(
 		"`Invoice`.`id`" => "id",
+		"`Invoice`.`type`" => "type",
+		"`Invoice`.`number`" => "number",
 		"if(`Invoice`.`Date`,date_format(`Invoice`.`Date`,'%m/%d/%Y'),'')" => "Date",
 		"IF(    CHAR_LENGTH(`Customers1`.`Title`), CONCAT_WS('',   `Customers1`.`Title`), '') /* Title */" => "Title",
 		"IF(    CHAR_LENGTH(`Customers1`.`Customer`), CONCAT_WS('',   `Customers1`.`Customer`), '') /* Customer */" => "Customer",
@@ -116,12 +146,17 @@
 		"`Invoice`.`Status`" => "Status",
 		"`Invoice`.`tax`" => "tax",
 		"`Invoice`.`Total`" => "Total",
+		"`Invoice`.`usrAdd`" => "usrAdd",
+		"`Invoice`.`whenAdd`" => "whenAdd",
+		"`Invoice`.`usrUpdated`" => "usrUpdated",
+		"`Invoice`.`whenUpdated`" => "whenUpdated",
+		"IF(    CHAR_LENGTH(`Invoice1`.`id`) || CHAR_LENGTH(`Invoice1`.`number`), CONCAT_WS('',   `Invoice1`.`id`, ' - ', `Invoice1`.`number`), '') /* Realted */" => "realted",
 	);
 
 	// Lookup fields that can be used as filterers
-	$x->filterers = array('Customer' => 'Customer', );
+	$x->filterers = array('Customer' => 'Customer', 'realted' => 'Realted', );
 
-	$x->QueryFrom = "`Invoice` LEFT JOIN `Customers` as Customers1 ON `Customers1`.`id`=`Invoice`.`Customer` LEFT JOIN `City` as City1 ON `City1`.`id`=`Customers1`.`City` LEFT JOIN `Country` as Country1 ON `Country1`.`id`=`Customers1`.`Country` ";
+	$x->QueryFrom = "`Invoice` LEFT JOIN `Customers` as Customers1 ON `Customers1`.`id`=`Invoice`.`Customer` LEFT JOIN `Invoice` as Invoice1 ON `Invoice1`.`id`=`Invoice`.`realted` LEFT JOIN `City` as City1 ON `City1`.`id`=`Customers1`.`City` LEFT JOIN `Country` as Country1 ON `Country1`.`id`=`Customers1`.`Country` ";
 	$x->QueryWhere = '';
 	$x->QueryOrder = '';
 
@@ -149,10 +184,10 @@
 	$x->TableIcon = "resources/table_icons/Invoices.png";
 	$x->PrimaryKey = "`Invoice`.`id`";
 
-	$x->ColWidth   = array(  150, 150, 150, 150, 150, 150, 150, 150, 150, 150, 150, 150, 150);
-	$x->ColCaption = array("ID", "Date", "Customer", "Phone", "Email", "Country", "Payment Status", "Due amount", "Amount paid", "Balance", "Status", "Tax", "Total");
-	$x->ColFieldName = array('id', 'Date', 'Customer', 'Phone', 'Email', 'Country', 'PaymentStatus', 'AmountDUE', 'AmountPAID', 'Balance', 'Status', 'tax', 'Total');
-	$x->ColNumber  = array(1, 2, 4, 5, 6, 9, 10, 11, 12, 13, 14, 15, 16);
+	$x->ColWidth   = array(  150, 150, 150, 150, 150, 150, 150, 150, 150, 150, 150, 150, 150, 150, 150, 150);
+	$x->ColCaption = array("ID", "Type", "Number", "Date", "Customer", "Phone", "Email", "Country", "Payment Status", "Due amount", "Amount paid", "Balance", "Status", "Tax", "Total", "Realted");
+	$x->ColFieldName = array('id', 'type', 'number', 'Date', 'Customer', 'Phone', 'Email', 'Country', 'PaymentStatus', 'AmountDUE', 'AmountPAID', 'Balance', 'Status', 'tax', 'Total', 'realted');
+	$x->ColNumber  = array(1, 2, 3, 4, 6, 7, 8, 11, 12, 13, 14, 15, 16, 17, 18, 23);
 
 	// template paths below are based on the app main directory
 	$x->Template = 'templates/Invoice_templateTV.html';
@@ -215,6 +250,8 @@
 			$sumRow = '<tr class="success">';
 			if(!isset($_REQUEST['Print_x'])) $sumRow .= '<td class="text-center"><strong>&sum;</strong></td>';
 			$sumRow .= '<td class="Invoice-id"></td>';
+			$sumRow .= '<td class="Invoice-type"></td>';
+			$sumRow .= '<td class="Invoice-number"></td>';
 			$sumRow .= '<td class="Invoice-Date"></td>';
 			$sumRow .= '<td class="Invoice-Customer"></td>';
 			$sumRow .= '<td class="Invoice-Phone"></td>';
@@ -227,6 +264,7 @@
 			$sumRow .= '<td class="Invoice-Status"></td>';
 			$sumRow .= '<td class="Invoice-tax"></td>';
 			$sumRow .= '<td class="Invoice-Total"></td>';
+			$sumRow .= '<td class="Invoice-realted"></td>';
 			$sumRow .= '</tr>';
 
 			$x->HTML = str_replace('<!-- tv data below -->', '', $x->HTML);

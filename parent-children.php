@@ -86,9 +86,9 @@
 					'display-refresh' => true,
 					'display-add-new' => true,
 					'forced-where' => '',
-					'display-fields' => array(0 => 'ID', 1 => 'Date', 3 => 'Customer', 4 => 'Phone', 5 => 'Email', 8 => 'Country', 9 => 'Payment Status', 10 => 'Due amount', 11 => 'Amount paid', 12 => 'Balance', 13 => 'Status', 14 => 'Tax', 15 => 'Total'),
-					'display-field-names' => array(0 => 'id', 1 => 'Date', 3 => 'Customer', 4 => 'Phone', 5 => 'Email', 8 => 'Country', 9 => 'PaymentStatus', 10 => 'AmountDUE', 11 => 'AmountPAID', 12 => 'Balance', 13 => 'Status', 14 => 'tax', 15 => 'Total'),
-					'sortable-fields' => array(0 => '`Invoice`.`id`', 1 => '`Invoice`.`Date`', 2 => '`Customers1`.`Title`', 3 => '`Customers1`.`Customer`', 4 => '`Customers1`.`Phone`', 5 => '`Customers1`.`Email`', 6 => '`Customers1`.`Address`', 7 => 8, 8 => 9, 9 => 10, 10 => '`Invoice`.`AmountDUE`', 11 => '`Invoice`.`AmountPAID`', 12 => '`Invoice`.`Balance`', 13 => 14, 14 => 15, 15 => 16),
+					'display-fields' => array(0 => 'ID', 1 => 'Type', 2 => 'Number', 3 => 'Date', 5 => 'Customer', 6 => 'Phone', 7 => 'Email', 10 => 'Country', 11 => 'Payment Status', 12 => 'Due amount', 13 => 'Amount paid', 14 => 'Balance', 15 => 'Status', 16 => 'Tax', 17 => 'Total', 22 => 'Realted'),
+					'display-field-names' => array(0 => 'id', 1 => 'type', 2 => 'number', 3 => 'Date', 5 => 'Customer', 6 => 'Phone', 7 => 'Email', 10 => 'Country', 11 => 'PaymentStatus', 12 => 'AmountDUE', 13 => 'AmountPAID', 14 => 'Balance', 15 => 'Status', 16 => 'tax', 17 => 'Total', 22 => 'realted'),
+					'sortable-fields' => array(0 => '`Invoice`.`id`', 1 => 2, 2 => '`Invoice`.`number`', 3 => '`Invoice`.`Date`', 4 => '`Customers1`.`Title`', 5 => '`Customers1`.`Customer`', 6 => '`Customers1`.`Phone`', 7 => '`Customers1`.`Email`', 8 => '`Customers1`.`Address`', 9 => 10, 10 => 11, 11 => 12, 12 => '`Invoice`.`AmountDUE`', 13 => '`Invoice`.`AmountPAID`', 14 => '`Invoice`.`Balance`', 15 => 16, 16 => 17, 17 => 18, 18 => 19, 19 => 20, 20 => 21, 21 => 22, 22 => 23),
 					'records-per-page' => 10,
 					'default-sort-by' => false,
 					'default-sort-direction' => 'asc',
@@ -97,7 +97,7 @@
 					'show-page-progress' => true,
 					'template' => 'children-Invoice',
 					'template-printable' => 'children-Invoice-printable',
-					'query' => "SELECT `Invoice`.`id` as 'id', if(`Invoice`.`Date`,date_format(`Invoice`.`Date`,'%m/%d/%Y'),'') as 'Date', IF(    CHAR_LENGTH(`Customers1`.`Title`), CONCAT_WS('',   `Customers1`.`Title`), '') as 'Title', IF(    CHAR_LENGTH(`Customers1`.`Customer`), CONCAT_WS('',   `Customers1`.`Customer`), '') as 'Customer', IF(    CHAR_LENGTH(`Customers1`.`Phone`), CONCAT_WS('',   `Customers1`.`Phone`), '') as 'Phone', IF(    CHAR_LENGTH(`Customers1`.`Email`), CONCAT_WS('',   `Customers1`.`Email`), '') as 'Email', IF(    CHAR_LENGTH(`Customers1`.`Address`), CONCAT_WS('',   `Customers1`.`Address`), '') as 'Address', IF(    CHAR_LENGTH(`City1`.`City`), CONCAT_WS('',   `City1`.`City`), '') as 'City', IF(    CHAR_LENGTH(`Country1`.`Country`), CONCAT_WS('',   `Country1`.`Country`), '') as 'Country', `Invoice`.`PaymentStatus` as 'PaymentStatus', `Invoice`.`AmountDUE` as 'AmountDUE', `Invoice`.`AmountPAID` as 'AmountPAID', `Invoice`.`Balance` as 'Balance', `Invoice`.`Status` as 'Status', `Invoice`.`tax` as 'tax', `Invoice`.`Total` as 'Total' FROM `Invoice` LEFT JOIN `Customers` as Customers1 ON `Customers1`.`id`=`Invoice`.`Customer` LEFT JOIN `City` as City1 ON `City1`.`id`=`Customers1`.`City` LEFT JOIN `Country` as Country1 ON `Country1`.`id`=`Customers1`.`Country` "
+					'query' => "SELECT `Invoice`.`id` as 'id', `Invoice`.`type` as 'type', `Invoice`.`number` as 'number', if(`Invoice`.`Date`,date_format(`Invoice`.`Date`,'%m/%d/%Y'),'') as 'Date', IF(    CHAR_LENGTH(`Customers1`.`Title`), CONCAT_WS('',   `Customers1`.`Title`), '') as 'Title', IF(    CHAR_LENGTH(`Customers1`.`Customer`), CONCAT_WS('',   `Customers1`.`Customer`), '') as 'Customer', IF(    CHAR_LENGTH(`Customers1`.`Phone`), CONCAT_WS('',   `Customers1`.`Phone`), '') as 'Phone', IF(    CHAR_LENGTH(`Customers1`.`Email`), CONCAT_WS('',   `Customers1`.`Email`), '') as 'Email', IF(    CHAR_LENGTH(`Customers1`.`Address`), CONCAT_WS('',   `Customers1`.`Address`), '') as 'Address', IF(    CHAR_LENGTH(`City1`.`City`), CONCAT_WS('',   `City1`.`City`), '') as 'City', IF(    CHAR_LENGTH(`Country1`.`Country`), CONCAT_WS('',   `Country1`.`Country`), '') as 'Country', `Invoice`.`PaymentStatus` as 'PaymentStatus', `Invoice`.`AmountDUE` as 'AmountDUE', `Invoice`.`AmountPAID` as 'AmountPAID', `Invoice`.`Balance` as 'Balance', `Invoice`.`Status` as 'Status', `Invoice`.`tax` as 'tax', `Invoice`.`Total` as 'Total', `Invoice`.`usrAdd` as 'usrAdd', `Invoice`.`whenAdd` as 'whenAdd', `Invoice`.`usrUpdated` as 'usrUpdated', `Invoice`.`whenUpdated` as 'whenUpdated', IF(    CHAR_LENGTH(`Invoice1`.`id`) || CHAR_LENGTH(`Invoice1`.`number`), CONCAT_WS('',   `Invoice1`.`id`, ' - ', `Invoice1`.`number`), '') as 'realted' FROM `Invoice` LEFT JOIN `Customers` as Customers1 ON `Customers1`.`id`=`Invoice`.`Customer` LEFT JOIN `Invoice` as Invoice1 ON `Invoice1`.`id`=`Invoice`.`realted` LEFT JOIN `City` as City1 ON `City1`.`id`=`Customers1`.`City` LEFT JOIN `Country` as Country1 ON `Country1`.`id`=`Customers1`.`Country` "
 				),
 			),
 			'InvoiceDetails' => array(
@@ -108,7 +108,7 @@
 					'child-primary-key-index' => 0,
 					'tab-label' => 'InvoiceDetails <span class="hidden child-label-InvoiceDetails child-field-caption">(Invoice)</span>',
 					'auto-close' => false,
-					'table-icon' => 'table.gif',
+					'table-icon' => 'resources/table_icons/basket_put.png',
 					'display-refresh' => true,
 					'display-add-new' => true,
 					'forced-where' => '',

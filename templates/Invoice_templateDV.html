@@ -8,7 +8,13 @@
 	<div class="row vspacer-md">
 		<div class="col-xs-12">
 			<input type="hidden" id="Status_hclink" value="Status_view.php?filterer_Invoice=<%%URLVALUE(id)%%>&<%%EMBEDDED%%>">
+			<a class="hidden-xs btn btn-default btn-lg pull-right hidden hspacer-sm" href="Invoice_view.php?filterer_realted=<%%URLVALUE(id)%%>&<%%EMBEDDED%%>" id="Invoice_link"><i class="glyphicon glyphicon-list-alt"></i> INVOICE</a>
+			<a class="visible-xs btn btn-default btn-lg btn-block hidden vspacer-sm" href="Invoice_view.php?filterer_realted=<%%URLVALUE(id)%%>&<%%EMBEDDED%%>" id="xs_Invoice_link"><i class="glyphicon glyphicon-list-alt"></i> INVOICE</a>
+			<input type="hidden" id="Invoice_hclink" value="Invoice_view.php?filterer_realted=<%%URLVALUE(id)%%>&<%%EMBEDDED%%>">
 			<input type="hidden" id="InvoiceDetails_hclink" value="InvoiceDetails_view.php?filterer_invoice=<%%URLVALUE(id)%%>&<%%EMBEDDED%%>">
+			<a class="hidden-xs btn btn-default btn-lg pull-right hidden hspacer-sm" href="Accounting_view.php?filterer_invoice=<%%URLVALUE(id)%%>&<%%EMBEDDED%%>" id="Accounting_link"><i class="glyphicon glyphicon-list-alt"></i> CASH FLOW</a>
+			<a class="visible-xs btn btn-default btn-lg btn-block hidden vspacer-sm" href="Accounting_view.php?filterer_invoice=<%%URLVALUE(id)%%>&<%%EMBEDDED%%>" id="xs_Accounting_link"><i class="glyphicon glyphicon-list-alt"></i> CASH FLOW</a>
+			<input type="hidden" id="Accounting_hclink" value="Accounting_view.php?filterer_invoice=<%%URLVALUE(id)%%>&<%%EMBEDDED%%>">
 			<div class="clearfix"></div>
 		</div>
 	</div>
@@ -24,6 +30,26 @@
 					<label for="id" class="control-label col-lg-3">ID</label>
 					<div class="col-lg-9">
 						<div class="form-control-static" id="id"><%%VALUE(id)%%></div>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<hr class="hidden-md hidden-lg">
+					<label for="type" class="control-label col-lg-3">Type <i class="glyphicon glyphicon-info-sign text-info" data-toggle="collapse" data-target="#type-description"></i></label>
+					<div class="col-lg-9">
+						<span class="help-block collapse" id="type-description"><div class="alert alert-info">Select type of invoice</div></span>
+
+						<%%COMBO(type)%%>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<hr class="hidden-md hidden-lg">
+					<label for="number" class="control-label col-lg-3">Number<span class="text-danger"><%%TRANSLATION(*)%%></span> <i class="glyphicon glyphicon-info-sign text-info" data-toggle="collapse" data-target="#number-description"></i></label>
+					<div class="col-lg-9">
+						<span class="help-block collapse" id="number-description"><div class="alert alert-info">Invoice Number</div></span>
+
+						<input maxlength="" type="text" class="form-control" name="number" id="number" value="<%%VALUE(number)%%>" required>
 					</div>
 				</div>
 
@@ -144,6 +170,48 @@
 					<label for="Total" class="control-label col-lg-3">Total</label>
 					<div class="col-lg-9">
 						<div class="form-control-static" id="Total"><%%VALUE(Total)%%></div>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<hr class="hidden-md hidden-lg">
+					<label for="usrAdd" class="control-label col-lg-3">Created By</label>
+					<div class="col-lg-9">
+						<div class="form-control-static" id="usrAdd"><%%VALUE(usrAdd)%%></div>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<hr class="hidden-md hidden-lg">
+					<label for="whenAdd" class="control-label col-lg-3">When is Added</label>
+					<div class="col-lg-9">
+						<div class="form-control-static" id="whenAdd"><%%VALUE(whenAdd)%%></div>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<hr class="hidden-md hidden-lg">
+					<label for="usrUpdated" class="control-label col-lg-3">UsrUpdated</label>
+					<div class="col-lg-9">
+						<div class="form-control-static" id="usrUpdated"><%%VALUE(usrUpdated)%%></div>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<hr class="hidden-md hidden-lg">
+					<label for="whenUpdated" class="control-label col-lg-3">WhenUpdated</label>
+					<div class="col-lg-9">
+						<div class="form-control-static" id="whenUpdated"><%%VALUE(whenUpdated)%%></div>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<hr class="hidden-md hidden-lg">
+					<label for="realted" class="control-label col-lg-3" data-parent_link="view_parent_modal">Realted <i class="glyphicon glyphicon-info-sign text-info" data-toggle="collapse" data-target="#realted-description"></i></label>
+					<div class="col-lg-9">
+						<span class="help-block collapse" id="realted-description"><div class="alert alert-info">Documento relacionado, puede ser una nueva factura o una cotizaci&#243;n. Se genra solo al copiar un documento</div></span>
+
+						<div class="form-control-static"><span id="realted-readonly"><%%COMBOTEXT(realted)%%></span> <%%PLINK(realted)%%></div>
 					</div>
 				</div>
 

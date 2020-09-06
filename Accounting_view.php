@@ -23,6 +23,7 @@
 	// Fields that can be displayed in the table view
 	$x->QueryFieldsTV = array(
 		"`Accounting`.`id`" => "id",
+		"IF(    CHAR_LENGTH(`Invoice1`.`number`) || CHAR_LENGTH(`Customers1`.`Customer`), CONCAT_WS('',   `Invoice1`.`number`, ' - ', `Customers1`.`Customer`), '') /* Invoice */" => "invoice",
 		"if(`Accounting`.`date`,date_format(`Accounting`.`date`,'%m/%d/%Y'),'')" => "date",
 		"`Accounting`.`description`" => "description",
 		"IF(    CHAR_LENGTH(`MasterAccount1`.`masterAccount`), CONCAT_WS('',   `MasterAccount1`.`masterAccount`), '') /* Master account */" => "master_acount",
@@ -35,19 +36,21 @@
 	// mapping incoming sort by requests to actual query fields
 	$x->SortFields = array(
 		1 => '`Accounting`.`id`',
-		2 => '`Accounting`.`date`',
-		3 => 3,
-		4 => '`MasterAccount1`.`masterAccount`',
-		5 => '`Account1`.`Account`',
-		6 => '`SubAccount1`.`subAccount`',
-		7 => '`Type1`.`type`',
-		8 => '`Accounting`.`amount`',
-		9 => '`Accounting`.`balance`',
+		2 => 2,
+		3 => '`Accounting`.`date`',
+		4 => 4,
+		5 => '`MasterAccount1`.`masterAccount`',
+		6 => '`Account1`.`Account`',
+		7 => '`SubAccount1`.`subAccount`',
+		8 => '`Type1`.`type`',
+		9 => '`Accounting`.`amount`',
+		10 => '`Accounting`.`balance`',
 	);
 
 	// Fields that can be displayed in the csv file
 	$x->QueryFieldsCSV = array(
 		"`Accounting`.`id`" => "id",
+		"IF(    CHAR_LENGTH(`Invoice1`.`number`) || CHAR_LENGTH(`Customers1`.`Customer`), CONCAT_WS('',   `Invoice1`.`number`, ' - ', `Customers1`.`Customer`), '') /* Invoice */" => "invoice",
 		"if(`Accounting`.`date`,date_format(`Accounting`.`date`,'%m/%d/%Y'),'')" => "date",
 		"`Accounting`.`description`" => "description",
 		"IF(    CHAR_LENGTH(`MasterAccount1`.`masterAccount`), CONCAT_WS('',   `MasterAccount1`.`masterAccount`), '') /* Master account */" => "master_acount",
@@ -60,6 +63,7 @@
 	// Fields that can be filtered
 	$x->QueryFieldsFilters = array(
 		"`Accounting`.`id`" => "ID",
+		"IF(    CHAR_LENGTH(`Invoice1`.`number`) || CHAR_LENGTH(`Customers1`.`Customer`), CONCAT_WS('',   `Invoice1`.`number`, ' - ', `Customers1`.`Customer`), '') /* Invoice */" => "Invoice",
 		"`Accounting`.`date`" => "Date",
 		"`Accounting`.`description`" => "Description",
 		"IF(    CHAR_LENGTH(`MasterAccount1`.`masterAccount`), CONCAT_WS('',   `MasterAccount1`.`masterAccount`), '') /* Master account */" => "Master account",
@@ -73,6 +77,7 @@
 	// Fields that can be quick searched
 	$x->QueryFieldsQS = array(
 		"`Accounting`.`id`" => "id",
+		"IF(    CHAR_LENGTH(`Invoice1`.`number`) || CHAR_LENGTH(`Customers1`.`Customer`), CONCAT_WS('',   `Invoice1`.`number`, ' - ', `Customers1`.`Customer`), '') /* Invoice */" => "invoice",
 		"if(`Accounting`.`date`,date_format(`Accounting`.`date`,'%m/%d/%Y'),'')" => "date",
 		"`Accounting`.`description`" => "description",
 		"IF(    CHAR_LENGTH(`MasterAccount1`.`masterAccount`), CONCAT_WS('',   `MasterAccount1`.`masterAccount`), '') /* Master account */" => "master_acount",
@@ -84,9 +89,9 @@
 	);
 
 	// Lookup fields that can be used as filterers
-	$x->filterers = array('master_acount' => 'Master account', 'account' => 'Account', 'sub_account' => 'Subaccount', 'type' => 'Type', );
+	$x->filterers = array('invoice' => 'Invoice', 'master_acount' => 'Master account', 'account' => 'Account', 'sub_account' => 'Subaccount', 'type' => 'Type', );
 
-	$x->QueryFrom = "`Accounting` LEFT JOIN `MasterAccount` as MasterAccount1 ON `MasterAccount1`.`id`=`Accounting`.`master_acount` LEFT JOIN `Account` as Account1 ON `Account1`.`id`=`Accounting`.`account` LEFT JOIN `SubAccount` as SubAccount1 ON `SubAccount1`.`id`=`Accounting`.`sub_account` LEFT JOIN `Type` as Type1 ON `Type1`.`id`=`Accounting`.`type` ";
+	$x->QueryFrom = "`Accounting` LEFT JOIN `Invoice` as Invoice1 ON `Invoice1`.`id`=`Accounting`.`invoice` LEFT JOIN `Customers` as Customers1 ON `Customers1`.`id`=`Invoice1`.`Customer` LEFT JOIN `MasterAccount` as MasterAccount1 ON `MasterAccount1`.`id`=`Accounting`.`master_acount` LEFT JOIN `Account` as Account1 ON `Account1`.`id`=`Accounting`.`account` LEFT JOIN `SubAccount` as SubAccount1 ON `SubAccount1`.`id`=`Accounting`.`sub_account` LEFT JOIN `Type` as Type1 ON `Type1`.`id`=`Accounting`.`type` ";
 	$x->QueryWhere = '';
 	$x->QueryOrder = '';
 
@@ -114,10 +119,10 @@
 	$x->TableIcon = "resources/table_icons/Cashflow.png";
 	$x->PrimaryKey = "`Accounting`.`id`";
 
-	$x->ColWidth   = array(  150, 150, 150, 150, 150, 150, 150, 150);
-	$x->ColCaption = array("Date", "Description", "Master account", "Account", "Subaccount", "Type", "Amount", "Balance");
-	$x->ColFieldName = array('date', 'description', 'master_acount', 'account', 'sub_account', 'type', 'amount', 'balance');
-	$x->ColNumber  = array(2, 3, 4, 5, 6, 7, 8, 9);
+	$x->ColWidth   = array(  150, 150, 150, 150, 150, 150, 150, 150, 150);
+	$x->ColCaption = array("Invoice", "Date", "Description", "Master account", "Account", "Subaccount", "Type", "Amount", "Balance");
+	$x->ColFieldName = array('invoice', 'date', 'description', 'master_acount', 'account', 'sub_account', 'type', 'amount', 'balance');
+	$x->ColNumber  = array(2, 3, 4, 5, 6, 7, 8, 9, 10);
 
 	// template paths below are based on the app main directory
 	$x->Template = 'templates/Accounting_templateTV.html';
@@ -179,6 +184,7 @@
 		if($row = db_fetch_row($res)) {
 			$sumRow = '<tr class="success">';
 			if(!isset($_REQUEST['Print_x'])) $sumRow .= '<td class="text-center"><strong>&sum;</strong></td>';
+			$sumRow .= '<td class="Accounting-invoice"></td>';
 			$sumRow .= '<td class="Accounting-date"></td>';
 			$sumRow .= '<td class="Accounting-description"></td>';
 			$sumRow .= '<td class="Accounting-master_acount"></td>';

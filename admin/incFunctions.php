@@ -179,9 +179,9 @@
 					'homepageShowCount' => 1
 				),
 				'InvoiceDetails' => array(
-					'Caption' => 'InvoiceDetails',
+					'Caption' => 'Datails',
 					'Description' => '',
-					'tableIcon' => 'table.gif',
+					'tableIcon' => 'resources/table_icons/basket_put.png',
 					'group' => $tg[5],
 					'homepageShowCount' => 0
 				),
@@ -429,7 +429,7 @@
 				'Tracking' => 'TRACKING',
 				'Status' => 'STATUS',
 				'Invoice' => 'INVOICE',
-				'InvoiceDetails' => 'InvoiceDetails',
+				'InvoiceDetails' => 'Datails',
 				'Products' => 'PRODUCTS',
 				'WHJournal' => 'WH JOURNAL',
 				'CRM' => 'CRM',
@@ -2275,6 +2275,7 @@
 			),
 			'Invoice' => array(
 				'Customers' => array('Customer'),
+				'Invoice' => array('realted'),
 			),
 			'InvoiceDetails' => array(
 				'Invoice' => array('invoice'),
@@ -2343,6 +2344,7 @@
 				'Customers' => array('Customer'),
 			),
 			'Accounting' => array(
+				'Invoice' => array('invoice'),
 				'MasterAccount' => array('master_acount'),
 				'Account' => array('account'),
 				'SubAccount' => array('sub_account'),

@@ -100,8 +100,8 @@
 	$x->QuickSearchText = $Translation["quick search"];
 	$x->ScriptFileName = "InvoiceDetails_view.php";
 	$x->RedirectAfterInsert = "InvoiceDetails_view.php?SelectedID=#ID#";
-	$x->TableTitle = "InvoiceDetails";
-	$x->TableIcon = "table.gif";
+	$x->TableTitle = "Datails";
+	$x->TableIcon = "resources/table_icons/basket_put.png";
 	$x->PrimaryKey = "`InvoiceDetails`.`id`";
 
 	$x->ColWidth   = array(  150, 150, 150, 150, 150);

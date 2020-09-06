@@ -121,6 +121,8 @@
 		),
 		'Invoice' => array(
 			'id' => array('appgini' => 'INT unsigned not null primary key auto_increment '),
+			'type' => array('appgini' => 'VARCHAR(40) null default \'Quote\' '),
+			'number' => array('appgini' => 'INT not null '),
 			'Date' => array('appgini' => 'DATE null '),
 			'Title' => array('appgini' => 'INT unsigned null '),
 			'Customer' => array('appgini' => 'INT unsigned null '),
@@ -136,6 +138,11 @@
 			'Status' => array('appgini' => 'VARCHAR(40) null default \'OPEN\' '),
 			'tax' => array('appgini' => 'VARCHAR(40) null '),
 			'Total' => array('appgini' => 'VARCHAR(40) null '),
+			'usrAdd' => array('appgini' => 'VARCHAR(40) null '),
+			'whenAdd' => array('appgini' => 'VARCHAR(40) null '),
+			'usrUpdated' => array('appgini' => 'VARCHAR(40) null '),
+			'whenUpdated' => array('appgini' => 'VARCHAR(40) null '),
+			'realted' => array('appgini' => 'INT unsigned null '),
 		),
 		'InvoiceDetails' => array(
 			'id' => array('appgini' => 'INT unsigned not null primary key auto_increment '),
@@ -360,6 +367,7 @@
 		),
 		'Accounting' => array(
 			'id' => array('appgini' => 'INT unsigned not null primary key auto_increment '),
+			'invoice' => array('appgini' => 'INT unsigned null '),
 			'date' => array('appgini' => 'DATE null '),
 			'description' => array('appgini' => 'TEXT null '),
 			'master_acount' => array('appgini' => 'INT unsigned null '),

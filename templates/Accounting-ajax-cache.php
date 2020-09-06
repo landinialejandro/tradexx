@@ -8,6 +8,7 @@
 
 		/* data for selected record, or defaults if none is selected */
 		var data = {
+			invoice: <?php echo json_encode(array('id' => $rdata['invoice'], 'value' => $rdata['invoice'], 'text' => $jdata['invoice'])); ?>,
 			master_acount: <?php echo json_encode(array('id' => $rdata['master_acount'], 'value' => $rdata['master_acount'], 'text' => $jdata['master_acount'])); ?>,
 			account: <?php echo json_encode(array('id' => $rdata['account'], 'value' => $rdata['account'], 'text' => $jdata['account'])); ?>,
 			sub_account: <?php echo json_encode(array('id' => $rdata['sub_account'], 'value' => $rdata['sub_account'], 'text' => $jdata['sub_account'])); ?>,
@@ -18,6 +19,14 @@
 		AppGini.cache = AppGini.cache || {};
 		AppGini.cache[tn] = AppGini.cache[tn] || AppGini.ajaxCache();
 		var cache = AppGini.cache[tn];
+
+		/* saved value for invoice */
+		cache.addCheck(function(u, d) {
+			if(u != 'ajax_combo.php') return false;
+			if(d.t == tn && d.f == 'invoice' && d.id == data.invoice.id)
+				return { results: [ data.invoice ], more: false, elapsed: 0.01 };
+			return false;
+		});
 
 		/* saved value for master_acount */
 		cache.addCheck(function(u, d) {
