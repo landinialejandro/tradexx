@@ -380,16 +380,19 @@
 		'MasterAccount' => array(
 			'id' => array('appgini' => 'INT unsigned not null primary key auto_increment '),
 			'masterAccount' => array('appgini' => 'VARCHAR(40) null '),
+			'code' => array('appgini' => 'VARCHAR(40) null '),
 		),
 		'Account' => array(
 			'id' => array('appgini' => 'INT unsigned not null primary key auto_increment '),
 			'Account' => array('appgini' => 'VARCHAR(40) null '),
 			'masterAccount' => array('appgini' => 'INT unsigned null '),
+			'code' => array('appgini' => 'VARCHAR(40) null '),
 		),
 		'SubAccount' => array(
 			'id' => array('appgini' => 'INT unsigned not null primary key auto_increment '),
 			'account' => array('appgini' => 'INT unsigned null '),
 			'subAccount' => array('appgini' => 'VARCHAR(40) null '),
+			'code' => array('appgini' => 'VARCHAR(40) null '),
 		),
 		'Type' => array(
 			'id' => array('appgini' => 'INT unsigned not null primary key auto_increment '),

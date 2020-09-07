@@ -17,6 +17,8 @@ function Account_insert() {
 		if($data['Account'] == empty_lookup_value) { $data['Account'] = ''; }
 	$data['masterAccount'] = $_REQUEST['masterAccount'];
 		if($data['masterAccount'] == empty_lookup_value) { $data['masterAccount'] = ''; }
+	$data['code'] = $_REQUEST['code'];
+		if($data['code'] == empty_lookup_value) { $data['code'] = ''; }
 
 	// hook: Account_before_insert
 	if(function_exists('Account_before_insert')) {
@@ -153,6 +155,8 @@ function Account_update($selected_id) {
 		if($data['Account'] == empty_lookup_value) { $data['Account'] = ''; }
 	$data['masterAccount'] = makeSafe($_REQUEST['masterAccount']);
 		if($data['masterAccount'] == empty_lookup_value) { $data['masterAccount'] = ''; }
+	$data['code'] = makeSafe($_REQUEST['code']);
+		if($data['code'] == empty_lookup_value) { $data['code'] = ''; }
 	$data['selectedID'] = makeSafe($selected_id);
 
 	// hook: Account_before_update
@@ -162,7 +166,7 @@ function Account_update($selected_id) {
 	}
 
 	$o = array('silentErrors' => true);
-	sql('update `Account` set       `Account`=' . (($data['Account'] !== '' && $data['Account'] !== NULL) ? "'{$data['Account']}'" : 'NULL') . ', `masterAccount`=' . (($data['masterAccount'] !== '' && $data['masterAccount'] !== NULL) ? "'{$data['masterAccount']}'" : 'NULL') . " where `id`='".makeSafe($selected_id)."'", $o);
+	sql('update `Account` set       `Account`=' . (($data['Account'] !== '' && $data['Account'] !== NULL) ? "'{$data['Account']}'" : 'NULL') . ', `masterAccount`=' . (($data['masterAccount'] !== '' && $data['masterAccount'] !== NULL) ? "'{$data['masterAccount']}'" : 'NULL') . ', `code`=' . (($data['code'] !== '' && $data['code'] !== NULL) ? "'{$data['code']}'" : 'NULL') . " where `id`='".makeSafe($selected_id)."'", $o);
 	if($o['error']!='') {
 		echo $o['error'];
 		echo '<a href="Account_view.php?SelectedID='.urlencode($selected_id)."\">{$Translation['< back']}</a>";
@@ -399,6 +403,7 @@ function Account_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, $Al
 		$jsReadOnly .= "\tjQuery('#Account').replaceWith('<div class=\"form-control-static\" id=\"Account\">' + (jQuery('#Account').val() || '') + '</div>');\n";
 		$jsReadOnly .= "\tjQuery('#masterAccount').prop('disabled', true).css({ color: '#555', backgroundColor: '#fff' });\n";
 		$jsReadOnly .= "\tjQuery('#masterAccount_caption').prop('disabled', true).css({ color: '#555', backgroundColor: 'white' });\n";
+		$jsReadOnly .= "\tjQuery('#code').replaceWith('<div class=\"form-control-static\" id=\"code\">' + (jQuery('#code').val() || '') + '</div>');\n";
 		$jsReadOnly .= "\tjQuery('.select2-container').hide();\n";
 
 		$noUploads = true;
@@ -432,6 +437,7 @@ function Account_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, $Al
 	$templateCode = str_replace('<%%UPLOADFILE(id)%%>', '', $templateCode);
 	$templateCode = str_replace('<%%UPLOADFILE(Account)%%>', '', $templateCode);
 	$templateCode = str_replace('<%%UPLOADFILE(masterAccount)%%>', '', $templateCode);
+	$templateCode = str_replace('<%%UPLOADFILE(code)%%>', '', $templateCode);
 
 	// process values
 	if($selected_id) {
@@ -444,6 +450,9 @@ function Account_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, $Al
 		if( $dvprint) $templateCode = str_replace('<%%VALUE(masterAccount)%%>', safe_html($urow['masterAccount']), $templateCode);
 		if(!$dvprint) $templateCode = str_replace('<%%VALUE(masterAccount)%%>', html_attr($row['masterAccount']), $templateCode);
 		$templateCode = str_replace('<%%URLVALUE(masterAccount)%%>', urlencode($urow['masterAccount']), $templateCode);
+		if( $dvprint) $templateCode = str_replace('<%%VALUE(code)%%>', safe_html($urow['code']), $templateCode);
+		if(!$dvprint) $templateCode = str_replace('<%%VALUE(code)%%>', html_attr($row['code']), $templateCode);
+		$templateCode = str_replace('<%%URLVALUE(code)%%>', urlencode($urow['code']), $templateCode);
 	}else{
 		$templateCode = str_replace('<%%VALUE(id)%%>', '', $templateCode);
 		$templateCode = str_replace('<%%URLVALUE(id)%%>', urlencode(''), $templateCode);
@@ -451,6 +460,8 @@ function Account_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, $Al
 		$templateCode = str_replace('<%%URLVALUE(Account)%%>', urlencode(''), $templateCode);
 		$templateCode = str_replace('<%%VALUE(masterAccount)%%>', '', $templateCode);
 		$templateCode = str_replace('<%%URLVALUE(masterAccount)%%>', urlencode(''), $templateCode);
+		$templateCode = str_replace('<%%VALUE(code)%%>', '', $templateCode);
+		$templateCode = str_replace('<%%URLVALUE(code)%%>', urlencode(''), $templateCode);
 	}
 
 	// process translations

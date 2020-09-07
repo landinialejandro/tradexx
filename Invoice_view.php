@@ -163,7 +163,7 @@
 	$x->AllowSelection = 1;
 	$x->HideTableView = ($perm[2]==0 ? 1 : 0);
 	$x->AllowDelete = $perm[4];
-	$x->AllowMassDelete = true;
+	$x->AllowMassDelete = false;
 	$x->AllowInsert = $perm[1];
 	$x->AllowUpdate = $perm[3];
 	$x->SeparateDV = 1;
@@ -175,7 +175,7 @@
 	$x->AllowPrinting = 1;
 	$x->AllowPrintingDV = 1;
 	$x->AllowCSV = 1;
-	$x->RecordsPerPage = 300;
+	$x->RecordsPerPage = 50;
 	$x->QuickSearch = 1;
 	$x->QuickSearchText = $Translation["quick search"];
 	$x->ScriptFileName = "Invoice_view.php";

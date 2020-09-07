@@ -24,28 +24,33 @@
 	$x->QueryFieldsTV = array(
 		"`MasterAccount`.`id`" => "id",
 		"`MasterAccount`.`masterAccount`" => "masterAccount",
+		"`MasterAccount`.`code`" => "code",
 	);
 	// mapping incoming sort by requests to actual query fields
 	$x->SortFields = array(
 		1 => '`MasterAccount`.`id`',
 		2 => 2,
+		3 => 3,
 	);
 
 	// Fields that can be displayed in the csv file
 	$x->QueryFieldsCSV = array(
 		"`MasterAccount`.`id`" => "id",
 		"`MasterAccount`.`masterAccount`" => "masterAccount",
+		"`MasterAccount`.`code`" => "code",
 	);
 	// Fields that can be filtered
 	$x->QueryFieldsFilters = array(
 		"`MasterAccount`.`id`" => "ID",
 		"`MasterAccount`.`masterAccount`" => "Master Account",
+		"`MasterAccount`.`code`" => "Code",
 	);
 
 	// Fields that can be quick searched
 	$x->QueryFieldsQS = array(
 		"`MasterAccount`.`id`" => "id",
 		"`MasterAccount`.`masterAccount`" => "masterAccount",
+		"`MasterAccount`.`code`" => "code",
 	);
 
 	// Lookup fields that can be used as filterers
@@ -79,10 +84,10 @@
 	$x->TableIcon = "table.gif";
 	$x->PrimaryKey = "`MasterAccount`.`id`";
 
-	$x->ColWidth   = array(  150);
-	$x->ColCaption = array("Master Account");
-	$x->ColFieldName = array('masterAccount');
-	$x->ColNumber  = array(2);
+	$x->ColWidth   = array(  150, 150);
+	$x->ColCaption = array("Master Account", "Code");
+	$x->ColFieldName = array('masterAccount', 'code');
+	$x->ColNumber  = array(2, 3);
 
 	// template paths below are based on the app main directory
 	$x->Template = 'templates/MasterAccount_templateTV.html';

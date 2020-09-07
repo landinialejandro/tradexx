@@ -56,7 +56,7 @@
 			'Warehouse' => array('WAREHOUSE', '', 'resources/table_icons/Warehouse.png', 'Warehouse'),
 			'Tracking' => array('TRACKING', '', 'resources/table_icons/Tracking center 1.png', 'Warehouse'),
 			'Status' => array('STATUS', '', 'resources/table_icons/status.png', 'Warehouse'),
-			'Invoice' => array('INVOICE', '', 'resources/table_icons/Invoices.png', 'Accounting'),
+			'Invoice' => array('INVOICE', 'Documentos de cotizacion o faturas', 'resources/table_icons/Invoices.png', 'Accounting'),
 			'InvoiceDetails' => array('Datails', '', 'resources/table_icons/basket_put.png', 'hidden'),
 			'Products' => array('PRODUCTS', '', 'resources/table_icons/general.png', 'Accounting'),
 			'WHJournal' => array('WH JOURNAL', '', 'resources/table_icons/WH Journal.png', 'Accounting'),
@@ -212,9 +212,9 @@
 			'Losses' => "`Losses`.`id` as 'id', IF(    CHAR_LENGTH(`Customers1`.`Customer`), CONCAT_WS('',   `Customers1`.`Customer`), '') as 'Customer', `Losses`.`Description` as 'Description', `Losses`.`Saleprice` as 'Saleprice', `Losses`.`OperationCost` as 'OperationCost', `Losses`.`Lost` as 'Lost', `Losses`.`Comment` as 'Comment', `Losses`.`Recovered` as 'Recovered', `Losses`.`Balance` as 'Balance', `Losses`.`Status` as 'Status'",
 			'Subscriptions' => "`Subscriptions`.`id` as 'id', IF(    CHAR_LENGTH(`Customers1`.`Customer`), CONCAT_WS('',   `Customers1`.`Customer`), '') as 'Customer', `Subscriptions`.`Vendor` as 'Vendor', `Subscriptions`.`AccountID` as 'AccountID', if(`Subscriptions`.`LastPayment`,date_format(`Subscriptions`.`LastPayment`,'%m/%d/%Y'),'') as 'LastPayment', if(`Subscriptions`.`DueDate`,date_format(`Subscriptions`.`DueDate`,'%m/%d/%Y'),'') as 'DueDate', `Subscriptions`.`Status` as 'Status', `Subscriptions`.`Rate` as 'Rate', `Subscriptions`.`AmountDue` as 'AmountDue'",
 			'Accounting' => "`Accounting`.`id` as 'id', IF(    CHAR_LENGTH(`Invoice1`.`number`) || CHAR_LENGTH(`Customers1`.`Customer`), CONCAT_WS('',   `Invoice1`.`number`, ' - ', `Customers1`.`Customer`), '') as 'invoice', if(`Accounting`.`date`,date_format(`Accounting`.`date`,'%m/%d/%Y'),'') as 'date', `Accounting`.`description` as 'description', IF(    CHAR_LENGTH(`MasterAccount1`.`masterAccount`), CONCAT_WS('',   `MasterAccount1`.`masterAccount`), '') as 'master_acount', IF(    CHAR_LENGTH(`Account1`.`Account`), CONCAT_WS('',   `Account1`.`Account`), '') as 'account', IF(    CHAR_LENGTH(`SubAccount1`.`subAccount`), CONCAT_WS('',   `SubAccount1`.`subAccount`), '') as 'sub_account', IF(    CHAR_LENGTH(`Type1`.`type`), CONCAT_WS('',   `Type1`.`type`), '') as 'type', FORMAT(`Accounting`.`amount`, 2) as 'amount', `Accounting`.`balance` as 'balance'",
-			'MasterAccount' => "`MasterAccount`.`id` as 'id', `MasterAccount`.`masterAccount` as 'masterAccount'",
-			'Account' => "`Account`.`id` as 'id', `Account`.`Account` as 'Account', IF(    CHAR_LENGTH(`MasterAccount1`.`masterAccount`), CONCAT_WS('',   `MasterAccount1`.`masterAccount`), '') as 'masterAccount'",
-			'SubAccount' => "`SubAccount`.`id` as 'id', IF(    CHAR_LENGTH(`Account1`.`Account`), CONCAT_WS('',   `Account1`.`Account`), '') as 'account', `SubAccount`.`subAccount` as 'subAccount'",
+			'MasterAccount' => "`MasterAccount`.`id` as 'id', `MasterAccount`.`masterAccount` as 'masterAccount', `MasterAccount`.`code` as 'code'",
+			'Account' => "`Account`.`id` as 'id', `Account`.`Account` as 'Account', IF(    CHAR_LENGTH(`MasterAccount1`.`masterAccount`), CONCAT_WS('',   `MasterAccount1`.`masterAccount`), '') as 'masterAccount', `Account`.`code` as 'code'",
+			'SubAccount' => "`SubAccount`.`id` as 'id', IF(    CHAR_LENGTH(`Account1`.`Account`), CONCAT_WS('',   `Account1`.`Account`), '') as 'account', `SubAccount`.`subAccount` as 'subAccount', `SubAccount`.`code` as 'code'",
 			'Type' => "`Type`.`id` as 'id', `Type`.`type` as 'type'",
 			'CCJournal' => "`CCJournal`.`id` as 'id', IF(    CHAR_LENGTH(`CC1`.`Card`), CONCAT_WS('',   `CC1`.`Card`), '') as 'Card', if(`CCJournal`.`Date`,date_format(`CCJournal`.`Date`,'%m/%d/%Y'),'') as 'Date', `CCJournal`.`Description` as 'Description', `CCJournal`.`Cleared` as 'Cleared', FORMAT(`CCJournal`.`Amount`, 2) as 'Amount', `CCJournal`.`Balance` as 'Balance', IF(    CHAR_LENGTH(`Staff1`.`Employee`), CONCAT_WS('',   `Staff1`.`Employee`), '') as 'Logged', `CCJournal`.`Photo` as 'Photo'",
 			'CC' => "`CC`.`id` as 'id', `CC`.`Card` as 'Card'",
@@ -740,17 +740,20 @@
 			),
 			'MasterAccount' => array(
 				'id' => '',
-				'masterAccount' => ''
+				'masterAccount' => '',
+				'code' => ''
 			),
 			'Account' => array(
 				'id' => '',
 				'Account' => '',
-				'masterAccount' => ''
+				'masterAccount' => '',
+				'code' => ''
 			),
 			'SubAccount' => array(
 				'id' => '',
 				'account' => '',
-				'subAccount' => ''
+				'subAccount' => '',
+				'code' => ''
 			),
 			'Type' => array(
 				'id' => '',

@@ -25,12 +25,14 @@
 		"`SubAccount`.`id`" => "id",
 		"IF(    CHAR_LENGTH(`Account1`.`Account`), CONCAT_WS('',   `Account1`.`Account`), '') /* Account */" => "account",
 		"`SubAccount`.`subAccount`" => "subAccount",
+		"`SubAccount`.`code`" => "code",
 	);
 	// mapping incoming sort by requests to actual query fields
 	$x->SortFields = array(
 		1 => '`SubAccount`.`id`',
 		2 => '`Account1`.`Account`',
 		3 => 3,
+		4 => 4,
 	);
 
 	// Fields that can be displayed in the csv file
@@ -38,12 +40,14 @@
 		"`SubAccount`.`id`" => "id",
 		"IF(    CHAR_LENGTH(`Account1`.`Account`), CONCAT_WS('',   `Account1`.`Account`), '') /* Account */" => "account",
 		"`SubAccount`.`subAccount`" => "subAccount",
+		"`SubAccount`.`code`" => "code",
 	);
 	// Fields that can be filtered
 	$x->QueryFieldsFilters = array(
 		"`SubAccount`.`id`" => "ID",
 		"IF(    CHAR_LENGTH(`Account1`.`Account`), CONCAT_WS('',   `Account1`.`Account`), '') /* Account */" => "Account",
 		"`SubAccount`.`subAccount`" => "Sub Account",
+		"`SubAccount`.`code`" => "Code",
 	);
 
 	// Fields that can be quick searched
@@ -51,6 +55,7 @@
 		"`SubAccount`.`id`" => "id",
 		"IF(    CHAR_LENGTH(`Account1`.`Account`), CONCAT_WS('',   `Account1`.`Account`), '') /* Account */" => "account",
 		"`SubAccount`.`subAccount`" => "subAccount",
+		"`SubAccount`.`code`" => "code",
 	);
 
 	// Lookup fields that can be used as filterers
@@ -84,10 +89,10 @@
 	$x->TableIcon = "table.gif";
 	$x->PrimaryKey = "`SubAccount`.`id`";
 
-	$x->ColWidth   = array(  150, 150);
-	$x->ColCaption = array("Account", "Sub Account");
-	$x->ColFieldName = array('account', 'subAccount');
-	$x->ColNumber  = array(2, 3);
+	$x->ColWidth   = array(  150, 150, 150);
+	$x->ColCaption = array("Account", "Sub Account", "Code");
+	$x->ColFieldName = array('account', 'subAccount', 'code');
+	$x->ColNumber  = array(2, 3, 4);
 
 	// template paths below are based on the app main directory
 	$x->Template = 'templates/SubAccount_templateTV.html';

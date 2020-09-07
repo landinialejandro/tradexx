@@ -17,6 +17,8 @@ function SubAccount_insert() {
 		if($data['account'] == empty_lookup_value) { $data['account'] = ''; }
 	$data['subAccount'] = $_REQUEST['subAccount'];
 		if($data['subAccount'] == empty_lookup_value) { $data['subAccount'] = ''; }
+	$data['code'] = $_REQUEST['code'];
+		if($data['code'] == empty_lookup_value) { $data['code'] = ''; }
 
 	// hook: SubAccount_before_insert
 	if(function_exists('SubAccount_before_insert')) {
@@ -134,6 +136,8 @@ function SubAccount_update($selected_id) {
 		if($data['account'] == empty_lookup_value) { $data['account'] = ''; }
 	$data['subAccount'] = makeSafe($_REQUEST['subAccount']);
 		if($data['subAccount'] == empty_lookup_value) { $data['subAccount'] = ''; }
+	$data['code'] = makeSafe($_REQUEST['code']);
+		if($data['code'] == empty_lookup_value) { $data['code'] = ''; }
 	$data['selectedID'] = makeSafe($selected_id);
 
 	// hook: SubAccount_before_update
@@ -143,7 +147,7 @@ function SubAccount_update($selected_id) {
 	}
 
 	$o = array('silentErrors' => true);
-	sql('update `SubAccount` set       `account`=' . (($data['account'] !== '' && $data['account'] !== NULL) ? "'{$data['account']}'" : 'NULL') . ', `subAccount`=' . (($data['subAccount'] !== '' && $data['subAccount'] !== NULL) ? "'{$data['subAccount']}'" : 'NULL') . " where `id`='".makeSafe($selected_id)."'", $o);
+	sql('update `SubAccount` set       `account`=' . (($data['account'] !== '' && $data['account'] !== NULL) ? "'{$data['account']}'" : 'NULL') . ', `subAccount`=' . (($data['subAccount'] !== '' && $data['subAccount'] !== NULL) ? "'{$data['subAccount']}'" : 'NULL') . ', `code`=' . (($data['code'] !== '' && $data['code'] !== NULL) ? "'{$data['code']}'" : 'NULL') . " where `id`='".makeSafe($selected_id)."'", $o);
 	if($o['error']!='') {
 		echo $o['error'];
 		echo '<a href="SubAccount_view.php?SelectedID='.urlencode($selected_id)."\">{$Translation['< back']}</a>";
@@ -380,6 +384,7 @@ function SubAccount_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, 
 		$jsReadOnly .= "\tjQuery('#account').prop('disabled', true).css({ color: '#555', backgroundColor: '#fff' });\n";
 		$jsReadOnly .= "\tjQuery('#account_caption').prop('disabled', true).css({ color: '#555', backgroundColor: 'white' });\n";
 		$jsReadOnly .= "\tjQuery('#subAccount').replaceWith('<div class=\"form-control-static\" id=\"subAccount\">' + (jQuery('#subAccount').val() || '') + '</div>');\n";
+		$jsReadOnly .= "\tjQuery('#code').replaceWith('<div class=\"form-control-static\" id=\"code\">' + (jQuery('#code').val() || '') + '</div>');\n";
 		$jsReadOnly .= "\tjQuery('.select2-container').hide();\n";
 
 		$noUploads = true;
@@ -413,6 +418,7 @@ function SubAccount_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, 
 	$templateCode = str_replace('<%%UPLOADFILE(id)%%>', '', $templateCode);
 	$templateCode = str_replace('<%%UPLOADFILE(account)%%>', '', $templateCode);
 	$templateCode = str_replace('<%%UPLOADFILE(subAccount)%%>', '', $templateCode);
+	$templateCode = str_replace('<%%UPLOADFILE(code)%%>', '', $templateCode);
 
 	// process values
 	if($selected_id) {
@@ -425,6 +431,9 @@ function SubAccount_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, 
 		if( $dvprint) $templateCode = str_replace('<%%VALUE(subAccount)%%>', safe_html($urow['subAccount']), $templateCode);
 		if(!$dvprint) $templateCode = str_replace('<%%VALUE(subAccount)%%>', html_attr($row['subAccount']), $templateCode);
 		$templateCode = str_replace('<%%URLVALUE(subAccount)%%>', urlencode($urow['subAccount']), $templateCode);
+		if( $dvprint) $templateCode = str_replace('<%%VALUE(code)%%>', safe_html($urow['code']), $templateCode);
+		if(!$dvprint) $templateCode = str_replace('<%%VALUE(code)%%>', html_attr($row['code']), $templateCode);
+		$templateCode = str_replace('<%%URLVALUE(code)%%>', urlencode($urow['code']), $templateCode);
 	}else{
 		$templateCode = str_replace('<%%VALUE(id)%%>', '', $templateCode);
 		$templateCode = str_replace('<%%URLVALUE(id)%%>', urlencode(''), $templateCode);
@@ -432,6 +441,8 @@ function SubAccount_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, 
 		$templateCode = str_replace('<%%URLVALUE(account)%%>', urlencode(''), $templateCode);
 		$templateCode = str_replace('<%%VALUE(subAccount)%%>', '', $templateCode);
 		$templateCode = str_replace('<%%URLVALUE(subAccount)%%>', urlencode(''), $templateCode);
+		$templateCode = str_replace('<%%VALUE(code)%%>', '', $templateCode);
+		$templateCode = str_replace('<%%URLVALUE(code)%%>', urlencode(''), $templateCode);
 	}
 
 	// process translations

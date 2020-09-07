@@ -25,12 +25,14 @@
 		"`Account`.`id`" => "id",
 		"`Account`.`Account`" => "Account",
 		"IF(    CHAR_LENGTH(`MasterAccount1`.`masterAccount`), CONCAT_WS('',   `MasterAccount1`.`masterAccount`), '') /* Master account */" => "masterAccount",
+		"`Account`.`code`" => "code",
 	);
 	// mapping incoming sort by requests to actual query fields
 	$x->SortFields = array(
 		1 => '`Account`.`id`',
 		2 => 2,
 		3 => '`MasterAccount1`.`masterAccount`',
+		4 => 4,
 	);
 
 	// Fields that can be displayed in the csv file
@@ -38,12 +40,14 @@
 		"`Account`.`id`" => "id",
 		"`Account`.`Account`" => "Account",
 		"IF(    CHAR_LENGTH(`MasterAccount1`.`masterAccount`), CONCAT_WS('',   `MasterAccount1`.`masterAccount`), '') /* Master account */" => "masterAccount",
+		"`Account`.`code`" => "code",
 	);
 	// Fields that can be filtered
 	$x->QueryFieldsFilters = array(
 		"`Account`.`id`" => "ID",
 		"`Account`.`Account`" => "Account",
 		"IF(    CHAR_LENGTH(`MasterAccount1`.`masterAccount`), CONCAT_WS('',   `MasterAccount1`.`masterAccount`), '') /* Master account */" => "Master account",
+		"`Account`.`code`" => "Code",
 	);
 
 	// Fields that can be quick searched
@@ -51,6 +55,7 @@
 		"`Account`.`id`" => "id",
 		"`Account`.`Account`" => "Account",
 		"IF(    CHAR_LENGTH(`MasterAccount1`.`masterAccount`), CONCAT_WS('',   `MasterAccount1`.`masterAccount`), '') /* Master account */" => "masterAccount",
+		"`Account`.`code`" => "code",
 	);
 
 	// Lookup fields that can be used as filterers
@@ -84,10 +89,10 @@
 	$x->TableIcon = "table.gif";
 	$x->PrimaryKey = "`Account`.`id`";
 
-	$x->ColWidth   = array(  150, 150);
-	$x->ColCaption = array("Account", "Master account");
-	$x->ColFieldName = array('Account', 'masterAccount');
-	$x->ColNumber  = array(2, 3);
+	$x->ColWidth   = array(  150, 150, 150);
+	$x->ColCaption = array("Account", "Master account", "Code");
+	$x->ColFieldName = array('Account', 'masterAccount', 'code');
+	$x->ColNumber  = array(2, 3, 4);
 
 	// template paths below are based on the app main directory
 	$x->Template = 'templates/Account_templateTV.html';

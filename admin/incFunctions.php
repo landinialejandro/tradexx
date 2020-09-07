@@ -173,7 +173,7 @@
 				),
 				'Invoice' => array(
 					'Caption' => 'INVOICE',
-					'Description' => '',
+					'Description' => 'Documentos de cotizacion o faturas',
 					'tableIcon' => 'resources/table_icons/Invoices.png',
 					'group' => $tg[4],
 					'homepageShowCount' => 1

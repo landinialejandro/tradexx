@@ -8,12 +8,8 @@
 	<div class="row vspacer-md">
 		<div class="col-xs-12">
 			<input type="hidden" id="Status_hclink" value="Status_view.php?filterer_Invoice=<%%URLVALUE(id)%%>&<%%EMBEDDED%%>">
-			<a class="hidden-xs btn btn-default btn-lg pull-right hidden hspacer-sm" href="Invoice_view.php?filterer_realted=<%%URLVALUE(id)%%>&<%%EMBEDDED%%>" id="Invoice_link"><i class="glyphicon glyphicon-list-alt"></i> INVOICE</a>
-			<a class="visible-xs btn btn-default btn-lg btn-block hidden vspacer-sm" href="Invoice_view.php?filterer_realted=<%%URLVALUE(id)%%>&<%%EMBEDDED%%>" id="xs_Invoice_link"><i class="glyphicon glyphicon-list-alt"></i> INVOICE</a>
 			<input type="hidden" id="Invoice_hclink" value="Invoice_view.php?filterer_realted=<%%URLVALUE(id)%%>&<%%EMBEDDED%%>">
 			<input type="hidden" id="InvoiceDetails_hclink" value="InvoiceDetails_view.php?filterer_invoice=<%%URLVALUE(id)%%>&<%%EMBEDDED%%>">
-			<a class="hidden-xs btn btn-default btn-lg pull-right hidden hspacer-sm" href="Accounting_view.php?filterer_invoice=<%%URLVALUE(id)%%>&<%%EMBEDDED%%>" id="Accounting_link"><i class="glyphicon glyphicon-list-alt"></i> CASH FLOW</a>
-			<a class="visible-xs btn btn-default btn-lg btn-block hidden vspacer-sm" href="Accounting_view.php?filterer_invoice=<%%URLVALUE(id)%%>&<%%EMBEDDED%%>" id="xs_Accounting_link"><i class="glyphicon glyphicon-list-alt"></i> CASH FLOW</a>
 			<input type="hidden" id="Accounting_hclink" value="Accounting_view.php?filterer_invoice=<%%URLVALUE(id)%%>&<%%EMBEDDED%%>">
 			<div class="clearfix"></div>
 		</div>
@@ -209,7 +205,7 @@
 					<hr class="hidden-md hidden-lg">
 					<label for="realted" class="control-label col-lg-3" data-parent_link="view_parent_modal">Realted <i class="glyphicon glyphicon-info-sign text-info" data-toggle="collapse" data-target="#realted-description"></i></label>
 					<div class="col-lg-9">
-						<span class="help-block collapse" id="realted-description"><div class="alert alert-info">Documento relacionado, puede ser una nueva factura o una cotizaci&#243;n. Se genra solo al copiar un documento</div></span>
+						<span class="help-block collapse" id="realted-description"><div class="alert alert-info">Documento relacionado, puede ser una nueva factura o una cotizaci&#243;n. Se genera solo al copiar un documento</div></span>
 
 						<div class="form-control-static"><span id="realted-readonly"><%%COMBOTEXT(realted)%%></span> <%%PLINK(realted)%%></div>
 					</div>
