@@ -112,7 +112,6 @@ function Invoice_before_update(&$data, $memberInfo, &$args)
 
 	if ($data['Status'] === 'CLOSED' && $Invoice['Status'] === 'OPEN') {
 		// Cierra orden
-		// agregar movimiento a cashflow si no es QUOTE
 		$_SESSION['custom_msg'] = [
 			"message" => "<h4>La orden se está cerrando</h4>",
 			"class" => "success",
@@ -120,12 +119,12 @@ function Invoice_before_update(&$data, $memberInfo, &$args)
 		];
 		if ($Invoice['type'] !== 'Quote'){
 			$accouting = [
+				// agregar movimiento a cashflow si no es QUOTE
 				"invoice" =>$data['selectedID'],
 				"date" => $data['Date'],
 				"description" => 'MOVIMIENTO por venta. Invoice:'. $data['number'],
-				
 			];
-			$insert = insert('Accounting',$accouting);
+			//$insert = insert('Accounting',$accouting);
 		}
 	}
 
