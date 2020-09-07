@@ -1,3 +1,7 @@
+
+<?php /* Inserted by Landini Admin Template on 2020-09-07 06:25:31 */ ?>
+		<?php if (activate_LAT("home",$x,false)) return; ?>
+<?php /* End of Landini Admin Template code */ ?>
 <?php 
 	if(!isset($Translation)) { @header('Location: index.php'); exit; } 
 

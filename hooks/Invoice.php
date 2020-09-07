@@ -118,11 +118,22 @@ function Invoice_before_update(&$data, $memberInfo, &$args)
 			"dismiss" => "5"
 		];
 		if ($Invoice['type'] !== 'Quote'){
+			//TODO:controlar valores devueltos
+			$ma = sqlValue('SELECT `id` FROM `MasterAccount` where `code` = "VENTA"',$e);
+			$ac = sqlValue('SELECT `id` FROM `Account` where `code` = "VENTA"',$e);
+			$sa = sqlValue('SELECT `id` FROM `SubAccount` where `code` = "VENTA"',$e);
+			$ty = sqlValue('SELECT `id` FROM `Type` where `type` = "Negativo"',$e);
+
 			$accouting = [
 				// agregar movimiento a cashflow si no es QUOTE
 				"invoice" =>$data['selectedID'],
 				"date" => $data['Date'],
 				"description" => 'MOVIMIENTO por venta. Invoice:'. $data['number'],
+				"master_acount" => $ma,
+				"account" => $ac,
+				"sub_account" => $sa,
+				"type"=> $ty,
+				"amount" => $data['total']
 			];
 			//$insert = insert('Accounting',$accouting);
 		}
