@@ -55,6 +55,7 @@ function Invoice_insert() {
 	}
 	if($data['PaymentStatus'] == '') $data['PaymentStatus'] = "UNPAID";
 	if($data['Status'] == '') $data['Status'] = "OPEN";
+	if($data['Total'] == '') $data['Total'] = "0";
 
 	// hook: Invoice_before_insert
 	if(function_exists('Invoice_before_insert')) {
@@ -394,7 +395,7 @@ function Invoice_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, $Al
 		$combo_Status->ListItem = explode('||', entitiesToUTF8(convertLegacyOptions($Status_data)));
 		$combo_Status->ListData = $combo_Status->ListItem;
 	}else{
-		$combo_Status->ListItem = explode('||', entitiesToUTF8(convertLegacyOptions("OPEN;;CLOSED")));
+		$combo_Status->ListItem = explode('||', entitiesToUTF8(convertLegacyOptions("OPEN;;CLOSED;;CANCELED")));
 		$combo_Status->ListData = $combo_Status->ListItem;
 	}
 	$combo_Status->SelectName = 'Status';
@@ -818,8 +819,8 @@ function Invoice_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, $Al
 		$templateCode = str_replace('<%%URLVALUE(Status)%%>', urlencode('OPEN'), $templateCode);
 		$templateCode = str_replace('<%%VALUE(tax)%%>', '', $templateCode);
 		$templateCode = str_replace('<%%URLVALUE(tax)%%>', urlencode(''), $templateCode);
-		$templateCode = str_replace('<%%VALUE(Total)%%>', '', $templateCode);
-		$templateCode = str_replace('<%%URLVALUE(Total)%%>', urlencode(''), $templateCode);
+		$templateCode = str_replace('<%%VALUE(Total)%%>', '0', $templateCode);
+		$templateCode = str_replace('<%%URLVALUE(Total)%%>', urlencode('0'), $templateCode);
 		$templateCode = str_replace('<%%VALUE(usrAdd)%%>', '<%%creatorUsername%%>', $templateCode);
 		$templateCode = str_replace('<%%URLVALUE(usrAdd)%%>', urlencode('<%%creatorUsername%%>'), $templateCode);
 		$templateCode = str_replace('<%%VALUE(whenAdd)%%>', '<%%creationDateTime%%>', $templateCode);

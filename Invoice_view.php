@@ -167,7 +167,7 @@
 	$x->AllowInsert = $perm[1];
 	$x->AllowUpdate = $perm[3];
 	$x->SeparateDV = 1;
-	$x->AllowDeleteOfParents = 1;
+	$x->AllowDeleteOfParents = 0;
 	$x->AllowFilters = 1;
 	$x->AllowSavingFilters = 0;
 	$x->AllowSorting = 1;
@@ -199,7 +199,7 @@
 	$x->TVClasses = "";
 	$x->DVClasses = "";
 	$x->HighlightColor = '#FFF0C2';
-	$x->HasCalculatedFields = true;
+	$x->HasCalculatedFields = false;
 
 	// mm: build the query based on current member's permissions
 	$DisplayRecords = $_REQUEST['DisplayRecords'];

@@ -106,7 +106,7 @@
 					'parent-primary-key' => 'id',
 					'child-primary-key' => 'id',
 					'child-primary-key-index' => 0,
-					'tab-label' => 'InvoiceDetails <span class="hidden child-label-InvoiceDetails child-field-caption">(Invoice)</span>',
+					'tab-label' => 'Details <span class="hidden child-label-InvoiceDetails child-field-caption">(Invoice)</span>',
 					'auto-close' => false,
 					'table-icon' => 'resources/table_icons/basket_put.png',
 					'display-refresh' => true,

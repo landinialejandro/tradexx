@@ -95,17 +95,17 @@ function Invoice_before_update(&$data, $memberInfo, &$args)
 		$_SESSION['custom_msg'] = [
 			"message" => "<h4>La orden está cerrada, no se puede relizar cambios</h4>",
 			"class" => "danger",
-			"dismiss" => "0"
+			"dismiss_seconds" => "0"
 		];
 		return FALSE;
 	}
 
-	if ($Invoice['type'] !== $data['type']){
+	if ($Invoice['type'] !== $data['type']) {
 		$_SESSION['custom_msg'] = [
 			"message" => "<h4>No es posible cambiar el tipo de documento una vez generado.<br>
 							Por favor generar otro ducumento o relice una copia de este.</h4>",
 			"class" => "danger",
-			"dismiss" => "0"
+			"dismiss_seconds" => "0"
 		];
 		return FALSE;
 	}
@@ -115,27 +115,53 @@ function Invoice_before_update(&$data, $memberInfo, &$args)
 		$_SESSION['custom_msg'] = [
 			"message" => "<h4>La orden se está cerrando</h4>",
 			"class" => "success",
-			"dismiss" => "5"
+			"dismiss_seconds" => "5"
 		];
-		if ($Invoice['type'] !== 'Quote'){
+
+		if ($data['total']){
+			//el valor de la orden tiene que ser mayor que cero.
+			$_SESSION['custom_msg'] = [
+				"message" => "<h4>No se puede cerrar una orden vacia, se peude anular, por favor cambie el estado o Anule el documento.</h4>",
+				"class" => "warning",
+				"dismiss_seconds" => "5"
+			];	
+			return false;
+		}
+
+		if ($Invoice['type'] !== 'Quote') {
 			//TODO:controlar valores devueltos
-			$ma = sqlValue('SELECT `id` FROM `MasterAccount` where `code` = "VENTA"',$e);
-			$ac = sqlValue('SELECT `id` FROM `Account` where `code` = "VENTA"',$e);
-			$sa = sqlValue('SELECT `id` FROM `SubAccount` where `code` = "VENTA"',$e);
-			$ty = sqlValue('SELECT `id` FROM `Type` where `type` = "Negativo"',$e);
+			$ma = sqlValue('SELECT `id` FROM `MasterAccount` where `code` = "VENTA"', $e);
+			$ac = sqlValue('SELECT `id` FROM `Account` where `code` = "VENTA"', $e);
+			$sa = sqlValue('SELECT `id` FROM `SubAccount` where `code` = "VENTA"', $e);
+			$ty = sqlValue('SELECT `id` FROM `Type` where `type` = "Negativo"', $e);
 
 			$accouting = [
 				// agregar movimiento a cashflow si no es QUOTE
-				"invoice" =>$data['selectedID'],
+				"invoice" => $data['selectedID'],
 				"date" => $data['Date'],
-				"description" => 'MOVIMIENTO por venta. Invoice:'. $data['number'],
+				"description" => 'MOVIMIENTO por venta. Invoice:' . $data['number'],
 				"master_acount" => $ma,
 				"account" => $ac,
 				"sub_account" => $sa,
-				"type"=> $ty,
+				"type" => $ty,
 				"amount" => $data['total']
 			];
-			//$insert = insert('Accounting',$accouting);
+			$insert = insert('Accounting', $accouting, $e);
+			if (!$insert) {
+				// fallo en agregar en accounting
+				$_SESSION['custom_msg'] = [
+					"message" => "<h3>Error agregadno acounting: $e </h3>",
+					"class" => "danger",
+					"dismiss_seconds" => "0"
+				];
+			} else {
+				$_SESSION['custom_msg'] = [
+					"message" => "<h3>Movimiento agregado correctamente.</h3>",
+					"class" => "success",
+					"dismiss_seconds" => "3"
+				];
+			}
+			return $insert;
 		}
 	}
 
