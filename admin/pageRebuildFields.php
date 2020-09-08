@@ -137,7 +137,7 @@
 			'Balance' => array('appgini' => 'DECIMAL(10,2) null '),
 			'Status' => array('appgini' => 'VARCHAR(40) null default \'OPEN\' '),
 			'tax' => array('appgini' => 'VARCHAR(40) null '),
-			'Total' => array('appgini' => 'VARCHAR(40) null default \'0\' '),
+			'Total' => array('appgini' => 'VARCHAR(40) null '),
 			'usrAdd' => array('appgini' => 'VARCHAR(40) null '),
 			'whenAdd' => array('appgini' => 'VARCHAR(40) null '),
 			'usrUpdated' => array('appgini' => 'VARCHAR(40) null '),

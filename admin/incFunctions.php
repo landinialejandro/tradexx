@@ -2412,6 +2412,9 @@
 			'Status' => array(
 			),
 			'Invoice' => array(
+				'Total' => 'SELECT SUM(`InvoiceDetails`.`SubTotal`) FROM `Invoice` 
+LEFT JOIN `InvoiceDetails` ON `InvoiceDetails`.`invoice`=`Invoice`.`id` 
+WHERE `Invoice`.`id`=\'%ID%\'',
 			),
 			'InvoiceDetails' => array(
 				'SubTotal' => 'SELECT `InvoiceDetails`.`qty` * `Products`.`itemSale`  FROM `InvoiceDetails` 

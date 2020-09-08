@@ -498,7 +498,7 @@
 				'Balance' => '',
 				'Status' => 'OPEN',
 				'tax' => '',
-				'Total' => '0',
+				'Total' => '',
 				'usrAdd' => '',
 				'whenAdd' => '',
 				'usrUpdated' => '',

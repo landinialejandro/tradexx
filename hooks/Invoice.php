@@ -118,12 +118,12 @@ function Invoice_before_update(&$data, $memberInfo, &$args)
 			"dismiss_seconds" => "5"
 		];
 
-		if ($data['total']){
+		if (empty($data['total'])){
 			//el valor de la orden tiene que ser mayor que cero.
 			$_SESSION['custom_msg'] = [
-				"message" => "<h4>No se puede cerrar una orden vacia, se peude anular, por favor cambie el estado o Anule el documento.</h4>",
+				"message" => "<h4>No se puede cerrar una orden vacia, pero se puede anular, por favor cambie el estado o Anule el documento.</h4>",
 				"class" => "warning",
-				"dismiss_seconds" => "5"
+				"dismiss_seconds" => "7"
 			];	
 			return false;
 		}

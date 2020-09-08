@@ -199,7 +199,7 @@
 	$x->TVClasses = "";
 	$x->DVClasses = "";
 	$x->HighlightColor = '#FFF0C2';
-	$x->HasCalculatedFields = false;
+	$x->HasCalculatedFields = true;
 
 	// mm: build the query based on current member's permissions
 	$DisplayRecords = $_REQUEST['DisplayRecords'];
