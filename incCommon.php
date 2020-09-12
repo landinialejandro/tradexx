@@ -88,7 +88,8 @@
 			'Type' => array('Type', '', 'table.gif', 'hidden'),
 			'CCJournal' => array('CC JOURNAL', '', 'resources/table_icons/Purchase order.png', 'Accounting'),
 			'CC' => array('CC', '', 'table.gif', 'hidden'),
-			'Receivable' => array('Receivable', '', 'resources/table_icons/Account receivable.png', 'Accounting')
+			'Receivable' => array('Receivable', '', 'resources/table_icons/Account receivable.png', 'Accounting'),
+			'AccountPlan' => array('AccountPlan', '', 'table.gif', 'Accounting')
 		);
 		if($skip_authentication || getLoggedAdmin()) return $arrTables;
 
@@ -211,7 +212,7 @@
 			'Supervisor' => "`Supervisor`.`id` as 'id', `Supervisor`.`Supervisor` as 'Supervisor', IF(    CHAR_LENGTH(`Department1`.`Department`), CONCAT_WS('',   `Department1`.`Department`), '') as 'Department'",
 			'Losses' => "`Losses`.`id` as 'id', IF(    CHAR_LENGTH(`Customers1`.`Customer`), CONCAT_WS('',   `Customers1`.`Customer`), '') as 'Customer', `Losses`.`Description` as 'Description', `Losses`.`Saleprice` as 'Saleprice', `Losses`.`OperationCost` as 'OperationCost', `Losses`.`Lost` as 'Lost', `Losses`.`Comment` as 'Comment', `Losses`.`Recovered` as 'Recovered', `Losses`.`Balance` as 'Balance', `Losses`.`Status` as 'Status'",
 			'Subscriptions' => "`Subscriptions`.`id` as 'id', IF(    CHAR_LENGTH(`Customers1`.`Customer`), CONCAT_WS('',   `Customers1`.`Customer`), '') as 'Customer', `Subscriptions`.`Vendor` as 'Vendor', `Subscriptions`.`AccountID` as 'AccountID', if(`Subscriptions`.`LastPayment`,date_format(`Subscriptions`.`LastPayment`,'%m/%d/%Y'),'') as 'LastPayment', if(`Subscriptions`.`DueDate`,date_format(`Subscriptions`.`DueDate`,'%m/%d/%Y'),'') as 'DueDate', `Subscriptions`.`Status` as 'Status', `Subscriptions`.`Rate` as 'Rate', `Subscriptions`.`AmountDue` as 'AmountDue'",
-			'Accounting' => "`Accounting`.`id` as 'id', IF(    CHAR_LENGTH(`Invoice1`.`number`) || CHAR_LENGTH(`Customers1`.`Customer`), CONCAT_WS('',   `Invoice1`.`number`, ' - ', `Customers1`.`Customer`), '') as 'invoice', if(`Accounting`.`date`,date_format(`Accounting`.`date`,'%m/%d/%Y'),'') as 'date', `Accounting`.`description` as 'description', IF(    CHAR_LENGTH(`MasterAccount1`.`masterAccount`), CONCAT_WS('',   `MasterAccount1`.`masterAccount`), '') as 'master_acount', IF(    CHAR_LENGTH(`Account1`.`Account`), CONCAT_WS('',   `Account1`.`Account`), '') as 'account', IF(    CHAR_LENGTH(`SubAccount1`.`subAccount`), CONCAT_WS('',   `SubAccount1`.`subAccount`), '') as 'sub_account', IF(    CHAR_LENGTH(`Type1`.`type`), CONCAT_WS('',   `Type1`.`type`), '') as 'type', FORMAT(`Accounting`.`amount`, 2) as 'amount', `Accounting`.`balance` as 'balance'",
+			'Accounting' => "`Accounting`.`id` as 'id', IF(    CHAR_LENGTH(`Invoice1`.`number`) || CHAR_LENGTH(`Customers1`.`Customer`), CONCAT_WS('',   `Invoice1`.`number`, ' - ', `Customers1`.`Customer`), '') as 'invoice', if(`Accounting`.`date`,date_format(`Accounting`.`date`,'%m/%d/%Y'),'') as 'date', `Accounting`.`description` as 'description', IF(    CHAR_LENGTH(`AccountPlan1`.`description`) || CHAR_LENGTH(`AccountPlan1`.`code`), CONCAT_WS('',   `AccountPlan1`.`description`, ' - ', `AccountPlan1`.`code`), '') as 'account_plan', IF(    CHAR_LENGTH(`MasterAccount1`.`masterAccount`) || CHAR_LENGTH(`MasterAccount1`.`code`), CONCAT_WS('',   `MasterAccount1`.`masterAccount`, ' - ', `MasterAccount1`.`code`), '') as 'master_acount', IF(    CHAR_LENGTH(`Account1`.`Account`) || CHAR_LENGTH(`Account1`.`code`), CONCAT_WS('',   `Account1`.`Account`, ' - ', `Account1`.`code`), '') as 'account', IF(    CHAR_LENGTH(`SubAccount1`.`subAccount`) || CHAR_LENGTH(`SubAccount1`.`code`), CONCAT_WS('',   `SubAccount1`.`subAccount`, ' - ', `SubAccount1`.`code`), '') as 'sub_account', IF(    CHAR_LENGTH(`Type1`.`type`), CONCAT_WS('',   `Type1`.`type`), '') as 'type', FORMAT(`Accounting`.`amount`, 2) as 'amount', `Accounting`.`balance` as 'balance'",
 			'MasterAccount' => "`MasterAccount`.`id` as 'id', `MasterAccount`.`masterAccount` as 'masterAccount', `MasterAccount`.`code` as 'code'",
 			'Account' => "`Account`.`id` as 'id', `Account`.`Account` as 'Account', IF(    CHAR_LENGTH(`MasterAccount1`.`masterAccount`), CONCAT_WS('',   `MasterAccount1`.`masterAccount`), '') as 'masterAccount', `Account`.`code` as 'code'",
 			'SubAccount' => "`SubAccount`.`id` as 'id', IF(    CHAR_LENGTH(`Account1`.`Account`), CONCAT_WS('',   `Account1`.`Account`), '') as 'account', `SubAccount`.`subAccount` as 'subAccount', `SubAccount`.`code` as 'code'",
@@ -219,6 +220,7 @@
 			'CCJournal' => "`CCJournal`.`id` as 'id', IF(    CHAR_LENGTH(`CC1`.`Card`), CONCAT_WS('',   `CC1`.`Card`), '') as 'Card', if(`CCJournal`.`Date`,date_format(`CCJournal`.`Date`,'%m/%d/%Y'),'') as 'Date', `CCJournal`.`Description` as 'Description', `CCJournal`.`Cleared` as 'Cleared', FORMAT(`CCJournal`.`Amount`, 2) as 'Amount', `CCJournal`.`Balance` as 'Balance', IF(    CHAR_LENGTH(`Staff1`.`Employee`), CONCAT_WS('',   `Staff1`.`Employee`), '') as 'Logged', `CCJournal`.`Photo` as 'Photo'",
 			'CC' => "`CC`.`id` as 'id', `CC`.`Card` as 'Card'",
 			'Receivable' => "`Receivable`.`id` as 'id', IF(    CHAR_LENGTH(`Customers1`.`Customer`), CONCAT_WS('',   `Customers1`.`Customer`), '') as 'Customer', IF(    CHAR_LENGTH(`Customers1`.`Phone`), CONCAT_WS('',   `Customers1`.`Phone`), '') as 'Phone', `Receivable`.`Description` as 'Description', `Receivable`.`Interaction` as 'Interaction', if(`Receivable`.`ExpectedDate`,date_format(`Receivable`.`ExpectedDate`,'%m/%d/%Y'),'') as 'ExpectedDate', if(`Receivable`.`LastUpdate`,date_format(`Receivable`.`LastUpdate`,'%m/%d/%Y %h:%i %p'),'') as 'LastUpdate', `Receivable`.`Status` as 'Status', IF(    CHAR_LENGTH(`Staff1`.`Employee`), CONCAT_WS('',   `Staff1`.`Employee`), '') as 'Assigned', `Receivable`.`Amount` as 'Amount'",
+			'AccountPlan' => "`AccountPlan`.`id` as 'id', `AccountPlan`.`description` as 'description', `AccountPlan`.`code` as 'code', IF(    CHAR_LENGTH(`MasterAccount1`.`masterAccount`) || CHAR_LENGTH(`MasterAccount1`.`code`), CONCAT_WS('',   `MasterAccount1`.`masterAccount`, ' - ', `MasterAccount1`.`code`), '') as 'master_account', IF(    CHAR_LENGTH(`Account1`.`Account`) || CHAR_LENGTH(`Account1`.`code`), CONCAT_WS('',   `Account1`.`Account`, ' - ', `Account1`.`code`), '') as 'account', IF(    CHAR_LENGTH(`SubAccount1`.`subAccount`) || CHAR_LENGTH(`SubAccount1`.`code`), CONCAT_WS('',   `SubAccount1`.`subAccount`, ' - ', `SubAccount1`.`code`), '') as 'sub_account', IF(    CHAR_LENGTH(`Type1`.`type`), CONCAT_WS('',   `Type1`.`type`), '') as 'type'",
 		);
 
 		if(isset($sql_fields[$table_name])) {
@@ -268,7 +270,7 @@
 			'Supervisor' => "`Supervisor` LEFT JOIN `Department` as Department1 ON `Department1`.`id`=`Supervisor`.`Department` ",
 			'Losses' => "`Losses` LEFT JOIN `Customers` as Customers1 ON `Customers1`.`id`=`Losses`.`Customer` ",
 			'Subscriptions' => "`Subscriptions` LEFT JOIN `Customers` as Customers1 ON `Customers1`.`id`=`Subscriptions`.`Customer` ",
-			'Accounting' => "`Accounting` LEFT JOIN `Invoice` as Invoice1 ON `Invoice1`.`id`=`Accounting`.`invoice` LEFT JOIN `Customers` as Customers1 ON `Customers1`.`id`=`Invoice1`.`Customer` LEFT JOIN `MasterAccount` as MasterAccount1 ON `MasterAccount1`.`id`=`Accounting`.`master_acount` LEFT JOIN `Account` as Account1 ON `Account1`.`id`=`Accounting`.`account` LEFT JOIN `SubAccount` as SubAccount1 ON `SubAccount1`.`id`=`Accounting`.`sub_account` LEFT JOIN `Type` as Type1 ON `Type1`.`id`=`Accounting`.`type` ",
+			'Accounting' => "`Accounting` LEFT JOIN `Invoice` as Invoice1 ON `Invoice1`.`id`=`Accounting`.`invoice` LEFT JOIN `Customers` as Customers1 ON `Customers1`.`id`=`Invoice1`.`Customer` LEFT JOIN `AccountPlan` as AccountPlan1 ON `AccountPlan1`.`id`=`Accounting`.`account_plan` LEFT JOIN `MasterAccount` as MasterAccount1 ON `MasterAccount1`.`id`=`AccountPlan1`.`master_account` LEFT JOIN `Account` as Account1 ON `Account1`.`id`=`AccountPlan1`.`account` LEFT JOIN `SubAccount` as SubAccount1 ON `SubAccount1`.`id`=`AccountPlan1`.`sub_account` LEFT JOIN `Type` as Type1 ON `Type1`.`id`=`AccountPlan1`.`type` ",
 			'MasterAccount' => "`MasterAccount` ",
 			'Account' => "`Account` LEFT JOIN `MasterAccount` as MasterAccount1 ON `MasterAccount1`.`id`=`Account`.`masterAccount` ",
 			'SubAccount' => "`SubAccount` LEFT JOIN `Account` as Account1 ON `Account1`.`id`=`SubAccount`.`account` ",
@@ -276,6 +278,7 @@
 			'CCJournal' => "`CCJournal` LEFT JOIN `CC` as CC1 ON `CC1`.`id`=`CCJournal`.`Card` LEFT JOIN `Staff` as Staff1 ON `Staff1`.`id`=`CCJournal`.`Logged` ",
 			'CC' => "`CC` ",
 			'Receivable' => "`Receivable` LEFT JOIN `Customers` as Customers1 ON `Customers1`.`id`=`Receivable`.`Customer` LEFT JOIN `Staff` as Staff1 ON `Staff1`.`id`=`Receivable`.`Assigned` ",
+			'AccountPlan' => "`AccountPlan` LEFT JOIN `MasterAccount` as MasterAccount1 ON `MasterAccount1`.`id`=`AccountPlan`.`master_account` LEFT JOIN `Account` as Account1 ON `Account1`.`id`=`AccountPlan`.`account` LEFT JOIN `SubAccount` as SubAccount1 ON `SubAccount1`.`id`=`AccountPlan`.`sub_account` LEFT JOIN `Type` as Type1 ON `Type1`.`id`=`AccountPlan`.`type` ",
 		);
 
 		$pkey = array(
@@ -323,6 +326,7 @@
 			'CCJournal' => 'id',
 			'CC' => 'id',
 			'Receivable' => 'id',
+			'AccountPlan' => 'id',
 		);
 
 		if(!isset($sql_from[$table_name])) return false;
@@ -731,6 +735,7 @@
 				'invoice' => '',
 				'date' => '1',
 				'description' => '',
+				'account_plan' => '',
 				'master_acount' => '',
 				'account' => '',
 				'sub_account' => '',
@@ -785,6 +790,15 @@
 				'Status' => 'OPEN',
 				'Assigned' => '',
 				'Amount' => ''
+			),
+			'AccountPlan' => array(
+				'id' => '',
+				'description' => '',
+				'code' => '',
+				'master_account' => '',
+				'account' => '',
+				'sub_account' => '',
+				'type' => ''
 			)
 		);
 

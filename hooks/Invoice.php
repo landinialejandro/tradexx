@@ -130,20 +130,22 @@ function Invoice_before_update(&$data, $memberInfo, &$args)
 
 		if ($Invoice['type'] !== 'Quote') {
 			//TODO:controlar valores devueltos
-			$ma = sqlValue('SELECT `id` FROM `MasterAccount` where `code` = "VENTA"', $e);
-			$ac = sqlValue('SELECT `id` FROM `Account` where `code` = "VENTA"', $e);
-			$sa = sqlValue('SELECT `id` FROM `SubAccount` where `code` = "VENTA"', $e);
-			$ty = sqlValue('SELECT `id` FROM `Type` where `type` = "Negativo"', $e);
+			$ap = sqlValue('SELECT `id` FROM `AccountPlan` WHERE `code` = "VENTA"');
+			$ap = getDataTable_Values('AccountPlan',$ap);
+			// $ma = sqlValue('SELECT `id` FROM `AccountPlan` where `code` = "VENTA"');
+			// $ac = sqlValue('SELECT `id` FROM `AccountPlan` where `code` = "VENTA"');
+			// $sa = sqlValue('SELECT `id` FROM `AccountPlan` where `code` = "VENTA"');
+			// $ty = sqlValue('SELECT `id` FROM `AccountPlan` where `type` = "Negativo"');
 
 			$accouting = [
 				// agregar movimiento a cashflow si no es QUOTE
 				"invoice" => $data['selectedID'],
 				"date" => $data['Date'],
 				"description" => 'MOVIMIENTO por venta. Invoice:' . $data['number'],
-				"master_acount" => $ma,
-				"account" => $ac,
-				"sub_account" => $sa,
-				"type" => $ty,
+				"master_acount" => $ap['master_acount'],
+				"account" => $ap['account'],
+				"sub_account" => $ap['sub_account'],
+				"type" => $ap['type'],
 				"amount" => $data['Total']
 			];
 			$insert = insert('Accounting', $accouting, $e);

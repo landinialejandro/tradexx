@@ -532,6 +532,10 @@ function Receivable_validateData() {
 	$j('.has-error').removeClass('has-error');
 	return true;
 }
+function AccountPlan_validateData() {
+	$j('.has-error').removeClass('has-error');
+	return true;
+}
 
 function post(url, params, update, disable, loading, success_callback) {
 	$j.ajax({

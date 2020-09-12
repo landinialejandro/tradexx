@@ -402,6 +402,13 @@
 					'group' => $tg[4],
 					'homepageShowCount' => 0
 				),
+				'AccountPlan' => array(
+					'Caption' => 'AccountPlan',
+					'Description' => '',
+					'tableIcon' => 'table.gif',
+					'group' => $tg[4],
+					'homepageShowCount' => 0
+				),
 		);
 
 		if($skip_authentication || getLoggedAdmin()) return $all_tables;
@@ -461,6 +468,7 @@
 				'CCJournal' => 'CC JOURNAL',
 				'CC' => 'CC',
 				'Receivable' => 'Receivable',
+				'AccountPlan' => 'AccountPlan',
 			);
 
 			return $arrTables;
@@ -2345,10 +2353,7 @@
 			),
 			'Accounting' => array(
 				'Invoice' => array('invoice'),
-				'MasterAccount' => array('master_acount'),
-				'Account' => array('account'),
-				'SubAccount' => array('sub_account'),
-				'Type' => array('type'),
+				'AccountPlan' => array('account_plan'),
 			),
 			'Account' => array(
 				'MasterAccount' => array('masterAccount'),
@@ -2363,6 +2368,12 @@
 			'Receivable' => array(
 				'Customers' => array('Customer'),
 				'Staff' => array('Assigned'),
+			),
+			'AccountPlan' => array(
+				'MasterAccount' => array('master_account'),
+				'Account' => array('account'),
+				'SubAccount' => array('sub_account'),
+				'Type' => array('type'),
 			),
 		);
 
@@ -2487,6 +2498,8 @@ WHERE `CCJournal`.`id`=\'%ID%\'',
 			'CC' => array(
 			),
 			'Receivable' => array(
+			),
+			'AccountPlan' => array(
 			),
 		);
 	}

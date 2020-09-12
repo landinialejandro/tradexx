@@ -19,13 +19,15 @@ function Accounting_insert() {
 	$data['date'] = parseMySQLDate($data['date'], '1');
 	$data['description'] = $_REQUEST['description'];
 		if($data['description'] == empty_lookup_value) { $data['description'] = ''; }
-	$data['master_acount'] = $_REQUEST['master_acount'];
+	$data['account_plan'] = $_REQUEST['account_plan'];
+		if($data['account_plan'] == empty_lookup_value) { $data['account_plan'] = ''; }
+	$data['master_acount'] = $_REQUEST['account_plan'];
 		if($data['master_acount'] == empty_lookup_value) { $data['master_acount'] = ''; }
-	$data['account'] = $_REQUEST['account'];
+	$data['account'] = $_REQUEST['account_plan'];
 		if($data['account'] == empty_lookup_value) { $data['account'] = ''; }
-	$data['sub_account'] = $_REQUEST['sub_account'];
+	$data['sub_account'] = $_REQUEST['account_plan'];
 		if($data['sub_account'] == empty_lookup_value) { $data['sub_account'] = ''; }
-	$data['type'] = $_REQUEST['type'];
+	$data['type'] = $_REQUEST['account_plan'];
 		if($data['type'] == empty_lookup_value) { $data['type'] = ''; }
 	$data['amount'] = $_REQUEST['amount'];
 		if($data['amount'] == empty_lookup_value) { $data['amount'] = ''; }
@@ -129,13 +131,15 @@ function Accounting_update($selected_id) {
 	$data['date'] = parseMySQLDate($data['date'], '1');
 	$data['description'] = makeSafe($_REQUEST['description']);
 		if($data['description'] == empty_lookup_value) { $data['description'] = ''; }
-	$data['master_acount'] = makeSafe($_REQUEST['master_acount']);
+	$data['account_plan'] = makeSafe($_REQUEST['account_plan']);
+		if($data['account_plan'] == empty_lookup_value) { $data['account_plan'] = ''; }
+	$data['master_acount'] = makeSafe($_REQUEST['account_plan']);
 		if($data['master_acount'] == empty_lookup_value) { $data['master_acount'] = ''; }
-	$data['account'] = makeSafe($_REQUEST['account']);
+	$data['account'] = makeSafe($_REQUEST['account_plan']);
 		if($data['account'] == empty_lookup_value) { $data['account'] = ''; }
-	$data['sub_account'] = makeSafe($_REQUEST['sub_account']);
+	$data['sub_account'] = makeSafe($_REQUEST['account_plan']);
 		if($data['sub_account'] == empty_lookup_value) { $data['sub_account'] = ''; }
-	$data['type'] = makeSafe($_REQUEST['type']);
+	$data['type'] = makeSafe($_REQUEST['account_plan']);
 		if($data['type'] == empty_lookup_value) { $data['type'] = ''; }
 	$data['amount'] = makeSafe($_REQUEST['amount']);
 		if($data['amount'] == empty_lookup_value) { $data['amount'] = ''; }
@@ -148,7 +152,7 @@ function Accounting_update($selected_id) {
 	}
 
 	$o = array('silentErrors' => true);
-	sql('update `Accounting` set       `invoice`=' . (($data['invoice'] !== '' && $data['invoice'] !== NULL) ? "'{$data['invoice']}'" : 'NULL') . ', `date`=' . (($data['date'] !== '' && $data['date'] !== NULL) ? "'{$data['date']}'" : 'NULL') . ', `description`=' . (($data['description'] !== '' && $data['description'] !== NULL) ? "'{$data['description']}'" : 'NULL') . ', `master_acount`=' . (($data['master_acount'] !== '' && $data['master_acount'] !== NULL) ? "'{$data['master_acount']}'" : 'NULL') . ', `account`=' . (($data['account'] !== '' && $data['account'] !== NULL) ? "'{$data['account']}'" : 'NULL') . ', `sub_account`=' . (($data['sub_account'] !== '' && $data['sub_account'] !== NULL) ? "'{$data['sub_account']}'" : 'NULL') . ', `type`=' . (($data['type'] !== '' && $data['type'] !== NULL) ? "'{$data['type']}'" : 'NULL') . ', `amount`=' . (($data['amount'] !== '' && $data['amount'] !== NULL) ? "'{$data['amount']}'" : 'NULL') . " where `id`='".makeSafe($selected_id)."'", $o);
+	sql('update `Accounting` set       `invoice`=' . (($data['invoice'] !== '' && $data['invoice'] !== NULL) ? "'{$data['invoice']}'" : 'NULL') . ', `date`=' . (($data['date'] !== '' && $data['date'] !== NULL) ? "'{$data['date']}'" : 'NULL') . ', `description`=' . (($data['description'] !== '' && $data['description'] !== NULL) ? "'{$data['description']}'" : 'NULL') . ', `account_plan`=' . (($data['account_plan'] !== '' && $data['account_plan'] !== NULL) ? "'{$data['account_plan']}'" : 'NULL') . ', `master_acount`=' . (($data['master_acount'] !== '' && $data['master_acount'] !== NULL) ? "'{$data['master_acount']}'" : 'NULL') . ', `account`=' . (($data['account'] !== '' && $data['account'] !== NULL) ? "'{$data['account']}'" : 'NULL') . ', `sub_account`=' . (($data['sub_account'] !== '' && $data['sub_account'] !== NULL) ? "'{$data['sub_account']}'" : 'NULL') . ', `type`=' . (($data['type'] !== '' && $data['type'] !== NULL) ? "'{$data['type']}'" : 'NULL') . ', `amount`=' . (($data['amount'] !== '' && $data['amount'] !== NULL) ? "'{$data['amount']}'" : 'NULL') . " where `id`='".makeSafe($selected_id)."'", $o);
 	if($o['error']!='') {
 		echo $o['error'];
 		echo '<a href="Accounting_view.php?SelectedID='.urlencode($selected_id)."\">{$Translation['< back']}</a>";
@@ -191,14 +195,9 @@ function Accounting_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, 
 	}
 
 	$filterer_invoice = thisOr(undo_magic_quotes($_REQUEST['filterer_invoice']), '');
-	$filterer_master_acount = thisOr(undo_magic_quotes($_REQUEST['filterer_master_acount']), '');
-	$filterer_account = thisOr(undo_magic_quotes($_REQUEST['filterer_account']), '');
-	$filterer_sub_account = thisOr(undo_magic_quotes($_REQUEST['filterer_sub_account']), '');
-	$filterer_type = thisOr(undo_magic_quotes($_REQUEST['filterer_type']), '');
+	$filterer_account_plan = thisOr(undo_magic_quotes($_REQUEST['filterer_account_plan']), '');
 
 	// populate filterers, starting from children to grand-parents
-	if($filterer_account && !$filterer_master_acount) $filterer_master_acount = sqlValue("select masterAccount from Account where id='" . makeSafe($filterer_account) . "'");
-	if($filterer_sub_account && !$filterer_account) $filterer_account = sqlValue("select account from SubAccount where id='" . makeSafe($filterer_sub_account) . "'");
 
 	// unique random identifier
 	$rnd1 = ($dvprint ? rand(1000000, 9999999) : '');
@@ -212,14 +211,8 @@ function Accounting_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, 
 	$combo_date->DefaultDate = parseMySQLDate('1', '1');
 	$combo_date->MonthNames = $Translation['month names'];
 	$combo_date->NamePrefix = 'date';
-	// combobox: master_acount
-	$combo_master_acount = new DataCombo;
-	// combobox: account, filterable by: master_acount
-	$combo_account = new DataCombo;
-	// combobox: sub_account, filterable by: account
-	$combo_sub_account = new DataCombo;
-	// combobox: type
-	$combo_type = new DataCombo;
+	// combobox: account_plan
+	$combo_account_plan = new DataCombo;
 
 	if($selected_id) {
 		// mm: check member permissions
@@ -249,30 +242,18 @@ function Accounting_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, 
 		}
 		$combo_invoice->SelectedData = $row['invoice'];
 		$combo_date->DefaultDate = $row['date'];
-		$combo_master_acount->SelectedData = $row['master_acount'];
-		$combo_account->SelectedData = $row['account'];
-		$combo_sub_account->SelectedData = $row['sub_account'];
-		$combo_type->SelectedData = $row['type'];
+		$combo_account_plan->SelectedData = $row['account_plan'];
 		$urow = $row; /* unsanitized data */
 		$hc = new CI_Input();
 		$row = $hc->xss_clean($row); /* sanitize data */
 	} else {
 		$combo_invoice->SelectedData = $filterer_invoice;
-		$combo_master_acount->SelectedData = $filterer_master_acount;
-		$combo_account->SelectedData = $filterer_account;
-		$combo_sub_account->SelectedData = $filterer_sub_account;
-		$combo_type->SelectedData = $filterer_type;
+		$combo_account_plan->SelectedData = $filterer_account_plan;
 	}
 	$combo_invoice->HTML = '<span id="invoice-container' . $rnd1 . '"></span><input type="hidden" name="invoice" id="invoice' . $rnd1 . '" value="' . html_attr($combo_invoice->SelectedData) . '">';
 	$combo_invoice->MatchText = '<span id="invoice-container-readonly' . $rnd1 . '"></span><input type="hidden" name="invoice" id="invoice' . $rnd1 . '" value="' . html_attr($combo_invoice->SelectedData) . '">';
-	$combo_master_acount->HTML = '<span id="master_acount-container' . $rnd1 . '"></span><input type="hidden" name="master_acount" id="master_acount' . $rnd1 . '" value="' . html_attr($combo_master_acount->SelectedData) . '">';
-	$combo_master_acount->MatchText = '<span id="master_acount-container-readonly' . $rnd1 . '"></span><input type="hidden" name="master_acount" id="master_acount' . $rnd1 . '" value="' . html_attr($combo_master_acount->SelectedData) . '">';
-	$combo_account->HTML = '<span id="account-container' . $rnd1 . '"></span><input type="hidden" name="account" id="account' . $rnd1 . '" value="' . html_attr($combo_account->SelectedData) . '">';
-	$combo_account->MatchText = '<span id="account-container-readonly' . $rnd1 . '"></span><input type="hidden" name="account" id="account' . $rnd1 . '" value="' . html_attr($combo_account->SelectedData) . '">';
-	$combo_sub_account->HTML = '<span id="sub_account-container' . $rnd1 . '"></span><input type="hidden" name="sub_account" id="sub_account' . $rnd1 . '" value="' . html_attr($combo_sub_account->SelectedData) . '">';
-	$combo_sub_account->MatchText = '<span id="sub_account-container-readonly' . $rnd1 . '"></span><input type="hidden" name="sub_account" id="sub_account' . $rnd1 . '" value="' . html_attr($combo_sub_account->SelectedData) . '">';
-	$combo_type->HTML = '<span id="type-container' . $rnd1 . '"></span><input type="hidden" name="type" id="type' . $rnd1 . '" value="' . html_attr($combo_type->SelectedData) . '">';
-	$combo_type->MatchText = '<span id="type-container-readonly' . $rnd1 . '"></span><input type="hidden" name="type" id="type' . $rnd1 . '" value="' . html_attr($combo_type->SelectedData) . '">';
+	$combo_account_plan->HTML = '<span id="account_plan-container' . $rnd1 . '"></span><input type="hidden" name="account_plan" id="account_plan' . $rnd1 . '" value="' . html_attr($combo_account_plan->SelectedData) . '">';
+	$combo_account_plan->MatchText = '<span id="account_plan-container-readonly' . $rnd1 . '"></span><input type="hidden" name="account_plan" id="account_plan' . $rnd1 . '" value="' . html_attr($combo_account_plan->SelectedData) . '">';
 
 	ob_start();
 	?>
@@ -280,18 +261,12 @@ function Accounting_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, 
 	<script>
 		// initial lookup values
 		AppGini.current_invoice__RAND__ = { text: "", value: "<?php echo addslashes($selected_id ? $urow['invoice'] : $filterer_invoice); ?>"};
-		AppGini.current_master_acount__RAND__ = { text: "", value: "<?php echo addslashes($selected_id ? $urow['master_acount'] : $filterer_master_acount); ?>"};
-		AppGini.current_account__RAND__ = { text: "", value: "<?php echo addslashes($selected_id ? $urow['account'] : $filterer_account); ?>"};
-		AppGini.current_sub_account__RAND__ = { text: "", value: "<?php echo addslashes($selected_id ? $urow['sub_account'] : $filterer_sub_account); ?>"};
-		AppGini.current_type__RAND__ = { text: "", value: "<?php echo addslashes($selected_id ? $urow['type'] : $filterer_type); ?>"};
+		AppGini.current_account_plan__RAND__ = { text: "", value: "<?php echo addslashes($selected_id ? $urow['account_plan'] : $filterer_account_plan); ?>"};
 
 		jQuery(function() {
 			setTimeout(function() {
 				if(typeof(invoice_reload__RAND__) == 'function') invoice_reload__RAND__();
-				if(typeof(master_acount_reload__RAND__) == 'function') master_acount_reload__RAND__();
-				<?php echo (!$AllowUpdate || $dvprint ? 'if(typeof(account_reload__RAND__) == \'function\') account_reload__RAND__(AppGini.current_master_acount__RAND__.value);' : ''); ?>
-				<?php echo (!$AllowUpdate || $dvprint ? 'if(typeof(sub_account_reload__RAND__) == \'function\') sub_account_reload__RAND__(AppGini.current_account__RAND__.value);' : ''); ?>
-				if(typeof(type_reload__RAND__) == 'function') type_reload__RAND__();
+				if(typeof(account_plan_reload__RAND__) == 'function') account_plan_reload__RAND__();
 			}, 10); /* we need to slightly delay client-side execution of the above code to allow AppGini.ajaxCache to work */
 		});
 		function invoice_reload__RAND__() {
@@ -371,28 +346,27 @@ function Accounting_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, 
 		<?php } ?>
 
 		}
-		function master_acount_reload__RAND__() {
+		function account_plan_reload__RAND__() {
 		<?php if(($AllowUpdate || $AllowInsert) && !$dvprint) { ?>
 
-			$j("#master_acount-container__RAND__").select2({
+			$j("#account_plan-container__RAND__").select2({
 				/* initial default value */
 				initSelection: function(e, c) {
 					$j.ajax({
 						url: 'ajax_combo.php',
 						dataType: 'json',
-						data: { id: AppGini.current_master_acount__RAND__.value, t: 'Accounting', f: 'master_acount' },
+						data: { id: AppGini.current_account_plan__RAND__.value, t: 'Accounting', f: 'account_plan' },
 						success: function(resp) {
 							c({
 								id: resp.results[0].id,
 								text: resp.results[0].text
 							});
-							$j('[name="master_acount"]').val(resp.results[0].id);
-							$j('[id=master_acount-container-readonly__RAND__]').html('<span id="master_acount-match-text">' + resp.results[0].text + '</span>');
-							if(resp.results[0].id == '<?php echo empty_lookup_value; ?>') { $j('.btn[id=MasterAccount_view_parent]').hide(); }else{ $j('.btn[id=MasterAccount_view_parent]').show(); }
+							$j('[name="account_plan"]').val(resp.results[0].id);
+							$j('[id=account_plan-container-readonly__RAND__]').html('<span id="account_plan-match-text">' + resp.results[0].text + '</span>');
+							if(resp.results[0].id == '<?php echo empty_lookup_value; ?>') { $j('.btn[id=AccountPlan_view_parent]').hide(); }else{ $j('.btn[id=AccountPlan_view_parent]').show(); }
 
-						if(typeof(account_reload__RAND__) == 'function') account_reload__RAND__(AppGini.current_master_acount__RAND__.value);
 
-							if(typeof(master_acount_update_autofills__RAND__) == 'function') master_acount_update_autofills__RAND__();
+							if(typeof(account_plan_update_autofills__RAND__) == 'function') account_plan_update_autofills__RAND__();
 						}
 					});
 				},
@@ -404,32 +378,31 @@ function Accounting_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, 
 					url: 'ajax_combo.php',
 					dataType: 'json',
 					cache: true,
-					data: function(term, page) { /* */ return { s: term, p: page, t: 'Accounting', f: 'master_acount' }; },
+					data: function(term, page) { /* */ return { s: term, p: page, t: 'Accounting', f: 'account_plan' }; },
 					results: function(resp, page) { /* */ return resp; }
 				},
 				escapeMarkup: function(str) { /* */ return str; }
 			}).on('change', function(e) {
-				AppGini.current_master_acount__RAND__.value = e.added.id;
-				AppGini.current_master_acount__RAND__.text = e.added.text;
-				$j('[name="master_acount"]').val(e.added.id);
-				if(e.added.id == '<?php echo empty_lookup_value; ?>') { $j('.btn[id=MasterAccount_view_parent]').hide(); }else{ $j('.btn[id=MasterAccount_view_parent]').show(); }
+				AppGini.current_account_plan__RAND__.value = e.added.id;
+				AppGini.current_account_plan__RAND__.text = e.added.text;
+				$j('[name="account_plan"]').val(e.added.id);
+				if(e.added.id == '<?php echo empty_lookup_value; ?>') { $j('.btn[id=AccountPlan_view_parent]').hide(); }else{ $j('.btn[id=AccountPlan_view_parent]').show(); }
 
-						if(typeof(account_reload__RAND__) == 'function') account_reload__RAND__(AppGini.current_master_acount__RAND__.value);
 
-				if(typeof(master_acount_update_autofills__RAND__) == 'function') master_acount_update_autofills__RAND__();
+				if(typeof(account_plan_update_autofills__RAND__) == 'function') account_plan_update_autofills__RAND__();
 			});
 
-			if(!$j("#master_acount-container__RAND__").length) {
+			if(!$j("#account_plan-container__RAND__").length) {
 				$j.ajax({
 					url: 'ajax_combo.php',
 					dataType: 'json',
-					data: { id: AppGini.current_master_acount__RAND__.value, t: 'Accounting', f: 'master_acount' },
+					data: { id: AppGini.current_account_plan__RAND__.value, t: 'Accounting', f: 'account_plan' },
 					success: function(resp) {
-						$j('[name="master_acount"]').val(resp.results[0].id);
-						$j('[id=master_acount-container-readonly__RAND__]').html('<span id="master_acount-match-text">' + resp.results[0].text + '</span>');
-						if(resp.results[0].id == '<?php echo empty_lookup_value; ?>') { $j('.btn[id=MasterAccount_view_parent]').hide(); }else{ $j('.btn[id=MasterAccount_view_parent]').show(); }
+						$j('[name="account_plan"]').val(resp.results[0].id);
+						$j('[id=account_plan-container-readonly__RAND__]').html('<span id="account_plan-match-text">' + resp.results[0].text + '</span>');
+						if(resp.results[0].id == '<?php echo empty_lookup_value; ?>') { $j('.btn[id=AccountPlan_view_parent]').hide(); }else{ $j('.btn[id=AccountPlan_view_parent]').show(); }
 
-						if(typeof(master_acount_update_autofills__RAND__) == 'function') master_acount_update_autofills__RAND__();
+						if(typeof(account_plan_update_autofills__RAND__) == 'function') account_plan_update_autofills__RAND__();
 					}
 				});
 			}
@@ -439,245 +412,12 @@ function Accounting_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, 
 			$j.ajax({
 				url: 'ajax_combo.php',
 				dataType: 'json',
-				data: { id: AppGini.current_master_acount__RAND__.value, t: 'Accounting', f: 'master_acount' },
+				data: { id: AppGini.current_account_plan__RAND__.value, t: 'Accounting', f: 'account_plan' },
 				success: function(resp) {
-					$j('[id=master_acount-container__RAND__], [id=master_acount-container-readonly__RAND__]').html('<span id="master_acount-match-text">' + resp.results[0].text + '</span>');
-					if(resp.results[0].id == '<?php echo empty_lookup_value; ?>') { $j('.btn[id=MasterAccount_view_parent]').hide(); }else{ $j('.btn[id=MasterAccount_view_parent]').show(); }
+					$j('[id=account_plan-container__RAND__], [id=account_plan-container-readonly__RAND__]').html('<span id="account_plan-match-text">' + resp.results[0].text + '</span>');
+					if(resp.results[0].id == '<?php echo empty_lookup_value; ?>') { $j('.btn[id=AccountPlan_view_parent]').hide(); }else{ $j('.btn[id=AccountPlan_view_parent]').show(); }
 
-					if(typeof(master_acount_update_autofills__RAND__) == 'function') master_acount_update_autofills__RAND__();
-				}
-			});
-		<?php } ?>
-
-		}
-		function account_reload__RAND__(filterer_master_acount) {
-		<?php if(($AllowUpdate || $AllowInsert) && !$dvprint) { ?>
-
-			$j("#account-container__RAND__").select2({
-				/* initial default value */
-				initSelection: function(e, c) {
-					$j.ajax({
-						url: 'ajax_combo.php',
-						dataType: 'json',
-						data: { filterer_master_acount: filterer_master_acount, id: AppGini.current_account__RAND__.value, t: 'Accounting', f: 'account' },
-						success: function(resp) {
-							c({
-								id: resp.results[0].id,
-								text: resp.results[0].text
-							});
-							$j('[name="account"]').val(resp.results[0].id);
-							$j('[id=account-container-readonly__RAND__]').html('<span id="account-match-text">' + resp.results[0].text + '</span>');
-							if(resp.results[0].id == '<?php echo empty_lookup_value; ?>') { $j('.btn[id=Account_view_parent]').hide(); }else{ $j('.btn[id=Account_view_parent]').show(); }
-
-						if(typeof(sub_account_reload__RAND__) == 'function') sub_account_reload__RAND__(AppGini.current_account__RAND__.value);
-
-							if(typeof(account_update_autofills__RAND__) == 'function') account_update_autofills__RAND__();
-						}
-					});
-				},
-				width: '100%',
-				formatNoMatches: function(term) { /* */ return '<?php echo addslashes($Translation['No matches found!']); ?>'; },
-				minimumResultsForSearch: 5,
-				loadMorePadding: 200,
-				ajax: {
-					url: 'ajax_combo.php',
-					dataType: 'json',
-					cache: true,
-					data: function(term, page) { /* */ return { filterer_master_acount: filterer_master_acount, s: term, p: page, t: 'Accounting', f: 'account' }; },
-					results: function(resp, page) { /* */ return resp; }
-				},
-				escapeMarkup: function(str) { /* */ return str; }
-			}).on('change', function(e) {
-				AppGini.current_account__RAND__.value = e.added.id;
-				AppGini.current_account__RAND__.text = e.added.text;
-				$j('[name="account"]').val(e.added.id);
-				if(e.added.id == '<?php echo empty_lookup_value; ?>') { $j('.btn[id=Account_view_parent]').hide(); }else{ $j('.btn[id=Account_view_parent]').show(); }
-
-						if(typeof(sub_account_reload__RAND__) == 'function') sub_account_reload__RAND__(AppGini.current_account__RAND__.value);
-
-				if(typeof(account_update_autofills__RAND__) == 'function') account_update_autofills__RAND__();
-			});
-
-			if(!$j("#account-container__RAND__").length) {
-				$j.ajax({
-					url: 'ajax_combo.php',
-					dataType: 'json',
-					data: { id: AppGini.current_account__RAND__.value, t: 'Accounting', f: 'account' },
-					success: function(resp) {
-						$j('[name="account"]').val(resp.results[0].id);
-						$j('[id=account-container-readonly__RAND__]').html('<span id="account-match-text">' + resp.results[0].text + '</span>');
-						if(resp.results[0].id == '<?php echo empty_lookup_value; ?>') { $j('.btn[id=Account_view_parent]').hide(); }else{ $j('.btn[id=Account_view_parent]').show(); }
-
-						if(typeof(account_update_autofills__RAND__) == 'function') account_update_autofills__RAND__();
-					}
-				});
-			}
-
-		<?php }else{ ?>
-
-			$j.ajax({
-				url: 'ajax_combo.php',
-				dataType: 'json',
-				data: { id: AppGini.current_account__RAND__.value, t: 'Accounting', f: 'account' },
-				success: function(resp) {
-					$j('[id=account-container__RAND__], [id=account-container-readonly__RAND__]').html('<span id="account-match-text">' + resp.results[0].text + '</span>');
-					if(resp.results[0].id == '<?php echo empty_lookup_value; ?>') { $j('.btn[id=Account_view_parent]').hide(); }else{ $j('.btn[id=Account_view_parent]').show(); }
-
-					if(typeof(account_update_autofills__RAND__) == 'function') account_update_autofills__RAND__();
-				}
-			});
-		<?php } ?>
-
-		}
-		function sub_account_reload__RAND__(filterer_account) {
-		<?php if(($AllowUpdate || $AllowInsert) && !$dvprint) { ?>
-
-			$j("#sub_account-container__RAND__").select2({
-				/* initial default value */
-				initSelection: function(e, c) {
-					$j.ajax({
-						url: 'ajax_combo.php',
-						dataType: 'json',
-						data: { filterer_account: filterer_account, id: AppGini.current_sub_account__RAND__.value, t: 'Accounting', f: 'sub_account' },
-						success: function(resp) {
-							c({
-								id: resp.results[0].id,
-								text: resp.results[0].text
-							});
-							$j('[name="sub_account"]').val(resp.results[0].id);
-							$j('[id=sub_account-container-readonly__RAND__]').html('<span id="sub_account-match-text">' + resp.results[0].text + '</span>');
-							if(resp.results[0].id == '<?php echo empty_lookup_value; ?>') { $j('.btn[id=SubAccount_view_parent]').hide(); }else{ $j('.btn[id=SubAccount_view_parent]').show(); }
-
-
-							if(typeof(sub_account_update_autofills__RAND__) == 'function') sub_account_update_autofills__RAND__();
-						}
-					});
-				},
-				width: '100%',
-				formatNoMatches: function(term) { /* */ return '<?php echo addslashes($Translation['No matches found!']); ?>'; },
-				minimumResultsForSearch: 5,
-				loadMorePadding: 200,
-				ajax: {
-					url: 'ajax_combo.php',
-					dataType: 'json',
-					cache: true,
-					data: function(term, page) { /* */ return { filterer_account: filterer_account, s: term, p: page, t: 'Accounting', f: 'sub_account' }; },
-					results: function(resp, page) { /* */ return resp; }
-				},
-				escapeMarkup: function(str) { /* */ return str; }
-			}).on('change', function(e) {
-				AppGini.current_sub_account__RAND__.value = e.added.id;
-				AppGini.current_sub_account__RAND__.text = e.added.text;
-				$j('[name="sub_account"]').val(e.added.id);
-				if(e.added.id == '<?php echo empty_lookup_value; ?>') { $j('.btn[id=SubAccount_view_parent]').hide(); }else{ $j('.btn[id=SubAccount_view_parent]').show(); }
-
-
-				if(typeof(sub_account_update_autofills__RAND__) == 'function') sub_account_update_autofills__RAND__();
-			});
-
-			if(!$j("#sub_account-container__RAND__").length) {
-				$j.ajax({
-					url: 'ajax_combo.php',
-					dataType: 'json',
-					data: { id: AppGini.current_sub_account__RAND__.value, t: 'Accounting', f: 'sub_account' },
-					success: function(resp) {
-						$j('[name="sub_account"]').val(resp.results[0].id);
-						$j('[id=sub_account-container-readonly__RAND__]').html('<span id="sub_account-match-text">' + resp.results[0].text + '</span>');
-						if(resp.results[0].id == '<?php echo empty_lookup_value; ?>') { $j('.btn[id=SubAccount_view_parent]').hide(); }else{ $j('.btn[id=SubAccount_view_parent]').show(); }
-
-						if(typeof(sub_account_update_autofills__RAND__) == 'function') sub_account_update_autofills__RAND__();
-					}
-				});
-			}
-
-		<?php }else{ ?>
-
-			$j.ajax({
-				url: 'ajax_combo.php',
-				dataType: 'json',
-				data: { id: AppGini.current_sub_account__RAND__.value, t: 'Accounting', f: 'sub_account' },
-				success: function(resp) {
-					$j('[id=sub_account-container__RAND__], [id=sub_account-container-readonly__RAND__]').html('<span id="sub_account-match-text">' + resp.results[0].text + '</span>');
-					if(resp.results[0].id == '<?php echo empty_lookup_value; ?>') { $j('.btn[id=SubAccount_view_parent]').hide(); }else{ $j('.btn[id=SubAccount_view_parent]').show(); }
-
-					if(typeof(sub_account_update_autofills__RAND__) == 'function') sub_account_update_autofills__RAND__();
-				}
-			});
-		<?php } ?>
-
-		}
-		function type_reload__RAND__() {
-		<?php if(($AllowUpdate || $AllowInsert) && !$dvprint) { ?>
-
-			$j("#type-container__RAND__").select2({
-				/* initial default value */
-				initSelection: function(e, c) {
-					$j.ajax({
-						url: 'ajax_combo.php',
-						dataType: 'json',
-						data: { id: AppGini.current_type__RAND__.value, t: 'Accounting', f: 'type' },
-						success: function(resp) {
-							c({
-								id: resp.results[0].id,
-								text: resp.results[0].text
-							});
-							$j('[name="type"]').val(resp.results[0].id);
-							$j('[id=type-container-readonly__RAND__]').html('<span id="type-match-text">' + resp.results[0].text + '</span>');
-							if(resp.results[0].id == '<?php echo empty_lookup_value; ?>') { $j('.btn[id=Type_view_parent]').hide(); }else{ $j('.btn[id=Type_view_parent]').show(); }
-
-
-							if(typeof(type_update_autofills__RAND__) == 'function') type_update_autofills__RAND__();
-						}
-					});
-				},
-				width: '100%',
-				formatNoMatches: function(term) { /* */ return '<?php echo addslashes($Translation['No matches found!']); ?>'; },
-				minimumResultsForSearch: 5,
-				loadMorePadding: 200,
-				ajax: {
-					url: 'ajax_combo.php',
-					dataType: 'json',
-					cache: true,
-					data: function(term, page) { /* */ return { s: term, p: page, t: 'Accounting', f: 'type' }; },
-					results: function(resp, page) { /* */ return resp; }
-				},
-				escapeMarkup: function(str) { /* */ return str; }
-			}).on('change', function(e) {
-				AppGini.current_type__RAND__.value = e.added.id;
-				AppGini.current_type__RAND__.text = e.added.text;
-				$j('[name="type"]').val(e.added.id);
-				if(e.added.id == '<?php echo empty_lookup_value; ?>') { $j('.btn[id=Type_view_parent]').hide(); }else{ $j('.btn[id=Type_view_parent]').show(); }
-
-
-				if(typeof(type_update_autofills__RAND__) == 'function') type_update_autofills__RAND__();
-			});
-
-			if(!$j("#type-container__RAND__").length) {
-				$j.ajax({
-					url: 'ajax_combo.php',
-					dataType: 'json',
-					data: { id: AppGini.current_type__RAND__.value, t: 'Accounting', f: 'type' },
-					success: function(resp) {
-						$j('[name="type"]').val(resp.results[0].id);
-						$j('[id=type-container-readonly__RAND__]').html('<span id="type-match-text">' + resp.results[0].text + '</span>');
-						if(resp.results[0].id == '<?php echo empty_lookup_value; ?>') { $j('.btn[id=Type_view_parent]').hide(); }else{ $j('.btn[id=Type_view_parent]').show(); }
-
-						if(typeof(type_update_autofills__RAND__) == 'function') type_update_autofills__RAND__();
-					}
-				});
-			}
-
-		<?php }else{ ?>
-
-			$j.ajax({
-				url: 'ajax_combo.php',
-				dataType: 'json',
-				data: { id: AppGini.current_type__RAND__.value, t: 'Accounting', f: 'type' },
-				success: function(resp) {
-					$j('[id=type-container__RAND__], [id=type-container-readonly__RAND__]').html('<span id="type-match-text">' + resp.results[0].text + '</span>');
-					if(resp.results[0].id == '<?php echo empty_lookup_value; ?>') { $j('.btn[id=Type_view_parent]').hide(); }else{ $j('.btn[id=Type_view_parent]').show(); }
-
-					if(typeof(type_update_autofills__RAND__) == 'function') type_update_autofills__RAND__();
+					if(typeof(account_plan_update_autofills__RAND__) == 'function') account_plan_update_autofills__RAND__();
 				}
 			});
 		<?php } ?>
@@ -745,14 +485,8 @@ function Accounting_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, 
 		$jsReadOnly .= "\tjQuery('#invoice_caption').prop('disabled', true).css({ color: '#555', backgroundColor: 'white' });\n";
 		$jsReadOnly .= "\tjQuery('#date').prop('readonly', true);\n";
 		$jsReadOnly .= "\tjQuery('#dateDay, #dateMonth, #dateYear').prop('disabled', true).css({ color: '#555', backgroundColor: '#fff' });\n";
-		$jsReadOnly .= "\tjQuery('#master_acount').prop('disabled', true).css({ color: '#555', backgroundColor: '#fff' });\n";
-		$jsReadOnly .= "\tjQuery('#master_acount_caption').prop('disabled', true).css({ color: '#555', backgroundColor: 'white' });\n";
-		$jsReadOnly .= "\tjQuery('#account').prop('disabled', true).css({ color: '#555', backgroundColor: '#fff' });\n";
-		$jsReadOnly .= "\tjQuery('#account_caption').prop('disabled', true).css({ color: '#555', backgroundColor: 'white' });\n";
-		$jsReadOnly .= "\tjQuery('#sub_account').prop('disabled', true).css({ color: '#555', backgroundColor: '#fff' });\n";
-		$jsReadOnly .= "\tjQuery('#sub_account_caption').prop('disabled', true).css({ color: '#555', backgroundColor: 'white' });\n";
-		$jsReadOnly .= "\tjQuery('#type').prop('disabled', true).css({ color: '#555', backgroundColor: '#fff' });\n";
-		$jsReadOnly .= "\tjQuery('#type_caption').prop('disabled', true).css({ color: '#555', backgroundColor: 'white' });\n";
+		$jsReadOnly .= "\tjQuery('#account_plan').prop('disabled', true).css({ color: '#555', backgroundColor: '#fff' });\n";
+		$jsReadOnly .= "\tjQuery('#account_plan_caption').prop('disabled', true).css({ color: '#555', backgroundColor: 'white' });\n";
 		$jsReadOnly .= "\tjQuery('#amount').replaceWith('<div class=\"form-control-static\" id=\"amount\">' + (jQuery('#amount').val() || '') + '</div>');\n";
 		$jsReadOnly .= "\tjQuery('.select2-container').hide();\n";
 
@@ -768,21 +502,12 @@ function Accounting_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, 
 	$templateCode = str_replace('<%%URLCOMBOTEXT(invoice)%%>', urlencode($combo_invoice->MatchText), $templateCode);
 	$templateCode = str_replace('<%%COMBO(date)%%>', ($selected_id && !$arrPerm[3] ? '<div class="form-control-static">' . $combo_date->GetHTML(true) . '</div>' : $combo_date->GetHTML()), $templateCode);
 	$templateCode = str_replace('<%%COMBOTEXT(date)%%>', $combo_date->GetHTML(true), $templateCode);
-	$templateCode = str_replace('<%%COMBO(master_acount)%%>', $combo_master_acount->HTML, $templateCode);
-	$templateCode = str_replace('<%%COMBOTEXT(master_acount)%%>', $combo_master_acount->MatchText, $templateCode);
-	$templateCode = str_replace('<%%URLCOMBOTEXT(master_acount)%%>', urlencode($combo_master_acount->MatchText), $templateCode);
-	$templateCode = str_replace('<%%COMBO(account)%%>', $combo_account->HTML, $templateCode);
-	$templateCode = str_replace('<%%COMBOTEXT(account)%%>', $combo_account->MatchText, $templateCode);
-	$templateCode = str_replace('<%%URLCOMBOTEXT(account)%%>', urlencode($combo_account->MatchText), $templateCode);
-	$templateCode = str_replace('<%%COMBO(sub_account)%%>', $combo_sub_account->HTML, $templateCode);
-	$templateCode = str_replace('<%%COMBOTEXT(sub_account)%%>', $combo_sub_account->MatchText, $templateCode);
-	$templateCode = str_replace('<%%URLCOMBOTEXT(sub_account)%%>', urlencode($combo_sub_account->MatchText), $templateCode);
-	$templateCode = str_replace('<%%COMBO(type)%%>', $combo_type->HTML, $templateCode);
-	$templateCode = str_replace('<%%COMBOTEXT(type)%%>', $combo_type->MatchText, $templateCode);
-	$templateCode = str_replace('<%%URLCOMBOTEXT(type)%%>', urlencode($combo_type->MatchText), $templateCode);
+	$templateCode = str_replace('<%%COMBO(account_plan)%%>', $combo_account_plan->HTML, $templateCode);
+	$templateCode = str_replace('<%%COMBOTEXT(account_plan)%%>', $combo_account_plan->MatchText, $templateCode);
+	$templateCode = str_replace('<%%URLCOMBOTEXT(account_plan)%%>', urlencode($combo_account_plan->MatchText), $templateCode);
 
 	/* lookup fields array: 'lookup field name' => array('parent table name', 'lookup field caption') */
-	$lookup_fields = array('invoice' => array('Invoice', 'Invoice'), 'master_acount' => array('MasterAccount', 'Master account'), 'account' => array('Account', 'Account'), 'sub_account' => array('SubAccount', 'Subaccount'), 'type' => array('Type', 'Type'), );
+	$lookup_fields = array('invoice' => array('Invoice', 'Invoice'), 'account_plan' => array('AccountPlan', 'Account plan'), );
 	foreach($lookup_fields as $luf => $ptfc) {
 		$pt_perm = getTablePermissions($ptfc[0]);
 
@@ -802,10 +527,7 @@ function Accounting_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, 
 	$templateCode = str_replace('<%%UPLOADFILE(invoice)%%>', '', $templateCode);
 	$templateCode = str_replace('<%%UPLOADFILE(date)%%>', '', $templateCode);
 	$templateCode = str_replace('<%%UPLOADFILE(description)%%>', '', $templateCode);
-	$templateCode = str_replace('<%%UPLOADFILE(master_acount)%%>', '', $templateCode);
-	$templateCode = str_replace('<%%UPLOADFILE(account)%%>', '', $templateCode);
-	$templateCode = str_replace('<%%UPLOADFILE(sub_account)%%>', '', $templateCode);
-	$templateCode = str_replace('<%%UPLOADFILE(type)%%>', '', $templateCode);
+	$templateCode = str_replace('<%%UPLOADFILE(account_plan)%%>', '', $templateCode);
 	$templateCode = str_replace('<%%UPLOADFILE(amount)%%>', '', $templateCode);
 	$templateCode = str_replace('<%%UPLOADFILE(balance)%%>', '', $templateCode);
 
@@ -826,18 +548,9 @@ function Accounting_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, 
 		}
 		$templateCode = str_replace('<%%VALUE(description)%%>', nl2br($row['description']), $templateCode);
 		$templateCode = str_replace('<%%URLVALUE(description)%%>', urlencode($urow['description']), $templateCode);
-		if( $dvprint) $templateCode = str_replace('<%%VALUE(master_acount)%%>', safe_html($urow['master_acount']), $templateCode);
-		if(!$dvprint) $templateCode = str_replace('<%%VALUE(master_acount)%%>', html_attr($row['master_acount']), $templateCode);
-		$templateCode = str_replace('<%%URLVALUE(master_acount)%%>', urlencode($urow['master_acount']), $templateCode);
-		if( $dvprint) $templateCode = str_replace('<%%VALUE(account)%%>', safe_html($urow['account']), $templateCode);
-		if(!$dvprint) $templateCode = str_replace('<%%VALUE(account)%%>', html_attr($row['account']), $templateCode);
-		$templateCode = str_replace('<%%URLVALUE(account)%%>', urlencode($urow['account']), $templateCode);
-		if( $dvprint) $templateCode = str_replace('<%%VALUE(sub_account)%%>', safe_html($urow['sub_account']), $templateCode);
-		if(!$dvprint) $templateCode = str_replace('<%%VALUE(sub_account)%%>', html_attr($row['sub_account']), $templateCode);
-		$templateCode = str_replace('<%%URLVALUE(sub_account)%%>', urlencode($urow['sub_account']), $templateCode);
-		if( $dvprint) $templateCode = str_replace('<%%VALUE(type)%%>', safe_html($urow['type']), $templateCode);
-		if(!$dvprint) $templateCode = str_replace('<%%VALUE(type)%%>', html_attr($row['type']), $templateCode);
-		$templateCode = str_replace('<%%URLVALUE(type)%%>', urlencode($urow['type']), $templateCode);
+		if( $dvprint) $templateCode = str_replace('<%%VALUE(account_plan)%%>', safe_html($urow['account_plan']), $templateCode);
+		if(!$dvprint) $templateCode = str_replace('<%%VALUE(account_plan)%%>', html_attr($row['account_plan']), $templateCode);
+		$templateCode = str_replace('<%%URLVALUE(account_plan)%%>', urlencode($urow['account_plan']), $templateCode);
 		if( $dvprint) $templateCode = str_replace('<%%VALUE(amount)%%>', safe_html($urow['amount']), $templateCode);
 		if(!$dvprint) $templateCode = str_replace('<%%VALUE(amount)%%>', html_attr($row['amount']), $templateCode);
 		$templateCode = str_replace('<%%URLVALUE(amount)%%>', urlencode($urow['amount']), $templateCode);
@@ -851,14 +564,8 @@ function Accounting_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, 
 		$templateCode = str_replace('<%%VALUE(date)%%>', '1', $templateCode);
 		$templateCode = str_replace('<%%URLVALUE(date)%%>', urlencode('1'), $templateCode);
 		$templateCode = str_replace('<%%HTMLAREA(description)%%>', '<textarea name="description" id="description" rows="5"></textarea>', $templateCode);
-		$templateCode = str_replace('<%%VALUE(master_acount)%%>', '', $templateCode);
-		$templateCode = str_replace('<%%URLVALUE(master_acount)%%>', urlencode(''), $templateCode);
-		$templateCode = str_replace('<%%VALUE(account)%%>', '', $templateCode);
-		$templateCode = str_replace('<%%URLVALUE(account)%%>', urlencode(''), $templateCode);
-		$templateCode = str_replace('<%%VALUE(sub_account)%%>', '', $templateCode);
-		$templateCode = str_replace('<%%URLVALUE(sub_account)%%>', urlencode(''), $templateCode);
-		$templateCode = str_replace('<%%VALUE(type)%%>', '', $templateCode);
-		$templateCode = str_replace('<%%URLVALUE(type)%%>', urlencode(''), $templateCode);
+		$templateCode = str_replace('<%%VALUE(account_plan)%%>', '', $templateCode);
+		$templateCode = str_replace('<%%URLVALUE(account_plan)%%>', urlencode(''), $templateCode);
 		$templateCode = str_replace('<%%VALUE(amount)%%>', '', $templateCode);
 		$templateCode = str_replace('<%%URLVALUE(amount)%%>', urlencode(''), $templateCode);
 		$templateCode = str_replace('<%%VALUE(balance)%%>', '', $templateCode);
@@ -895,6 +602,23 @@ function Accounting_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, 
 	// ajaxed auto-fill fields
 	$templateCode .= '<script>';
 	$templateCode .= '$j(function() {';
+
+	$templateCode .= "\taccount_plan_update_autofills$rnd1 = function() {\n";
+	$templateCode .= "\t\t\$j.ajax({\n";
+	if($dvprint) {
+		$templateCode .= "\t\t\turl: 'Accounting_autofill.php?rnd1=$rnd1&mfk=account_plan&id=' + encodeURIComponent('".addslashes($row['account_plan'])."'),\n";
+		$templateCode .= "\t\t\tcontentType: 'application/x-www-form-urlencoded; charset=" . datalist_db_encoding . "',\n";
+		$templateCode .= "\t\t\ttype: 'GET'\n";
+	} else {
+		$templateCode .= "\t\t\turl: 'Accounting_autofill.php?rnd1=$rnd1&mfk=account_plan&id=' + encodeURIComponent(AppGini.current_account_plan{$rnd1}.value),\n";
+		$templateCode .= "\t\t\tcontentType: 'application/x-www-form-urlencoded; charset=" . datalist_db_encoding . "',\n";
+		$templateCode .= "\t\t\ttype: 'GET',\n";
+		$templateCode .= "\t\t\tbeforeSend: function() { \$j('#account_plan$rnd1').prop('disabled', true); \$j('#account_planLoading').html('<img src=loading.gif align=top>'); },\n";
+		$templateCode .= "\t\t\tcomplete: function() { " . (($arrPerm[1] || (($arrPerm[3] == 1 && $ownerMemberID == getLoggedMemberID()) || ($arrPerm[3] == 2 && $ownerGroupID == getLoggedGroupID()) || $arrPerm[3] == 3)) ? "\$j('#account_plan$rnd1').prop('disabled', false); " : "\$j('#account_plan$rnd1').prop('disabled', true); ")."\$j('#account_planLoading').html(''); \$j(window).resize(); }\n";
+	}
+	$templateCode .= "\t\t});\n";
+	$templateCode .= "\t};\n";
+	if(!$dvprint) $templateCode .= "\tif(\$j('#account_plan_caption').length) \$j('#account_plan_caption').click(function() { /* */ account_plan_update_autofills$rnd1(); });\n";
 
 
 	$templateCode.="});";

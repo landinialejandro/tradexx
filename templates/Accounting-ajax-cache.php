@@ -9,10 +9,11 @@
 		/* data for selected record, or defaults if none is selected */
 		var data = {
 			invoice: <?php echo json_encode(array('id' => $rdata['invoice'], 'value' => $rdata['invoice'], 'text' => $jdata['invoice'])); ?>,
-			master_acount: <?php echo json_encode(array('id' => $rdata['master_acount'], 'value' => $rdata['master_acount'], 'text' => $jdata['master_acount'])); ?>,
-			account: <?php echo json_encode(array('id' => $rdata['account'], 'value' => $rdata['account'], 'text' => $jdata['account'])); ?>,
-			sub_account: <?php echo json_encode(array('id' => $rdata['sub_account'], 'value' => $rdata['sub_account'], 'text' => $jdata['sub_account'])); ?>,
-			type: <?php echo json_encode(array('id' => $rdata['type'], 'value' => $rdata['type'], 'text' => $jdata['type'])); ?>
+			account_plan: <?php echo json_encode(array('id' => $rdata['account_plan'], 'value' => $rdata['account_plan'], 'text' => $jdata['account_plan'])); ?>,
+			master_acount: <?php echo json_encode($jdata['master_acount']); ?>,
+			account: <?php echo json_encode($jdata['account']); ?>,
+			sub_account: <?php echo json_encode($jdata['sub_account']); ?>,
+			type: <?php echo json_encode($jdata['type']); ?>
 		};
 
 		/* initialize or continue using AppGini.cache for the current table */
@@ -28,35 +29,28 @@
 			return false;
 		});
 
-		/* saved value for master_acount */
+		/* saved value for account_plan */
 		cache.addCheck(function(u, d) {
 			if(u != 'ajax_combo.php') return false;
-			if(d.t == tn && d.f == 'master_acount' && d.id == data.master_acount.id)
-				return { results: [ data.master_acount ], more: false, elapsed: 0.01 };
+			if(d.t == tn && d.f == 'account_plan' && d.id == data.account_plan.id)
+				return { results: [ data.account_plan ], more: false, elapsed: 0.01 };
 			return false;
 		});
 
-		/* saved value for account */
+		/* saved value for account_plan autofills */
 		cache.addCheck(function(u, d) {
-			if(u != 'ajax_combo.php') return false;
-			if(d.t == tn && d.f == 'account' && d.id == data.account.id)
-				return { results: [ data.account ], more: false, elapsed: 0.01 };
-			return false;
-		});
+			if(u != tn + '_autofill.php') return false;
 
-		/* saved value for sub_account */
-		cache.addCheck(function(u, d) {
-			if(u != 'ajax_combo.php') return false;
-			if(d.t == tn && d.f == 'sub_account' && d.id == data.sub_account.id)
-				return { results: [ data.sub_account ], more: false, elapsed: 0.01 };
-			return false;
-		});
+			for(var rnd in d) if(rnd.match(/^rnd/)) break;
 
-		/* saved value for type */
-		cache.addCheck(function(u, d) {
-			if(u != 'ajax_combo.php') return false;
-			if(d.t == tn && d.f == 'type' && d.id == data.type.id)
-				return { results: [ data.type ], more: false, elapsed: 0.01 };
+			if(d.mfk == 'account_plan' && d.id == data.account_plan.id) {
+				$j('#master_acount' + d[rnd]).html(data.master_acount);
+				$j('#account' + d[rnd]).html(data.account);
+				$j('#sub_account' + d[rnd]).html(data.sub_account);
+				$j('#type' + d[rnd]).html(data.type);
+				return true;
+			}
+
 			return false;
 		});
 

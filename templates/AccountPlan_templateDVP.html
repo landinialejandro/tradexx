@@ -21,64 +21,69 @@
 			</div>
 		</div>
 		<div class="form-group" style="border-bottom: dotted 1px #DDD;">
-			<label class="col-xs-3 control-label">Invoice</label>
-			<div class="col-xs-9">
-				<div class="form-control-static"><span id="invoice<%%RND1%%>"><%%COMBOTEXT(invoice)%%></span></div>
-			</div>
-		</div>
-		<div class="form-group" style="border-bottom: dotted 1px #DDD;">
-			<label class="col-xs-3 control-label">Date</label>
-			<div class="col-xs-9">
-				<div class="form-control-static"><%%COMBOTEXT(date)%%></div>
-			</div>
-		</div>
-		<div class="form-group" style="border-bottom: dotted 1px #DDD;">
 			<label class="col-xs-3 control-label">Description</label>
 			<div class="col-xs-9">
 				<div class="form-control-static"><%%VALUE(description)%%></div>
 			</div>
 		</div>
 		<div class="form-group" style="border-bottom: dotted 1px #DDD;">
-			<label class="col-xs-3 control-label">Account plan</label>
+			<label class="col-xs-3 control-label">Code</label>
 			<div class="col-xs-9">
-				<div class="form-control-static"><span id="account_plan<%%RND1%%>"><%%COMBOTEXT(account_plan)%%></span></div>
+				<div class="form-control-static"><%%VALUE(code)%%></div>
 			</div>
 		</div>
 		<div class="form-group" style="border-bottom: dotted 1px #DDD;">
 			<label class="col-xs-3 control-label">Master account</label>
 			<div class="col-xs-9">
-				<div class="form-control-static"><span id="master_acount<%%RND1%%>"></span></div>
+				<div class="form-control-static"><span id="master_account<%%RND1%%>"><%%COMBOTEXT(master_account)%%></span></div>
 			</div>
 		</div>
 		<div class="form-group" style="border-bottom: dotted 1px #DDD;">
 			<label class="col-xs-3 control-label">Account</label>
 			<div class="col-xs-9">
-				<div class="form-control-static"><span id="account<%%RND1%%>"></span></div>
+				<div class="form-control-static"><span id="account<%%RND1%%>"><%%COMBOTEXT(account)%%></span></div>
 			</div>
 		</div>
 		<div class="form-group" style="border-bottom: dotted 1px #DDD;">
-			<label class="col-xs-3 control-label">Subaccount</label>
+			<label class="col-xs-3 control-label">Sub account</label>
 			<div class="col-xs-9">
-				<div class="form-control-static"><span id="sub_account<%%RND1%%>"></span></div>
+				<div class="form-control-static"><span id="sub_account<%%RND1%%>"><%%COMBOTEXT(sub_account)%%></span></div>
 			</div>
 		</div>
 		<div class="form-group" style="border-bottom: dotted 1px #DDD;">
 			<label class="col-xs-3 control-label">Type</label>
 			<div class="col-xs-9">
-				<div class="form-control-static"><span id="type<%%RND1%%>"></span></div>
-			</div>
-		</div>
-		<div class="form-group" style="border-bottom: dotted 1px #DDD;">
-			<label class="col-xs-3 control-label">Amount</label>
-			<div class="col-xs-9">
-				<div class="form-control-static"><%%VALUE(amount)%%></div>
-			</div>
-		</div>
-		<div class="form-group" style="border-bottom: dotted 1px #DDD;">
-			<label class="col-xs-3 control-label">Balance</label>
-			<div class="col-xs-9">
-				<div class="form-control-static"><%%VALUE(balance)%%></div>
+				<div class="form-control-static"><span id="type<%%RND1%%>"><%%COMBOTEXT(type)%%></span></div>
 			</div>
 		</div>
 	</fieldset>
 </div>
+<!-- child records -->
+<div class="panel-body">
+	<div id="AccountPlan-children"></div>
+</div>
+
+<script>
+	$j(function() {
+		/* prevent loading child records in multiple DVP */
+		if($j('[id=AccountPlan-children]').length > 1) return;
+
+		post(
+			'parent-children.php', {
+				ParentTable: 'AccountPlan',
+				SelectedID: '<%%VALUE(id)%%>',
+				Operation: 'show-children-printable'
+			},
+			'AccountPlan-children',
+			'disable-element',
+			'loading-element',
+			apply_persisting_children
+		);
+
+		$j('form').on('click', '#children-tabs button[data-target]', function() {
+			$j(this).toggleClass('active');
+			persist_expanded_child($j(this).attr('id'));
+		});
+	})
+</script>
+

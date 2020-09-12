@@ -184,10 +184,10 @@
 	$x->TableIcon = "resources/table_icons/Invoices.png";
 	$x->PrimaryKey = "`Invoice`.`id`";
 
-	$x->ColWidth   = array(  150, 150, 150, 150, 150, 150, 150, 150, 150, 150, 150, 150, 150, 150, 150, 150);
-	$x->ColCaption = array("ID", "Type", "Number", "Date", "Customer", "Phone", "Email", "Country", "Payment Status", "Due amount", "Amount paid", "Balance", "Status", "Tax", "Total", "Related");
-	$x->ColFieldName = array('id', 'type', 'number', 'Date', 'Customer', 'Phone', 'Email', 'Country', 'PaymentStatus', 'AmountDUE', 'AmountPAID', 'Balance', 'Status', 'tax', 'Total', 'related');
-	$x->ColNumber  = array(1, 2, 3, 4, 6, 7, 8, 11, 12, 13, 14, 15, 16, 17, 18, 23);
+	$x->ColWidth   = array(  150, 150, 150, 150, 150, 150, 150, 150, 150, 150, 150, 150, 150);
+	$x->ColCaption = array("ID", "Type", "Number", "Date", "Customer", "Phone", "Email", "Country", "Payment Status", "Status", "Tax", "Total", "Related");
+	$x->ColFieldName = array('id', 'type', 'number', 'Date', 'Customer', 'Phone', 'Email', 'Country', 'PaymentStatus', 'Status', 'tax', 'Total', 'related');
+	$x->ColNumber  = array(1, 2, 3, 4, 6, 7, 8, 11, 12, 16, 17, 18, 23);
 
 	// template paths below are based on the app main directory
 	$x->Template = 'templates/Invoice_templateTV.html';
@@ -226,51 +226,6 @@
 	}
 
 	if($render) $x->Render();
-
-	// column sums
-	if(strpos($x->HTML, '<!-- tv data below -->')) {
-		// if printing multi-selection TV, calculate the sum only for the selected records
-		if(isset($_REQUEST['Print_x']) && is_array($_REQUEST['record_selector'])) {
-			$QueryWhere = '';
-			foreach($_REQUEST['record_selector'] as $id) {   // get selected records
-				if($id != '') $QueryWhere .= "'" . makeSafe($id) . "',";
-			}
-			if($QueryWhere != '') {
-				$QueryWhere = 'where `Invoice`.`id` in ('.substr($QueryWhere, 0, -1).')';
-			}else{ // if no selected records, write the where clause to return an empty result
-				$QueryWhere = 'where 1=0';
-			}
-		}else{
-			$QueryWhere = $x->QueryWhere;
-		}
-
-		$sumQuery = "select sum(`Invoice`.`AmountDUE`), sum(`Invoice`.`AmountPAID`) from {$x->QueryFrom} {$QueryWhere}";
-		$res = sql($sumQuery, $eo);
-		if($row = db_fetch_row($res)) {
-			$sumRow = '<tr class="success">';
-			if(!isset($_REQUEST['Print_x'])) $sumRow .= '<td class="text-center"><strong>&sum;</strong></td>';
-			$sumRow .= '<td class="Invoice-id"></td>';
-			$sumRow .= '<td class="Invoice-type"></td>';
-			$sumRow .= '<td class="Invoice-number"></td>';
-			$sumRow .= '<td class="Invoice-Date"></td>';
-			$sumRow .= '<td class="Invoice-Customer"></td>';
-			$sumRow .= '<td class="Invoice-Phone"></td>';
-			$sumRow .= '<td class="Invoice-Email"></td>';
-			$sumRow .= '<td class="Invoice-Country"></td>';
-			$sumRow .= '<td class="Invoice-PaymentStatus"></td>';
-			$sumRow .= "<td class=\"Invoice-AmountDUE text-right\">{$row[0]}</td>";
-			$sumRow .= "<td class=\"Invoice-AmountPAID text-right\">{$row[1]}</td>";
-			$sumRow .= '<td class="Invoice-Balance"></td>';
-			$sumRow .= '<td class="Invoice-Status"></td>';
-			$sumRow .= '<td class="Invoice-tax"></td>';
-			$sumRow .= '<td class="Invoice-Total"></td>';
-			$sumRow .= '<td class="Invoice-related"></td>';
-			$sumRow .= '</tr>';
-
-			$x->HTML = str_replace('<!-- tv data below -->', '', $x->HTML);
-			$x->HTML = str_replace('<!-- tv data above -->', $sumRow, $x->HTML);
-		}
-	}
 
 	// hook: Invoice_header
 	$headerCode='';

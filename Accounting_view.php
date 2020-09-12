@@ -26,9 +26,10 @@
 		"IF(    CHAR_LENGTH(`Invoice1`.`number`) || CHAR_LENGTH(`Customers1`.`Customer`), CONCAT_WS('',   `Invoice1`.`number`, ' - ', `Customers1`.`Customer`), '') /* Invoice */" => "invoice",
 		"if(`Accounting`.`date`,date_format(`Accounting`.`date`,'%m/%d/%Y'),'')" => "date",
 		"`Accounting`.`description`" => "description",
-		"IF(    CHAR_LENGTH(`MasterAccount1`.`masterAccount`), CONCAT_WS('',   `MasterAccount1`.`masterAccount`), '') /* Master account */" => "master_acount",
-		"IF(    CHAR_LENGTH(`Account1`.`Account`), CONCAT_WS('',   `Account1`.`Account`), '') /* Account */" => "account",
-		"IF(    CHAR_LENGTH(`SubAccount1`.`subAccount`), CONCAT_WS('',   `SubAccount1`.`subAccount`), '') /* Subaccount */" => "sub_account",
+		"IF(    CHAR_LENGTH(`AccountPlan1`.`description`) || CHAR_LENGTH(`AccountPlan1`.`code`), CONCAT_WS('',   `AccountPlan1`.`description`, ' - ', `AccountPlan1`.`code`), '') /* Account plan */" => "account_plan",
+		"IF(    CHAR_LENGTH(`MasterAccount1`.`masterAccount`) || CHAR_LENGTH(`MasterAccount1`.`code`), CONCAT_WS('',   `MasterAccount1`.`masterAccount`, ' - ', `MasterAccount1`.`code`), '') /* Master account */" => "master_acount",
+		"IF(    CHAR_LENGTH(`Account1`.`Account`) || CHAR_LENGTH(`Account1`.`code`), CONCAT_WS('',   `Account1`.`Account`, ' - ', `Account1`.`code`), '') /* Account */" => "account",
+		"IF(    CHAR_LENGTH(`SubAccount1`.`subAccount`) || CHAR_LENGTH(`SubAccount1`.`code`), CONCAT_WS('',   `SubAccount1`.`subAccount`, ' - ', `SubAccount1`.`code`), '') /* Subaccount */" => "sub_account",
 		"IF(    CHAR_LENGTH(`Type1`.`type`), CONCAT_WS('',   `Type1`.`type`), '') /* Type */" => "type",
 		"FORMAT(`Accounting`.`amount`, 2)" => "amount",
 		"`Accounting`.`balance`" => "balance",
@@ -39,12 +40,13 @@
 		2 => 2,
 		3 => '`Accounting`.`date`',
 		4 => 4,
-		5 => '`MasterAccount1`.`masterAccount`',
-		6 => '`Account1`.`Account`',
-		7 => '`SubAccount1`.`subAccount`',
-		8 => '`Type1`.`type`',
-		9 => '`Accounting`.`amount`',
-		10 => '`Accounting`.`balance`',
+		5 => 5,
+		6 => 6,
+		7 => 7,
+		8 => 8,
+		9 => 9,
+		10 => '`Accounting`.`amount`',
+		11 => '`Accounting`.`balance`',
 	);
 
 	// Fields that can be displayed in the csv file
@@ -53,9 +55,10 @@
 		"IF(    CHAR_LENGTH(`Invoice1`.`number`) || CHAR_LENGTH(`Customers1`.`Customer`), CONCAT_WS('',   `Invoice1`.`number`, ' - ', `Customers1`.`Customer`), '') /* Invoice */" => "invoice",
 		"if(`Accounting`.`date`,date_format(`Accounting`.`date`,'%m/%d/%Y'),'')" => "date",
 		"`Accounting`.`description`" => "description",
-		"IF(    CHAR_LENGTH(`MasterAccount1`.`masterAccount`), CONCAT_WS('',   `MasterAccount1`.`masterAccount`), '') /* Master account */" => "master_acount",
-		"IF(    CHAR_LENGTH(`Account1`.`Account`), CONCAT_WS('',   `Account1`.`Account`), '') /* Account */" => "account",
-		"IF(    CHAR_LENGTH(`SubAccount1`.`subAccount`), CONCAT_WS('',   `SubAccount1`.`subAccount`), '') /* Subaccount */" => "sub_account",
+		"IF(    CHAR_LENGTH(`AccountPlan1`.`description`) || CHAR_LENGTH(`AccountPlan1`.`code`), CONCAT_WS('',   `AccountPlan1`.`description`, ' - ', `AccountPlan1`.`code`), '') /* Account plan */" => "account_plan",
+		"IF(    CHAR_LENGTH(`MasterAccount1`.`masterAccount`) || CHAR_LENGTH(`MasterAccount1`.`code`), CONCAT_WS('',   `MasterAccount1`.`masterAccount`, ' - ', `MasterAccount1`.`code`), '') /* Master account */" => "master_acount",
+		"IF(    CHAR_LENGTH(`Account1`.`Account`) || CHAR_LENGTH(`Account1`.`code`), CONCAT_WS('',   `Account1`.`Account`, ' - ', `Account1`.`code`), '') /* Account */" => "account",
+		"IF(    CHAR_LENGTH(`SubAccount1`.`subAccount`) || CHAR_LENGTH(`SubAccount1`.`code`), CONCAT_WS('',   `SubAccount1`.`subAccount`, ' - ', `SubAccount1`.`code`), '') /* Subaccount */" => "sub_account",
 		"IF(    CHAR_LENGTH(`Type1`.`type`), CONCAT_WS('',   `Type1`.`type`), '') /* Type */" => "type",
 		"FORMAT(`Accounting`.`amount`, 2)" => "amount",
 		"`Accounting`.`balance`" => "balance",
@@ -66,9 +69,10 @@
 		"IF(    CHAR_LENGTH(`Invoice1`.`number`) || CHAR_LENGTH(`Customers1`.`Customer`), CONCAT_WS('',   `Invoice1`.`number`, ' - ', `Customers1`.`Customer`), '') /* Invoice */" => "Invoice",
 		"`Accounting`.`date`" => "Date",
 		"`Accounting`.`description`" => "Description",
-		"IF(    CHAR_LENGTH(`MasterAccount1`.`masterAccount`), CONCAT_WS('',   `MasterAccount1`.`masterAccount`), '') /* Master account */" => "Master account",
-		"IF(    CHAR_LENGTH(`Account1`.`Account`), CONCAT_WS('',   `Account1`.`Account`), '') /* Account */" => "Account",
-		"IF(    CHAR_LENGTH(`SubAccount1`.`subAccount`), CONCAT_WS('',   `SubAccount1`.`subAccount`), '') /* Subaccount */" => "Subaccount",
+		"IF(    CHAR_LENGTH(`AccountPlan1`.`description`) || CHAR_LENGTH(`AccountPlan1`.`code`), CONCAT_WS('',   `AccountPlan1`.`description`, ' - ', `AccountPlan1`.`code`), '') /* Account plan */" => "Account plan",
+		"IF(    CHAR_LENGTH(`MasterAccount1`.`masterAccount`) || CHAR_LENGTH(`MasterAccount1`.`code`), CONCAT_WS('',   `MasterAccount1`.`masterAccount`, ' - ', `MasterAccount1`.`code`), '') /* Master account */" => "Master account",
+		"IF(    CHAR_LENGTH(`Account1`.`Account`) || CHAR_LENGTH(`Account1`.`code`), CONCAT_WS('',   `Account1`.`Account`, ' - ', `Account1`.`code`), '') /* Account */" => "Account",
+		"IF(    CHAR_LENGTH(`SubAccount1`.`subAccount`) || CHAR_LENGTH(`SubAccount1`.`code`), CONCAT_WS('',   `SubAccount1`.`subAccount`, ' - ', `SubAccount1`.`code`), '') /* Subaccount */" => "Subaccount",
 		"IF(    CHAR_LENGTH(`Type1`.`type`), CONCAT_WS('',   `Type1`.`type`), '') /* Type */" => "Type",
 		"`Accounting`.`amount`" => "Amount",
 		"`Accounting`.`balance`" => "Balance",
@@ -80,18 +84,19 @@
 		"IF(    CHAR_LENGTH(`Invoice1`.`number`) || CHAR_LENGTH(`Customers1`.`Customer`), CONCAT_WS('',   `Invoice1`.`number`, ' - ', `Customers1`.`Customer`), '') /* Invoice */" => "invoice",
 		"if(`Accounting`.`date`,date_format(`Accounting`.`date`,'%m/%d/%Y'),'')" => "date",
 		"`Accounting`.`description`" => "description",
-		"IF(    CHAR_LENGTH(`MasterAccount1`.`masterAccount`), CONCAT_WS('',   `MasterAccount1`.`masterAccount`), '') /* Master account */" => "master_acount",
-		"IF(    CHAR_LENGTH(`Account1`.`Account`), CONCAT_WS('',   `Account1`.`Account`), '') /* Account */" => "account",
-		"IF(    CHAR_LENGTH(`SubAccount1`.`subAccount`), CONCAT_WS('',   `SubAccount1`.`subAccount`), '') /* Subaccount */" => "sub_account",
+		"IF(    CHAR_LENGTH(`AccountPlan1`.`description`) || CHAR_LENGTH(`AccountPlan1`.`code`), CONCAT_WS('',   `AccountPlan1`.`description`, ' - ', `AccountPlan1`.`code`), '') /* Account plan */" => "account_plan",
+		"IF(    CHAR_LENGTH(`MasterAccount1`.`masterAccount`) || CHAR_LENGTH(`MasterAccount1`.`code`), CONCAT_WS('',   `MasterAccount1`.`masterAccount`, ' - ', `MasterAccount1`.`code`), '') /* Master account */" => "master_acount",
+		"IF(    CHAR_LENGTH(`Account1`.`Account`) || CHAR_LENGTH(`Account1`.`code`), CONCAT_WS('',   `Account1`.`Account`, ' - ', `Account1`.`code`), '') /* Account */" => "account",
+		"IF(    CHAR_LENGTH(`SubAccount1`.`subAccount`) || CHAR_LENGTH(`SubAccount1`.`code`), CONCAT_WS('',   `SubAccount1`.`subAccount`, ' - ', `SubAccount1`.`code`), '') /* Subaccount */" => "sub_account",
 		"IF(    CHAR_LENGTH(`Type1`.`type`), CONCAT_WS('',   `Type1`.`type`), '') /* Type */" => "type",
 		"FORMAT(`Accounting`.`amount`, 2)" => "amount",
 		"`Accounting`.`balance`" => "balance",
 	);
 
 	// Lookup fields that can be used as filterers
-	$x->filterers = array('invoice' => 'Invoice', 'master_acount' => 'Master account', 'account' => 'Account', 'sub_account' => 'Subaccount', 'type' => 'Type', );
+	$x->filterers = array('invoice' => 'Invoice', 'account_plan' => 'Account plan', );
 
-	$x->QueryFrom = "`Accounting` LEFT JOIN `Invoice` as Invoice1 ON `Invoice1`.`id`=`Accounting`.`invoice` LEFT JOIN `Customers` as Customers1 ON `Customers1`.`id`=`Invoice1`.`Customer` LEFT JOIN `MasterAccount` as MasterAccount1 ON `MasterAccount1`.`id`=`Accounting`.`master_acount` LEFT JOIN `Account` as Account1 ON `Account1`.`id`=`Accounting`.`account` LEFT JOIN `SubAccount` as SubAccount1 ON `SubAccount1`.`id`=`Accounting`.`sub_account` LEFT JOIN `Type` as Type1 ON `Type1`.`id`=`Accounting`.`type` ";
+	$x->QueryFrom = "`Accounting` LEFT JOIN `Invoice` as Invoice1 ON `Invoice1`.`id`=`Accounting`.`invoice` LEFT JOIN `Customers` as Customers1 ON `Customers1`.`id`=`Invoice1`.`Customer` LEFT JOIN `AccountPlan` as AccountPlan1 ON `AccountPlan1`.`id`=`Accounting`.`account_plan` LEFT JOIN `MasterAccount` as MasterAccount1 ON `MasterAccount1`.`id`=`AccountPlan1`.`master_account` LEFT JOIN `Account` as Account1 ON `Account1`.`id`=`AccountPlan1`.`account` LEFT JOIN `SubAccount` as SubAccount1 ON `SubAccount1`.`id`=`AccountPlan1`.`sub_account` LEFT JOIN `Type` as Type1 ON `Type1`.`id`=`AccountPlan1`.`type` ";
 	$x->QueryWhere = '';
 	$x->QueryOrder = '';
 
@@ -119,10 +124,10 @@
 	$x->TableIcon = "resources/table_icons/Cashflow.png";
 	$x->PrimaryKey = "`Accounting`.`id`";
 
-	$x->ColWidth   = array(  150, 150, 150, 150, 150, 150, 150, 150, 150);
-	$x->ColCaption = array("Invoice", "Date", "Description", "Master account", "Account", "Subaccount", "Type", "Amount", "Balance");
-	$x->ColFieldName = array('invoice', 'date', 'description', 'master_acount', 'account', 'sub_account', 'type', 'amount', 'balance');
-	$x->ColNumber  = array(2, 3, 4, 5, 6, 7, 8, 9, 10);
+	$x->ColWidth   = array(  150, 150, 150, 150, 150, 150, 150, 150, 150, 150);
+	$x->ColCaption = array("Invoice", "Date", "Description", "Account plan", "Master account", "Account", "Subaccount", "Type", "Amount", "Balance");
+	$x->ColFieldName = array('invoice', 'date', 'description', 'account_plan', 'master_acount', 'account', 'sub_account', 'type', 'amount', 'balance');
+	$x->ColNumber  = array(2, 3, 4, 5, 6, 7, 8, 9, 10, 11);
 
 	// template paths below are based on the app main directory
 	$x->Template = 'templates/Accounting_templateTV.html';
@@ -187,6 +192,7 @@
 			$sumRow .= '<td class="Accounting-invoice"></td>';
 			$sumRow .= '<td class="Accounting-date"></td>';
 			$sumRow .= '<td class="Accounting-description"></td>';
+			$sumRow .= '<td class="Accounting-account_plan"></td>';
 			$sumRow .= '<td class="Accounting-master_acount"></td>';
 			$sumRow .= '<td class="Accounting-account"></td>';
 			$sumRow .= '<td class="Accounting-sub_account"></td>';

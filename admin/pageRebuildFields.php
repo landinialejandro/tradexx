@@ -370,6 +370,7 @@
 			'invoice' => array('appgini' => 'INT unsigned null '),
 			'date' => array('appgini' => 'DATE null '),
 			'description' => array('appgini' => 'TEXT null '),
+			'account_plan' => array('appgini' => 'INT unsigned null '),
 			'master_acount' => array('appgini' => 'INT unsigned null '),
 			'account' => array('appgini' => 'INT unsigned null '),
 			'sub_account' => array('appgini' => 'INT unsigned null '),
@@ -424,6 +425,15 @@
 			'Status' => array('appgini' => 'VARCHAR(40) null default \'OPEN\' '),
 			'Assigned' => array('appgini' => 'INT unsigned null '),
 			'Amount' => array('appgini' => 'DECIMAL(10,2) null '),
+		),
+		'AccountPlan' => array(
+			'id' => array('appgini' => 'INT unsigned not null primary key auto_increment '),
+			'description' => array('appgini' => 'TEXT null '),
+			'code' => array('appgini' => 'VARCHAR(40) null '),
+			'master_account' => array('appgini' => 'INT unsigned null '),
+			'account' => array('appgini' => 'INT unsigned null '),
+			'sub_account' => array('appgini' => 'INT unsigned null '),
+			'type' => array('appgini' => 'INT unsigned null '),
 		),
 	);
 

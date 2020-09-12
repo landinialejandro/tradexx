@@ -86,8 +86,8 @@
 					'display-refresh' => true,
 					'display-add-new' => true,
 					'forced-where' => '',
-					'display-fields' => array(0 => 'ID', 1 => 'Type', 2 => 'Number', 3 => 'Date', 5 => 'Customer', 6 => 'Phone', 7 => 'Email', 10 => 'Country', 11 => 'Payment Status', 12 => 'Due amount', 13 => 'Amount paid', 14 => 'Balance', 15 => 'Status', 16 => 'Tax', 17 => 'Total', 22 => 'Related'),
-					'display-field-names' => array(0 => 'id', 1 => 'type', 2 => 'number', 3 => 'Date', 5 => 'Customer', 6 => 'Phone', 7 => 'Email', 10 => 'Country', 11 => 'PaymentStatus', 12 => 'AmountDUE', 13 => 'AmountPAID', 14 => 'Balance', 15 => 'Status', 16 => 'tax', 17 => 'Total', 22 => 'related'),
+					'display-fields' => array(0 => 'ID', 1 => 'Type', 2 => 'Number', 3 => 'Date', 5 => 'Customer', 6 => 'Phone', 7 => 'Email', 10 => 'Country', 11 => 'Payment Status', 15 => 'Status', 16 => 'Tax', 17 => 'Total', 22 => 'Related'),
+					'display-field-names' => array(0 => 'id', 1 => 'type', 2 => 'number', 3 => 'Date', 5 => 'Customer', 6 => 'Phone', 7 => 'Email', 10 => 'Country', 11 => 'PaymentStatus', 15 => 'Status', 16 => 'tax', 17 => 'Total', 22 => 'related'),
 					'sortable-fields' => array(0 => '`Invoice`.`id`', 1 => 2, 2 => '`Invoice`.`number`', 3 => '`Invoice`.`Date`', 4 => '`Customers1`.`Title`', 5 => '`Customers1`.`Customer`', 6 => '`Customers1`.`Phone`', 7 => '`Customers1`.`Email`', 8 => '`Customers1`.`Address`', 9 => 10, 10 => 11, 11 => 12, 12 => '`Invoice`.`AmountDUE`', 13 => '`Invoice`.`AmountPAID`', 14 => '`Invoice`.`Balance`', 15 => 16, 16 => 17, 17 => 18, 18 => 19, 19 => 20, 20 => 21, 21 => 22, 22 => 23),
 					'records-per-page' => 10,
 					'default-sort-by' => false,
@@ -233,6 +233,8 @@
 			'CC' => array(
 			),
 			'Receivable' => array(
+			),
+			'AccountPlan' => array(
 			),
 		);
 

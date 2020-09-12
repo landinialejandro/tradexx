@@ -13,7 +13,7 @@ $j(function() {
         title: "Trazability",
         icon: "far fa-map",
         fields: [
-            'usrAdd', 'whenAdd', 'usrUpdated', 'whenUpdated'
+            'usrAdd', 'whenAdd', 'usrUpdated', 'whenUpdated', 'related'
         ]
     }]
 
