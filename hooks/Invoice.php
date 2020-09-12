@@ -118,7 +118,7 @@ function Invoice_before_update(&$data, $memberInfo, &$args)
 			"dismiss_seconds" => "5"
 		];
 
-		if (empty($data['total'])){
+		if (empty($Invoice['Total'])){
 			//el valor de la orden tiene que ser mayor que cero.
 			$_SESSION['custom_msg'] = [
 				"message" => "<h4>No se puede cerrar una orden vacia, pero se puede anular, por favor cambie el estado o Anule el documento.</h4>",
@@ -144,7 +144,7 @@ function Invoice_before_update(&$data, $memberInfo, &$args)
 				"account" => $ac,
 				"sub_account" => $sa,
 				"type" => $ty,
-				"amount" => $data['total']
+				"amount" => $data['Total']
 			];
 			$insert = insert('Accounting', $accouting, $e);
 			if (!$insert) {
