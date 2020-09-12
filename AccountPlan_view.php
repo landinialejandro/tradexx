@@ -100,8 +100,8 @@
 	$x->QuickSearchText = $Translation["quick search"];
 	$x->ScriptFileName = "AccountPlan_view.php";
 	$x->RedirectAfterInsert = "AccountPlan_view.php?SelectedID=#ID#";
-	$x->TableTitle = "AccountPlan";
-	$x->TableIcon = "table.gif";
+	$x->TableTitle = "Account Plan";
+	$x->TableIcon = "resources/table_icons/chart_curve.png";
 	$x->PrimaryKey = "`AccountPlan`.`id`";
 
 	$x->ColWidth   = array(  150, 150, 150, 150, 150, 150);

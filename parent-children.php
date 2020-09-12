@@ -220,6 +220,8 @@
 			),
 			'Accounting' => array(
 			),
+			'AccountPlan' => array(
+			),
 			'MasterAccount' => array(
 			),
 			'Account' => array(
@@ -233,8 +235,6 @@
 			'CC' => array(
 			),
 			'Receivable' => array(
-			),
-			'AccountPlan' => array(
 			),
 		);
 

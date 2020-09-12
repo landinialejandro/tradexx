@@ -27,12 +27,13 @@
 		"if(`Accounting`.`date`,date_format(`Accounting`.`date`,'%m/%d/%Y'),'')" => "date",
 		"`Accounting`.`description`" => "description",
 		"IF(    CHAR_LENGTH(`AccountPlan1`.`description`) || CHAR_LENGTH(`AccountPlan1`.`code`), CONCAT_WS('',   `AccountPlan1`.`description`, ' - ', `AccountPlan1`.`code`), '') /* Account plan */" => "account_plan",
-		"IF(    CHAR_LENGTH(`MasterAccount1`.`masterAccount`) || CHAR_LENGTH(`MasterAccount1`.`code`), CONCAT_WS('',   `MasterAccount1`.`masterAccount`, ' - ', `MasterAccount1`.`code`), '') /* Master account */" => "master_acount",
+		"IF(    CHAR_LENGTH(`MasterAccount1`.`masterAccount`) || CHAR_LENGTH(`MasterAccount1`.`code`), CONCAT_WS('',   `MasterAccount1`.`masterAccount`, ' - ', `MasterAccount1`.`code`), '') /* Master account */" => "master_account",
 		"IF(    CHAR_LENGTH(`Account1`.`Account`) || CHAR_LENGTH(`Account1`.`code`), CONCAT_WS('',   `Account1`.`Account`, ' - ', `Account1`.`code`), '') /* Account */" => "account",
 		"IF(    CHAR_LENGTH(`SubAccount1`.`subAccount`) || CHAR_LENGTH(`SubAccount1`.`code`), CONCAT_WS('',   `SubAccount1`.`subAccount`, ' - ', `SubAccount1`.`code`), '') /* Subaccount */" => "sub_account",
 		"IF(    CHAR_LENGTH(`Type1`.`type`), CONCAT_WS('',   `Type1`.`type`), '') /* Type */" => "type",
 		"FORMAT(`Accounting`.`amount`, 2)" => "amount",
 		"`Accounting`.`balance`" => "balance",
+		"`Accounting`.`status`" => "status",
 	);
 	// mapping incoming sort by requests to actual query fields
 	$x->SortFields = array(
@@ -47,6 +48,7 @@
 		9 => 9,
 		10 => '`Accounting`.`amount`',
 		11 => '`Accounting`.`balance`',
+		12 => 12,
 	);
 
 	// Fields that can be displayed in the csv file
@@ -56,12 +58,13 @@
 		"if(`Accounting`.`date`,date_format(`Accounting`.`date`,'%m/%d/%Y'),'')" => "date",
 		"`Accounting`.`description`" => "description",
 		"IF(    CHAR_LENGTH(`AccountPlan1`.`description`) || CHAR_LENGTH(`AccountPlan1`.`code`), CONCAT_WS('',   `AccountPlan1`.`description`, ' - ', `AccountPlan1`.`code`), '') /* Account plan */" => "account_plan",
-		"IF(    CHAR_LENGTH(`MasterAccount1`.`masterAccount`) || CHAR_LENGTH(`MasterAccount1`.`code`), CONCAT_WS('',   `MasterAccount1`.`masterAccount`, ' - ', `MasterAccount1`.`code`), '') /* Master account */" => "master_acount",
+		"IF(    CHAR_LENGTH(`MasterAccount1`.`masterAccount`) || CHAR_LENGTH(`MasterAccount1`.`code`), CONCAT_WS('',   `MasterAccount1`.`masterAccount`, ' - ', `MasterAccount1`.`code`), '') /* Master account */" => "master_account",
 		"IF(    CHAR_LENGTH(`Account1`.`Account`) || CHAR_LENGTH(`Account1`.`code`), CONCAT_WS('',   `Account1`.`Account`, ' - ', `Account1`.`code`), '') /* Account */" => "account",
 		"IF(    CHAR_LENGTH(`SubAccount1`.`subAccount`) || CHAR_LENGTH(`SubAccount1`.`code`), CONCAT_WS('',   `SubAccount1`.`subAccount`, ' - ', `SubAccount1`.`code`), '') /* Subaccount */" => "sub_account",
 		"IF(    CHAR_LENGTH(`Type1`.`type`), CONCAT_WS('',   `Type1`.`type`), '') /* Type */" => "type",
 		"FORMAT(`Accounting`.`amount`, 2)" => "amount",
 		"`Accounting`.`balance`" => "balance",
+		"`Accounting`.`status`" => "status",
 	);
 	// Fields that can be filtered
 	$x->QueryFieldsFilters = array(
@@ -76,6 +79,7 @@
 		"IF(    CHAR_LENGTH(`Type1`.`type`), CONCAT_WS('',   `Type1`.`type`), '') /* Type */" => "Type",
 		"`Accounting`.`amount`" => "Amount",
 		"`Accounting`.`balance`" => "Balance",
+		"`Accounting`.`status`" => "Status",
 	);
 
 	// Fields that can be quick searched
@@ -85,12 +89,13 @@
 		"if(`Accounting`.`date`,date_format(`Accounting`.`date`,'%m/%d/%Y'),'')" => "date",
 		"`Accounting`.`description`" => "description",
 		"IF(    CHAR_LENGTH(`AccountPlan1`.`description`) || CHAR_LENGTH(`AccountPlan1`.`code`), CONCAT_WS('',   `AccountPlan1`.`description`, ' - ', `AccountPlan1`.`code`), '') /* Account plan */" => "account_plan",
-		"IF(    CHAR_LENGTH(`MasterAccount1`.`masterAccount`) || CHAR_LENGTH(`MasterAccount1`.`code`), CONCAT_WS('',   `MasterAccount1`.`masterAccount`, ' - ', `MasterAccount1`.`code`), '') /* Master account */" => "master_acount",
+		"IF(    CHAR_LENGTH(`MasterAccount1`.`masterAccount`) || CHAR_LENGTH(`MasterAccount1`.`code`), CONCAT_WS('',   `MasterAccount1`.`masterAccount`, ' - ', `MasterAccount1`.`code`), '') /* Master account */" => "master_account",
 		"IF(    CHAR_LENGTH(`Account1`.`Account`) || CHAR_LENGTH(`Account1`.`code`), CONCAT_WS('',   `Account1`.`Account`, ' - ', `Account1`.`code`), '') /* Account */" => "account",
 		"IF(    CHAR_LENGTH(`SubAccount1`.`subAccount`) || CHAR_LENGTH(`SubAccount1`.`code`), CONCAT_WS('',   `SubAccount1`.`subAccount`, ' - ', `SubAccount1`.`code`), '') /* Subaccount */" => "sub_account",
 		"IF(    CHAR_LENGTH(`Type1`.`type`), CONCAT_WS('',   `Type1`.`type`), '') /* Type */" => "type",
 		"FORMAT(`Accounting`.`amount`, 2)" => "amount",
 		"`Accounting`.`balance`" => "balance",
+		"`Accounting`.`status`" => "status",
 	);
 
 	// Lookup fields that can be used as filterers
@@ -124,10 +129,10 @@
 	$x->TableIcon = "resources/table_icons/Cashflow.png";
 	$x->PrimaryKey = "`Accounting`.`id`";
 
-	$x->ColWidth   = array(  150, 150, 150, 150, 150, 150, 150, 150, 150, 150);
-	$x->ColCaption = array("Invoice", "Date", "Description", "Account plan", "Master account", "Account", "Subaccount", "Type", "Amount", "Balance");
-	$x->ColFieldName = array('invoice', 'date', 'description', 'account_plan', 'master_acount', 'account', 'sub_account', 'type', 'amount', 'balance');
-	$x->ColNumber  = array(2, 3, 4, 5, 6, 7, 8, 9, 10, 11);
+	$x->ColWidth   = array(  150, 150, 150, 150, 150, 150, 150, 150, 150, 150, 150);
+	$x->ColCaption = array("Invoice", "Date", "Description", "Account plan", "Master account", "Account", "Subaccount", "Type", "Amount", "Balance", "Status");
+	$x->ColFieldName = array('invoice', 'date', 'description', 'account_plan', 'master_account', 'account', 'sub_account', 'type', 'amount', 'balance', 'status');
+	$x->ColNumber  = array(2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12);
 
 	// template paths below are based on the app main directory
 	$x->Template = 'templates/Accounting_templateTV.html';
@@ -193,12 +198,13 @@
 			$sumRow .= '<td class="Accounting-date"></td>';
 			$sumRow .= '<td class="Accounting-description"></td>';
 			$sumRow .= '<td class="Accounting-account_plan"></td>';
-			$sumRow .= '<td class="Accounting-master_acount"></td>';
+			$sumRow .= '<td class="Accounting-master_account"></td>';
 			$sumRow .= '<td class="Accounting-account"></td>';
 			$sumRow .= '<td class="Accounting-sub_account"></td>';
 			$sumRow .= '<td class="Accounting-type"></td>';
 			$sumRow .= "<td class=\"Accounting-amount text-right\">{$row[0]}</td>";
 			$sumRow .= "<td class=\"Accounting-balance text-right\">{$row[1]}</td>";
+			$sumRow .= '<td class="Accounting-status"></td>';
 			$sumRow .= '</tr>';
 
 			$x->HTML = str_replace('<!-- tv data below -->', '', $x->HTML);

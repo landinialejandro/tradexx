@@ -1,7 +1,3 @@
-
-<?php /* Inserted by Landini Admin Template on 2020-09-12 03:28:47 */ ?>
-		<?php if (activate_LAT("header",$x,false)) return; ?>
-<?php /* End of Landini Admin Template code */ ?>
 <?php if(function_exists('set_headers')) { set_headers(); } ?><!DOCTYPE html>
 <?php if(!defined('PREPEND_PATH')) define('PREPEND_PATH', ''); ?>
 <?php if(!defined('datalist_db_encoding')) define('datalist_db_encoding', 'UTF-8'); ?>

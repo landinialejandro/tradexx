@@ -677,6 +677,24 @@ Accounting_delete1Tip=["",spacer+"This option allows each member of the group to
 Accounting_delete2Tip=["",spacer+"This option allows each member of the group to delete any record owned by any member of the group in the 'CASH FLOW' table."];
 Accounting_delete3Tip=["",spacer+"This option allows each member of the group to delete any records in the 'CASH FLOW' table."];
 
+// AccountPlan table
+AccountPlan_addTip=["",spacer+"This option allows all members of the group to add records to the 'Account Plan' table. A member who adds a record to the table becomes the 'owner' of that record."];
+
+AccountPlan_view0Tip=["",spacer+"This option prohibits all members of the group from viewing any record in the 'Account Plan' table."];
+AccountPlan_view1Tip=["",spacer+"This option allows each member of the group to view only his own records in the 'Account Plan' table."];
+AccountPlan_view2Tip=["",spacer+"This option allows each member of the group to view any record owned by any member of the group in the 'Account Plan' table."];
+AccountPlan_view3Tip=["",spacer+"This option allows each member of the group to view all records in the 'Account Plan' table."];
+
+AccountPlan_edit0Tip=["",spacer+"This option prohibits all members of the group from modifying any record in the 'Account Plan' table."];
+AccountPlan_edit1Tip=["",spacer+"This option allows each member of the group to edit only his own records in the 'Account Plan' table."];
+AccountPlan_edit2Tip=["",spacer+"This option allows each member of the group to edit any record owned by any member of the group in the 'Account Plan' table."];
+AccountPlan_edit3Tip=["",spacer+"This option allows each member of the group to edit any records in the 'Account Plan' table, regardless of their owner."];
+
+AccountPlan_delete0Tip=["",spacer+"This option prohibits all members of the group from deleting any record in the 'Account Plan' table."];
+AccountPlan_delete1Tip=["",spacer+"This option allows each member of the group to delete only his own records in the 'Account Plan' table."];
+AccountPlan_delete2Tip=["",spacer+"This option allows each member of the group to delete any record owned by any member of the group in the 'Account Plan' table."];
+AccountPlan_delete3Tip=["",spacer+"This option allows each member of the group to delete any records in the 'Account Plan' table."];
+
 // MasterAccount table
 MasterAccount_addTip=["",spacer+"This option allows all members of the group to add records to the 'Master Account' table. A member who adds a record to the table becomes the 'owner' of that record."];
 
@@ -802,24 +820,6 @@ Receivable_delete0Tip=["",spacer+"This option prohibits all members of the group
 Receivable_delete1Tip=["",spacer+"This option allows each member of the group to delete only his own records in the 'Receivable' table."];
 Receivable_delete2Tip=["",spacer+"This option allows each member of the group to delete any record owned by any member of the group in the 'Receivable' table."];
 Receivable_delete3Tip=["",spacer+"This option allows each member of the group to delete any records in the 'Receivable' table."];
-
-// AccountPlan table
-AccountPlan_addTip=["",spacer+"This option allows all members of the group to add records to the 'AccountPlan' table. A member who adds a record to the table becomes the 'owner' of that record."];
-
-AccountPlan_view0Tip=["",spacer+"This option prohibits all members of the group from viewing any record in the 'AccountPlan' table."];
-AccountPlan_view1Tip=["",spacer+"This option allows each member of the group to view only his own records in the 'AccountPlan' table."];
-AccountPlan_view2Tip=["",spacer+"This option allows each member of the group to view any record owned by any member of the group in the 'AccountPlan' table."];
-AccountPlan_view3Tip=["",spacer+"This option allows each member of the group to view all records in the 'AccountPlan' table."];
-
-AccountPlan_edit0Tip=["",spacer+"This option prohibits all members of the group from modifying any record in the 'AccountPlan' table."];
-AccountPlan_edit1Tip=["",spacer+"This option allows each member of the group to edit only his own records in the 'AccountPlan' table."];
-AccountPlan_edit2Tip=["",spacer+"This option allows each member of the group to edit any record owned by any member of the group in the 'AccountPlan' table."];
-AccountPlan_edit3Tip=["",spacer+"This option allows each member of the group to edit any records in the 'AccountPlan' table, regardless of their owner."];
-
-AccountPlan_delete0Tip=["",spacer+"This option prohibits all members of the group from deleting any record in the 'AccountPlan' table."];
-AccountPlan_delete1Tip=["",spacer+"This option allows each member of the group to delete only his own records in the 'AccountPlan' table."];
-AccountPlan_delete2Tip=["",spacer+"This option allows each member of the group to delete any record owned by any member of the group in the 'AccountPlan' table."];
-AccountPlan_delete3Tip=["",spacer+"This option allows each member of the group to delete any records in the 'AccountPlan' table."];
 
 /*
 	Style syntax:

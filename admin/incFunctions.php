@@ -353,6 +353,13 @@
 					'group' => $tg[4],
 					'homepageShowCount' => 0
 				),
+				'AccountPlan' => array(
+					'Caption' => 'Account Plan',
+					'Description' => '',
+					'tableIcon' => 'resources/table_icons/chart_curve.png',
+					'group' => $tg[4],
+					'homepageShowCount' => 0
+				),
 				'MasterAccount' => array(
 					'Caption' => 'Master Account',
 					'Description' => '',
@@ -399,13 +406,6 @@
 					'Caption' => 'Receivable',
 					'Description' => '',
 					'tableIcon' => 'resources/table_icons/Account receivable.png',
-					'group' => $tg[4],
-					'homepageShowCount' => 0
-				),
-				'AccountPlan' => array(
-					'Caption' => 'AccountPlan',
-					'Description' => '',
-					'tableIcon' => 'table.gif',
 					'group' => $tg[4],
 					'homepageShowCount' => 0
 				),
@@ -461,6 +461,7 @@
 				'Losses' => 'LOSSES',
 				'Subscriptions' => 'SUSCRIPTIONS',
 				'Accounting' => 'CASH FLOW',
+				'AccountPlan' => 'Account Plan',
 				'MasterAccount' => 'Master Account',
 				'Account' => 'ACCOUNT',
 				'SubAccount' => 'SubAccount',
@@ -468,7 +469,6 @@
 				'CCJournal' => 'CC JOURNAL',
 				'CC' => 'CC',
 				'Receivable' => 'Receivable',
-				'AccountPlan' => 'AccountPlan',
 			);
 
 			return $arrTables;
@@ -2355,6 +2355,12 @@
 				'Invoice' => array('invoice'),
 				'AccountPlan' => array('account_plan'),
 			),
+			'AccountPlan' => array(
+				'MasterAccount' => array('master_account'),
+				'Account' => array('account'),
+				'SubAccount' => array('sub_account'),
+				'Type' => array('type'),
+			),
 			'Account' => array(
 				'MasterAccount' => array('masterAccount'),
 			),
@@ -2368,12 +2374,6 @@
 			'Receivable' => array(
 				'Customers' => array('Customer'),
 				'Staff' => array('Assigned'),
-			),
-			'AccountPlan' => array(
-				'MasterAccount' => array('master_account'),
-				'Account' => array('account'),
-				'SubAccount' => array('sub_account'),
-				'Type' => array('type'),
 			),
 		);
 
@@ -2483,6 +2483,8 @@ WHERE `Products`.`id`=\'%ID%\'',
 			),
 			'Accounting' => array(
 			),
+			'AccountPlan' => array(
+			),
 			'MasterAccount' => array(
 			),
 			'Account' => array(
@@ -2498,8 +2500,6 @@ WHERE `CCJournal`.`id`=\'%ID%\'',
 			'CC' => array(
 			),
 			'Receivable' => array(
-			),
-			'AccountPlan' => array(
 			),
 		);
 	}

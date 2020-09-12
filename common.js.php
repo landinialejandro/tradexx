@@ -497,6 +497,23 @@ function Accounting_validateData() {
 	$j('.has-error').removeClass('has-error');
 	return true;
 }
+function AccountPlan_validateData() {
+	$j('.has-error').removeClass('has-error');
+	/* Rich HTML area field description can't be empty */
+	var nicdescription = nicEditors.findEditor('description').getContent();
+	if(nicdescription == '' || nicdescription == '<br>' || nicdescription == '<br/>' || nicdescription == '<br>') { modal_window({ message: '<div class="alert alert-danger"><?php echo addslashes($Translation['field not null']); ?></div>', title: "<?php echo addslashes($Translation['error:']); ?> Description", close: function() { /* */ $j('[name=description]').parents('.form-group').addClass('has-error'); } }); return false; }
+	/* Field code can't be empty */
+	if($j('#code').val() == ''){ modal_window({ message: '<div class="alert alert-danger"><?php echo addslashes($Translation['field not null']); ?></div>', title: "<?php echo addslashes($Translation['error:']); ?> Code", close: function() { /* */ $j('[name=code]').eq(0).focus().parents('.form-group').addClass('has-error'); }, footer: [{ label: '<?php echo addslashes($Translation['ok']); ?>' }] }); return false; };
+	/* Field master_account can't be empty */
+	if($j('#master_account').val() == ''){ modal_window({ message: '<div class="alert alert-danger"><?php echo addslashes($Translation['field not null']); ?></div>', title: "<?php echo addslashes($Translation['error:']); ?> Master account", close: function() { /* */ $j('[name=master_account]').eq(0).focus().parents('.form-group').addClass('has-error'); }, footer: [{ label: '<?php echo addslashes($Translation['ok']); ?>' }] }); return false; };
+	/* Field account can't be empty */
+	if($j('#account').val() == ''){ modal_window({ message: '<div class="alert alert-danger"><?php echo addslashes($Translation['field not null']); ?></div>', title: "<?php echo addslashes($Translation['error:']); ?> Account", close: function() { /* */ $j('[name=account]').eq(0).focus().parents('.form-group').addClass('has-error'); }, footer: [{ label: '<?php echo addslashes($Translation['ok']); ?>' }] }); return false; };
+	/* Field sub_account can't be empty */
+	if($j('#sub_account').val() == ''){ modal_window({ message: '<div class="alert alert-danger"><?php echo addslashes($Translation['field not null']); ?></div>', title: "<?php echo addslashes($Translation['error:']); ?> Sub account", close: function() { /* */ $j('[name=sub_account]').eq(0).focus().parents('.form-group').addClass('has-error'); }, footer: [{ label: '<?php echo addslashes($Translation['ok']); ?>' }] }); return false; };
+	/* Field type can't be empty */
+	if($j('#type').val() == ''){ modal_window({ message: '<div class="alert alert-danger"><?php echo addslashes($Translation['field not null']); ?></div>', title: "<?php echo addslashes($Translation['error:']); ?> Type", close: function() { /* */ $j('[name=type]').eq(0).focus().parents('.form-group').addClass('has-error'); }, footer: [{ label: '<?php echo addslashes($Translation['ok']); ?>' }] }); return false; };
+	return true;
+}
 function MasterAccount_validateData() {
 	$j('.has-error').removeClass('has-error');
 	return true;
@@ -529,10 +546,6 @@ function CC_validateData() {
 	return true;
 }
 function Receivable_validateData() {
-	$j('.has-error').removeClass('has-error');
-	return true;
-}
-function AccountPlan_validateData() {
 	$j('.has-error').removeClass('has-error');
 	return true;
 }

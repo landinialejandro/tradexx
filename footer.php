@@ -1,7 +1,3 @@
-
-<?php /* Inserted by Landini Admin Template on 2020-09-12 03:28:47 */ ?>
-		<?php if (activate_LAT("footer",$x,false)) return; ?>
-<?php /* End of Landini Admin Template code */ ?>
 			<!-- Add footer template above here -->
 			<div class="clearfix"></div>
 			<?php if(!$_REQUEST['Embedded']) { ?>

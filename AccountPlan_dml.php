@@ -25,6 +25,36 @@ function AccountPlan_insert() {
 		if($data['sub_account'] == empty_lookup_value) { $data['sub_account'] = ''; }
 	$data['type'] = $_REQUEST['type'];
 		if($data['type'] == empty_lookup_value) { $data['type'] = ''; }
+	if($data['description']== '') {
+		echo StyleSheet() . "\n\n<div class=\"alert alert-danger\">" . $Translation['error:'] . " 'Description': " . $Translation['field not null'] . '<br><br>';
+		echo '<a href="" onclick="history.go(-1); return false;">'.$Translation['< back'].'</a></div>';
+		exit;
+	}
+	if($data['code']== '') {
+		echo StyleSheet() . "\n\n<div class=\"alert alert-danger\">" . $Translation['error:'] . " 'Code': " . $Translation['field not null'] . '<br><br>';
+		echo '<a href="" onclick="history.go(-1); return false;">'.$Translation['< back'].'</a></div>';
+		exit;
+	}
+	if($data['master_account']== '') {
+		echo StyleSheet() . "\n\n<div class=\"alert alert-danger\">" . $Translation['error:'] . " 'Master account': " . $Translation['field not null'] . '<br><br>';
+		echo '<a href="" onclick="history.go(-1); return false;">'.$Translation['< back'].'</a></div>';
+		exit;
+	}
+	if($data['account']== '') {
+		echo StyleSheet() . "\n\n<div class=\"alert alert-danger\">" . $Translation['error:'] . " 'Account': " . $Translation['field not null'] . '<br><br>';
+		echo '<a href="" onclick="history.go(-1); return false;">'.$Translation['< back'].'</a></div>';
+		exit;
+	}
+	if($data['sub_account']== '') {
+		echo StyleSheet() . "\n\n<div class=\"alert alert-danger\">" . $Translation['error:'] . " 'Sub account': " . $Translation['field not null'] . '<br><br>';
+		echo '<a href="" onclick="history.go(-1); return false;">'.$Translation['< back'].'</a></div>';
+		exit;
+	}
+	if($data['type']== '') {
+		echo StyleSheet() . "\n\n<div class=\"alert alert-danger\">" . $Translation['error:'] . " 'Type': " . $Translation['field not null'] . '<br><br>';
+		echo '<a href="" onclick="history.go(-1); return false;">'.$Translation['< back'].'</a></div>';
+		exit;
+	}
 
 	// hook: AccountPlan_before_insert
 	if(function_exists('AccountPlan_before_insert')) {
@@ -140,16 +170,46 @@ function AccountPlan_update($selected_id) {
 
 	$data['description'] = makeSafe($_REQUEST['description']);
 		if($data['description'] == empty_lookup_value) { $data['description'] = ''; }
+	if($data['description']=='') {
+		echo StyleSheet() . "\n\n<div class=\"alert alert-danger\">{$Translation['error:']} 'Description': {$Translation['field not null']}<br><br>";
+		echo '<a href="" onclick="history.go(-1); return false;">'.$Translation['< back'].'</a></div>';
+		exit;
+	}
 	$data['code'] = makeSafe($_REQUEST['code']);
 		if($data['code'] == empty_lookup_value) { $data['code'] = ''; }
+	if($data['code']=='') {
+		echo StyleSheet() . "\n\n<div class=\"alert alert-danger\">{$Translation['error:']} 'Code': {$Translation['field not null']}<br><br>";
+		echo '<a href="" onclick="history.go(-1); return false;">'.$Translation['< back'].'</a></div>';
+		exit;
+	}
 	$data['master_account'] = makeSafe($_REQUEST['master_account']);
 		if($data['master_account'] == empty_lookup_value) { $data['master_account'] = ''; }
+	if($data['master_account']=='') {
+		echo StyleSheet() . "\n\n<div class=\"alert alert-danger\">{$Translation['error:']} 'Master account': {$Translation['field not null']}<br><br>";
+		echo '<a href="" onclick="history.go(-1); return false;">'.$Translation['< back'].'</a></div>';
+		exit;
+	}
 	$data['account'] = makeSafe($_REQUEST['account']);
 		if($data['account'] == empty_lookup_value) { $data['account'] = ''; }
+	if($data['account']=='') {
+		echo StyleSheet() . "\n\n<div class=\"alert alert-danger\">{$Translation['error:']} 'Account': {$Translation['field not null']}<br><br>";
+		echo '<a href="" onclick="history.go(-1); return false;">'.$Translation['< back'].'</a></div>';
+		exit;
+	}
 	$data['sub_account'] = makeSafe($_REQUEST['sub_account']);
 		if($data['sub_account'] == empty_lookup_value) { $data['sub_account'] = ''; }
+	if($data['sub_account']=='') {
+		echo StyleSheet() . "\n\n<div class=\"alert alert-danger\">{$Translation['error:']} 'Sub account': {$Translation['field not null']}<br><br>";
+		echo '<a href="" onclick="history.go(-1); return false;">'.$Translation['< back'].'</a></div>';
+		exit;
+	}
 	$data['type'] = makeSafe($_REQUEST['type']);
 		if($data['type'] == empty_lookup_value) { $data['type'] = ''; }
+	if($data['type']=='') {
+		echo StyleSheet() . "\n\n<div class=\"alert alert-danger\">{$Translation['error:']} 'Type': {$Translation['field not null']}<br><br>";
+		echo '<a href="" onclick="history.go(-1); return false;">'.$Translation['< back'].'</a></div>';
+		exit;
+	}
 	$data['selectedID'] = makeSafe($selected_id);
 
 	// hook: AccountPlan_before_update

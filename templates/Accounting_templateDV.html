@@ -59,9 +59,9 @@
 
 				<div class="form-group">
 					<hr class="hidden-md hidden-lg">
-					<label for="master_acount" class="control-label col-lg-3">Master account</label>
+					<label for="master_account" class="control-label col-lg-3">Master account</label>
 					<div class="col-lg-9">
-						<div class="form-control-static" id="master_acount"></div>
+						<div class="form-control-static" id="master_account"></div>
 					</div>
 				</div>
 
@@ -102,6 +102,14 @@
 					<label for="balance" class="control-label col-lg-3">Balance</label>
 					<div class="col-lg-9">
 						<div class="form-control-static" id="balance"><%%VALUE(balance)%%></div>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<hr class="hidden-md hidden-lg">
+					<label for="status" class="control-label col-lg-3">Status</label>
+					<div class="col-lg-9">
+						<%%COMBO(status)%%>
 					</div>
 				</div>
 

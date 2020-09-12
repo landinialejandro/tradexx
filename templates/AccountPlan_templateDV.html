@@ -30,7 +30,7 @@
 
 				<div class="form-group">
 					<hr class="hidden-md hidden-lg">
-					<label for="description" class="control-label col-lg-3">Description</label>
+					<label for="description" class="control-label col-lg-3">Description<span class="text-danger"><%%TRANSLATION(*)%%></span></label>
 					<div class="col-lg-9">
 						<%%HTMLAREA(description)%%>
 					</div>
@@ -38,15 +38,15 @@
 
 				<div class="form-group">
 					<hr class="hidden-md hidden-lg">
-					<label for="code" class="control-label col-lg-3">Code</label>
+					<label for="code" class="control-label col-lg-3">Code<span class="text-danger"><%%TRANSLATION(*)%%></span></label>
 					<div class="col-lg-9">
-						<input maxlength="40" type="text" class="form-control" name="code" id="code" value="<%%VALUE(code)%%>">
+						<input maxlength="40" type="text" class="form-control" name="code" id="code" value="<%%VALUE(code)%%>" required>
 					</div>
 				</div>
 
 				<div class="form-group">
 					<hr class="hidden-md hidden-lg">
-					<label for="master_account" class="control-label col-lg-3" data-parent_link="view_parent_modal">Master account</label>
+					<label for="master_account" class="control-label col-lg-3" data-parent_link="view_parent_modal">Master account<span class="text-danger"><%%TRANSLATION(*)%%></span></label>
 					<div class="col-lg-9">
 						<div class="form-control-static" style="white-space: nowrap; overflow-x: hidden;"><%%COMBO(master_account)%%><%%PLINK(master_account)%%><%%ADDNEW(MasterAccount)%%></div>
 					</div>
@@ -54,7 +54,7 @@
 
 				<div class="form-group">
 					<hr class="hidden-md hidden-lg">
-					<label for="account" class="control-label col-lg-3" data-parent_link="view_parent_modal">Account</label>
+					<label for="account" class="control-label col-lg-3" data-parent_link="view_parent_modal">Account<span class="text-danger"><%%TRANSLATION(*)%%></span></label>
 					<div class="col-lg-9">
 						<div class="form-control-static" style="white-space: nowrap; overflow-x: hidden;"><%%COMBO(account)%%><%%PLINK(account)%%><%%ADDNEW(Account)%%></div>
 					</div>
@@ -62,7 +62,7 @@
 
 				<div class="form-group">
 					<hr class="hidden-md hidden-lg">
-					<label for="sub_account" class="control-label col-lg-3" data-parent_link="view_parent_modal">Sub account</label>
+					<label for="sub_account" class="control-label col-lg-3" data-parent_link="view_parent_modal">Sub account<span class="text-danger"><%%TRANSLATION(*)%%></span></label>
 					<div class="col-lg-9">
 						<div class="form-control-static" style="white-space: nowrap; overflow-x: hidden;"><%%COMBO(sub_account)%%><%%PLINK(sub_account)%%><%%ADDNEW(SubAccount)%%></div>
 					</div>
@@ -70,7 +70,7 @@
 
 				<div class="form-group">
 					<hr class="hidden-md hidden-lg">
-					<label for="type" class="control-label col-lg-3" data-parent_link="view_parent_modal">Type</label>
+					<label for="type" class="control-label col-lg-3" data-parent_link="view_parent_modal">Type<span class="text-danger"><%%TRANSLATION(*)%%></span></label>
 					<div class="col-lg-9">
 						<div class="form-control-static" style="white-space: nowrap; overflow-x: hidden;"><%%COMBO(type)%%><%%PLINK(type)%%><%%ADDNEW(Type)%%></div>
 					</div>

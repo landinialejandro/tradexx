@@ -27,7 +27,7 @@
 		case 'account_plan':
 			if(!$id) {
 				?>
-				$j('#master_acount<?php echo $rnd1; ?>').html('&nbsp;');
+				$j('#master_account<?php echo $rnd1; ?>').html('&nbsp;');
 				$j('#account<?php echo $rnd1; ?>').html('&nbsp;');
 				$j('#sub_account<?php echo $rnd1; ?>').html('&nbsp;');
 				$j('#type<?php echo $rnd1; ?>').html('&nbsp;');
@@ -37,7 +37,7 @@
 			$res = sql("SELECT `AccountPlan`.`id` as 'id', `AccountPlan`.`description` as 'description', `AccountPlan`.`code` as 'code', IF(    CHAR_LENGTH(`MasterAccount1`.`masterAccount`) || CHAR_LENGTH(`MasterAccount1`.`code`), CONCAT_WS('',   `MasterAccount1`.`masterAccount`, ' - ', `MasterAccount1`.`code`), '') as 'master_account', IF(    CHAR_LENGTH(`Account1`.`Account`) || CHAR_LENGTH(`Account1`.`code`), CONCAT_WS('',   `Account1`.`Account`, ' - ', `Account1`.`code`), '') as 'account', IF(    CHAR_LENGTH(`SubAccount1`.`subAccount`) || CHAR_LENGTH(`SubAccount1`.`code`), CONCAT_WS('',   `SubAccount1`.`subAccount`, ' - ', `SubAccount1`.`code`), '') as 'sub_account', IF(    CHAR_LENGTH(`Type1`.`type`), CONCAT_WS('',   `Type1`.`type`), '') as 'type' FROM `AccountPlan` LEFT JOIN `MasterAccount` as MasterAccount1 ON `MasterAccount1`.`id`=`AccountPlan`.`master_account` LEFT JOIN `Account` as Account1 ON `Account1`.`id`=`AccountPlan`.`account` LEFT JOIN `SubAccount` as SubAccount1 ON `SubAccount1`.`id`=`AccountPlan`.`sub_account` LEFT JOIN `Type` as Type1 ON `Type1`.`id`=`AccountPlan`.`type`  WHERE `AccountPlan`.`id`='{$id}' limit 1", $eo);
 			$row = db_fetch_assoc($res);
 			?>
-			$j('#master_acount<?php echo $rnd1; ?>').html('<?php echo addslashes(str_replace(array("\r", "\n"), '', nl2br($row['master_account']))); ?>&nbsp;');
+			$j('#master_account<?php echo $rnd1; ?>').html('<?php echo addslashes(str_replace(array("\r", "\n"), '', nl2br($row['master_account']))); ?>&nbsp;');
 			$j('#account<?php echo $rnd1; ?>').html('<?php echo addslashes(str_replace(array("\r", "\n"), '', nl2br($row['account']))); ?>&nbsp;');
 			$j('#sub_account<?php echo $rnd1; ?>').html('<?php echo addslashes(str_replace(array("\r", "\n"), '', nl2br($row['sub_account']))); ?>&nbsp;');
 			$j('#type<?php echo $rnd1; ?>').html('<?php echo addslashes(str_replace(array("\r", "\n"), '', nl2br($row['type']))); ?>&nbsp;');

@@ -21,8 +21,8 @@ function Accounting_insert() {
 		if($data['description'] == empty_lookup_value) { $data['description'] = ''; }
 	$data['account_plan'] = $_REQUEST['account_plan'];
 		if($data['account_plan'] == empty_lookup_value) { $data['account_plan'] = ''; }
-	$data['master_acount'] = $_REQUEST['account_plan'];
-		if($data['master_acount'] == empty_lookup_value) { $data['master_acount'] = ''; }
+	$data['master_account'] = $_REQUEST['account_plan'];
+		if($data['master_account'] == empty_lookup_value) { $data['master_account'] = ''; }
 	$data['account'] = $_REQUEST['account_plan'];
 		if($data['account'] == empty_lookup_value) { $data['account'] = ''; }
 	$data['sub_account'] = $_REQUEST['account_plan'];
@@ -31,6 +31,9 @@ function Accounting_insert() {
 		if($data['type'] == empty_lookup_value) { $data['type'] = ''; }
 	$data['amount'] = $_REQUEST['amount'];
 		if($data['amount'] == empty_lookup_value) { $data['amount'] = ''; }
+	$data['status'] = $_REQUEST['status'];
+		if($data['status'] == empty_lookup_value) { $data['status'] = ''; }
+	if($data['status'] == '') $data['status'] = "OPEN";
 
 	// hook: Accounting_before_insert
 	if(function_exists('Accounting_before_insert')) {
@@ -133,8 +136,8 @@ function Accounting_update($selected_id) {
 		if($data['description'] == empty_lookup_value) { $data['description'] = ''; }
 	$data['account_plan'] = makeSafe($_REQUEST['account_plan']);
 		if($data['account_plan'] == empty_lookup_value) { $data['account_plan'] = ''; }
-	$data['master_acount'] = makeSafe($_REQUEST['account_plan']);
-		if($data['master_acount'] == empty_lookup_value) { $data['master_acount'] = ''; }
+	$data['master_account'] = makeSafe($_REQUEST['account_plan']);
+		if($data['master_account'] == empty_lookup_value) { $data['master_account'] = ''; }
 	$data['account'] = makeSafe($_REQUEST['account_plan']);
 		if($data['account'] == empty_lookup_value) { $data['account'] = ''; }
 	$data['sub_account'] = makeSafe($_REQUEST['account_plan']);
@@ -143,6 +146,8 @@ function Accounting_update($selected_id) {
 		if($data['type'] == empty_lookup_value) { $data['type'] = ''; }
 	$data['amount'] = makeSafe($_REQUEST['amount']);
 		if($data['amount'] == empty_lookup_value) { $data['amount'] = ''; }
+	$data['status'] = makeSafe($_REQUEST['status']);
+		if($data['status'] == empty_lookup_value) { $data['status'] = ''; }
 	$data['selectedID'] = makeSafe($selected_id);
 
 	// hook: Accounting_before_update
@@ -152,7 +157,7 @@ function Accounting_update($selected_id) {
 	}
 
 	$o = array('silentErrors' => true);
-	sql('update `Accounting` set       `invoice`=' . (($data['invoice'] !== '' && $data['invoice'] !== NULL) ? "'{$data['invoice']}'" : 'NULL') . ', `date`=' . (($data['date'] !== '' && $data['date'] !== NULL) ? "'{$data['date']}'" : 'NULL') . ', `description`=' . (($data['description'] !== '' && $data['description'] !== NULL) ? "'{$data['description']}'" : 'NULL') . ', `account_plan`=' . (($data['account_plan'] !== '' && $data['account_plan'] !== NULL) ? "'{$data['account_plan']}'" : 'NULL') . ', `master_acount`=' . (($data['master_acount'] !== '' && $data['master_acount'] !== NULL) ? "'{$data['master_acount']}'" : 'NULL') . ', `account`=' . (($data['account'] !== '' && $data['account'] !== NULL) ? "'{$data['account']}'" : 'NULL') . ', `sub_account`=' . (($data['sub_account'] !== '' && $data['sub_account'] !== NULL) ? "'{$data['sub_account']}'" : 'NULL') . ', `type`=' . (($data['type'] !== '' && $data['type'] !== NULL) ? "'{$data['type']}'" : 'NULL') . ', `amount`=' . (($data['amount'] !== '' && $data['amount'] !== NULL) ? "'{$data['amount']}'" : 'NULL') . " where `id`='".makeSafe($selected_id)."'", $o);
+	sql('update `Accounting` set       `invoice`=' . (($data['invoice'] !== '' && $data['invoice'] !== NULL) ? "'{$data['invoice']}'" : 'NULL') . ', `date`=' . (($data['date'] !== '' && $data['date'] !== NULL) ? "'{$data['date']}'" : 'NULL') . ', `description`=' . (($data['description'] !== '' && $data['description'] !== NULL) ? "'{$data['description']}'" : 'NULL') . ', `account_plan`=' . (($data['account_plan'] !== '' && $data['account_plan'] !== NULL) ? "'{$data['account_plan']}'" : 'NULL') . ', `master_account`=' . (($data['master_account'] !== '' && $data['master_account'] !== NULL) ? "'{$data['master_account']}'" : 'NULL') . ', `account`=' . (($data['account'] !== '' && $data['account'] !== NULL) ? "'{$data['account']}'" : 'NULL') . ', `sub_account`=' . (($data['sub_account'] !== '' && $data['sub_account'] !== NULL) ? "'{$data['sub_account']}'" : 'NULL') . ', `type`=' . (($data['type'] !== '' && $data['type'] !== NULL) ? "'{$data['type']}'" : 'NULL') . ', `amount`=' . (($data['amount'] !== '' && $data['amount'] !== NULL) ? "'{$data['amount']}'" : 'NULL') . ', `status`=' . (($data['status'] !== '' && $data['status'] !== NULL) ? "'{$data['status']}'" : 'NULL') . " where `id`='".makeSafe($selected_id)."'", $o);
 	if($o['error']!='') {
 		echo $o['error'];
 		echo '<a href="Accounting_view.php?SelectedID='.urlencode($selected_id)."\">{$Translation['< back']}</a>";
@@ -213,6 +218,21 @@ function Accounting_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, 
 	$combo_date->NamePrefix = 'date';
 	// combobox: account_plan
 	$combo_account_plan = new DataCombo;
+	// combobox: status
+	$combo_status = new Combo;
+	$combo_status->ListType = 0;
+	$combo_status->MultipleSeparator = ', ';
+	$combo_status->ListBoxHeight = 10;
+	$combo_status->RadiosPerLine = 1;
+	if(is_file(dirname(__FILE__).'/hooks/Accounting.status.csv')) {
+		$status_data = addslashes(implode('', @file(dirname(__FILE__).'/hooks/Accounting.status.csv')));
+		$combo_status->ListItem = explode('||', entitiesToUTF8(convertLegacyOptions($status_data)));
+		$combo_status->ListData = $combo_status->ListItem;
+	}else{
+		$combo_status->ListItem = explode('||', entitiesToUTF8(convertLegacyOptions("OPEN;;CLOSED")));
+		$combo_status->ListData = $combo_status->ListItem;
+	}
+	$combo_status->SelectName = 'status';
 
 	if($selected_id) {
 		// mm: check member permissions
@@ -243,17 +263,20 @@ function Accounting_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, 
 		$combo_invoice->SelectedData = $row['invoice'];
 		$combo_date->DefaultDate = $row['date'];
 		$combo_account_plan->SelectedData = $row['account_plan'];
+		$combo_status->SelectedData = $row['status'];
 		$urow = $row; /* unsanitized data */
 		$hc = new CI_Input();
 		$row = $hc->xss_clean($row); /* sanitize data */
 	} else {
 		$combo_invoice->SelectedData = $filterer_invoice;
 		$combo_account_plan->SelectedData = $filterer_account_plan;
+		$combo_status->SelectedText = ( $_REQUEST['FilterField'][1]=='12' && $_REQUEST['FilterOperator'][1]=='<=>' ? (get_magic_quotes_gpc() ? stripslashes($_REQUEST['FilterValue'][1]) : $_REQUEST['FilterValue'][1]) : "OPEN");
 	}
 	$combo_invoice->HTML = '<span id="invoice-container' . $rnd1 . '"></span><input type="hidden" name="invoice" id="invoice' . $rnd1 . '" value="' . html_attr($combo_invoice->SelectedData) . '">';
 	$combo_invoice->MatchText = '<span id="invoice-container-readonly' . $rnd1 . '"></span><input type="hidden" name="invoice" id="invoice' . $rnd1 . '" value="' . html_attr($combo_invoice->SelectedData) . '">';
 	$combo_account_plan->HTML = '<span id="account_plan-container' . $rnd1 . '"></span><input type="hidden" name="account_plan" id="account_plan' . $rnd1 . '" value="' . html_attr($combo_account_plan->SelectedData) . '">';
 	$combo_account_plan->MatchText = '<span id="account_plan-container-readonly' . $rnd1 . '"></span><input type="hidden" name="account_plan" id="account_plan' . $rnd1 . '" value="' . html_attr($combo_account_plan->SelectedData) . '">';
+	$combo_status->Render();
 
 	ob_start();
 	?>
@@ -488,6 +511,7 @@ function Accounting_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, 
 		$jsReadOnly .= "\tjQuery('#account_plan').prop('disabled', true).css({ color: '#555', backgroundColor: '#fff' });\n";
 		$jsReadOnly .= "\tjQuery('#account_plan_caption').prop('disabled', true).css({ color: '#555', backgroundColor: 'white' });\n";
 		$jsReadOnly .= "\tjQuery('#amount').replaceWith('<div class=\"form-control-static\" id=\"amount\">' + (jQuery('#amount').val() || '') + '</div>');\n";
+		$jsReadOnly .= "\tjQuery('#status').replaceWith('<div class=\"form-control-static\" id=\"status\">' + (jQuery('#status').val() || '') + '</div>'); jQuery('#status-multi-selection-help').hide();\n";
 		$jsReadOnly .= "\tjQuery('.select2-container').hide();\n";
 
 		$noUploads = true;
@@ -505,6 +529,8 @@ function Accounting_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, 
 	$templateCode = str_replace('<%%COMBO(account_plan)%%>', $combo_account_plan->HTML, $templateCode);
 	$templateCode = str_replace('<%%COMBOTEXT(account_plan)%%>', $combo_account_plan->MatchText, $templateCode);
 	$templateCode = str_replace('<%%URLCOMBOTEXT(account_plan)%%>', urlencode($combo_account_plan->MatchText), $templateCode);
+	$templateCode = str_replace('<%%COMBO(status)%%>', $combo_status->HTML, $templateCode);
+	$templateCode = str_replace('<%%COMBOTEXT(status)%%>', $combo_status->SelectedData, $templateCode);
 
 	/* lookup fields array: 'lookup field name' => array('parent table name', 'lookup field caption') */
 	$lookup_fields = array('invoice' => array('Invoice', 'Invoice'), 'account_plan' => array('AccountPlan', 'Account plan'), );
@@ -530,6 +556,7 @@ function Accounting_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, 
 	$templateCode = str_replace('<%%UPLOADFILE(account_plan)%%>', '', $templateCode);
 	$templateCode = str_replace('<%%UPLOADFILE(amount)%%>', '', $templateCode);
 	$templateCode = str_replace('<%%UPLOADFILE(balance)%%>', '', $templateCode);
+	$templateCode = str_replace('<%%UPLOADFILE(status)%%>', '', $templateCode);
 
 	// process values
 	if($selected_id) {
@@ -556,6 +583,9 @@ function Accounting_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, 
 		$templateCode = str_replace('<%%URLVALUE(amount)%%>', urlencode($urow['amount']), $templateCode);
 		$templateCode = str_replace('<%%VALUE(balance)%%>', safe_html($urow['balance']), $templateCode);
 		$templateCode = str_replace('<%%URLVALUE(balance)%%>', urlencode($urow['balance']), $templateCode);
+		if( $dvprint) $templateCode = str_replace('<%%VALUE(status)%%>', safe_html($urow['status']), $templateCode);
+		if(!$dvprint) $templateCode = str_replace('<%%VALUE(status)%%>', html_attr($row['status']), $templateCode);
+		$templateCode = str_replace('<%%URLVALUE(status)%%>', urlencode($urow['status']), $templateCode);
 	}else{
 		$templateCode = str_replace('<%%VALUE(id)%%>', '', $templateCode);
 		$templateCode = str_replace('<%%URLVALUE(id)%%>', urlencode(''), $templateCode);
@@ -570,6 +600,8 @@ function Accounting_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, 
 		$templateCode = str_replace('<%%URLVALUE(amount)%%>', urlencode(''), $templateCode);
 		$templateCode = str_replace('<%%VALUE(balance)%%>', '', $templateCode);
 		$templateCode = str_replace('<%%URLVALUE(balance)%%>', urlencode(''), $templateCode);
+		$templateCode = str_replace('<%%VALUE(status)%%>', 'OPEN', $templateCode);
+		$templateCode = str_replace('<%%URLVALUE(status)%%>', urlencode('OPEN'), $templateCode);
 	}
 
 	// process translations
