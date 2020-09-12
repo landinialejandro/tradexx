@@ -142,11 +142,12 @@ function Invoice_before_update(&$data, $memberInfo, &$args)
 				"invoice" => $data['selectedID'],
 				"date" => $data['Date'],
 				"description" => 'MOVIMIENTO por venta. Invoice:' . $data['number'],
-				"master_acount" => $ap['master_acount'],
+				"account_plan"=>$ap['id'] ,
+				"master_account" => $ap['master_account'],
 				"account" => $ap['account'],
 				"sub_account" => $ap['sub_account'],
 				"type" => $ap['type'],
-				"amount" => $data['Total']
+				"amount" => $Invoice['Total']
 			];
 			$insert = insert('Accounting', $accouting, $e);
 			if (!$insert) {
