@@ -132,28 +132,25 @@ function Invoice_before_update(&$data, $memberInfo, &$args)
 			//TODO:controlar valores devueltos
 			$ap = sqlValue('SELECT `id` FROM `AccountPlan` WHERE `code` = "VENTA"');
 			$ap = getDataTable_Values('AccountPlan',$ap);
-			// $ma = sqlValue('SELECT `id` FROM `AccountPlan` where `code` = "VENTA"');
-			// $ac = sqlValue('SELECT `id` FROM `AccountPlan` where `code` = "VENTA"');
-			// $sa = sqlValue('SELECT `id` FROM `AccountPlan` where `code` = "VENTA"');
-			// $ty = sqlValue('SELECT `id` FROM `AccountPlan` where `type` = "Negativo"');
 
 			$accouting = [
 				// agregar movimiento a cashflow si no es QUOTE
 				"invoice" => $data['selectedID'],
 				"date" => $data['Date'],
-				"description" => 'MOVIMIENTO por venta. Invoice:' . $data['number'],
+				"description" => 'MOVIMIENTO AUTOMATICO por venta cerrada. Invoice:' . $data['number'],
 				"account_plan"=>$ap['id'] ,
 				"master_account" => $ap['master_account'],
 				"account" => $ap['account'],
 				"sub_account" => $ap['sub_account'],
 				"type" => $ap['type'],
-				"amount" => $Invoice['Total']
+				"amount" => $Invoice['Total'],
+				"status" => "CLOSED"
 			];
 			$insert = insert('Accounting', $accouting, $e);
 			if (!$insert) {
 				// fallo en agregar en accounting
 				$_SESSION['custom_msg'] = [
-					"message" => "<h3>Error agregadno acounting: $e </h3>",
+					"message" => "<h3>Error agregando accounting: $e </h3>",
 					"class" => "danger",
 					"dismiss_seconds" => "0"
 				];
