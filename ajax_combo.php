@@ -366,7 +366,7 @@
 				'parent_table' => 'Invoice',
 				'parent_pk_field' => 'id',
 				'parent_caption' => '`Invoice`.`id`',
-				'parent_from' => '`Invoice` LEFT JOIN `Customers` as Customers1 ON `Customers1`.`id`=`Invoice`.`Customer` LEFT JOIN `Invoice` as Invoice1 ON `Invoice1`.`id`=`Invoice`.`realted` LEFT JOIN `City` as City1 ON `City1`.`id`=`Customers1`.`City` LEFT JOIN `Country` as Country1 ON `Country1`.`id`=`Customers1`.`Country` ',
+				'parent_from' => '`Invoice` LEFT JOIN `Customers` as Customers1 ON `Customers1`.`id`=`Invoice`.`Customer` LEFT JOIN `Invoice` as Invoice1 ON `Invoice1`.`id`=`Invoice`.`related` LEFT JOIN `City` as City1 ON `City1`.`id`=`Customers1`.`City` LEFT JOIN `Country` as Country1 ON `Country1`.`id`=`Customers1`.`Country` ',
 				'filterers' => array(),
 				'custom_query' => '',
 				'inherit_permissions' => false,
@@ -450,7 +450,7 @@
 				'custom_query' => '',
 				'inherit_permissions' => true,
 				'list_type' => 0,
-				'not_null' => false
+				'not_null' => true
 			),
 			'Phone' => array(
 				'parent_table' => 'Customers',
@@ -507,11 +507,11 @@
 				'list_type' => 0,
 				'not_null' => false
 			),
-			'realted' => array(
+			'related' => array(
 				'parent_table' => 'Invoice',
 				'parent_pk_field' => 'id',
 				'parent_caption' => 'IF(CHAR_LENGTH(`Invoice`.`id`) || CHAR_LENGTH(`Invoice`.`number`), CONCAT_WS(\'\', `Invoice`.`id`, \' - \', `Invoice`.`number`), \'\')',
-				'parent_from' => '`Invoice` LEFT JOIN `Customers` as Customers1 ON `Customers1`.`id`=`Invoice`.`Customer` LEFT JOIN `Invoice` as Invoice1 ON `Invoice1`.`id`=`Invoice`.`realted` LEFT JOIN `City` as City1 ON `City1`.`id`=`Customers1`.`City` LEFT JOIN `Country` as Country1 ON `Country1`.`id`=`Customers1`.`Country` ',
+				'parent_from' => '`Invoice` LEFT JOIN `Customers` as Customers1 ON `Customers1`.`id`=`Invoice`.`Customer` LEFT JOIN `Invoice` as Invoice1 ON `Invoice1`.`id`=`Invoice`.`related` LEFT JOIN `City` as City1 ON `City1`.`id`=`Customers1`.`City` LEFT JOIN `Country` as Country1 ON `Country1`.`id`=`Customers1`.`Country` ',
 				'filterers' => array(),
 				'custom_query' => '',
 				'inherit_permissions' => false,
@@ -524,7 +524,7 @@
 				'parent_table' => 'Invoice',
 				'parent_pk_field' => 'id',
 				'parent_caption' => '`Invoice`.`id`',
-				'parent_from' => '`Invoice` LEFT JOIN `Customers` as Customers1 ON `Customers1`.`id`=`Invoice`.`Customer` LEFT JOIN `Invoice` as Invoice1 ON `Invoice1`.`id`=`Invoice`.`realted` LEFT JOIN `City` as City1 ON `City1`.`id`=`Customers1`.`City` LEFT JOIN `Country` as Country1 ON `Country1`.`id`=`Customers1`.`Country` ',
+				'parent_from' => '`Invoice` LEFT JOIN `Customers` as Customers1 ON `Customers1`.`id`=`Invoice`.`Customer` LEFT JOIN `Invoice` as Invoice1 ON `Invoice1`.`id`=`Invoice`.`related` LEFT JOIN `City` as City1 ON `City1`.`id`=`Customers1`.`City` LEFT JOIN `Country` as Country1 ON `Country1`.`id`=`Customers1`.`Country` ',
 				'filterers' => array(),
 				'custom_query' => '',
 				'inherit_permissions' => false,
@@ -924,7 +924,7 @@
 				'parent_table' => 'Invoice',
 				'parent_pk_field' => 'id',
 				'parent_caption' => 'IF(CHAR_LENGTH(`Invoice`.`number`) || CHAR_LENGTH(`Invoice`.`Customer`), CONCAT_WS(\'\', `Invoice`.`number`, \' - \', IF(    CHAR_LENGTH(`Customers1`.`Customer`), CONCAT_WS(\'\',   `Customers1`.`Customer`), \'\')), \'\')',
-				'parent_from' => '`Invoice` LEFT JOIN `Customers` as Customers1 ON `Customers1`.`id`=`Invoice`.`Customer` LEFT JOIN `Invoice` as Invoice1 ON `Invoice1`.`id`=`Invoice`.`realted` LEFT JOIN `City` as City1 ON `City1`.`id`=`Customers1`.`City` LEFT JOIN `Country` as Country1 ON `Country1`.`id`=`Customers1`.`Country` ',
+				'parent_from' => '`Invoice` LEFT JOIN `Customers` as Customers1 ON `Customers1`.`id`=`Invoice`.`Customer` LEFT JOIN `Invoice` as Invoice1 ON `Invoice1`.`id`=`Invoice`.`related` LEFT JOIN `City` as City1 ON `City1`.`id`=`Customers1`.`City` LEFT JOIN `Country` as Country1 ON `Country1`.`id`=`Customers1`.`Country` ',
 				'filterers' => array(),
 				'custom_query' => '',
 				'inherit_permissions' => false,

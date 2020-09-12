@@ -2275,7 +2275,7 @@
 			),
 			'Invoice' => array(
 				'Customers' => array('Customer'),
-				'Invoice' => array('realted'),
+				'Invoice' => array('related'),
 			),
 			'InvoiceDetails' => array(
 				'Invoice' => array('invoice'),

@@ -44,7 +44,7 @@
 		"`Invoice`.`whenAdd`" => "whenAdd",
 		"`Invoice`.`usrUpdated`" => "usrUpdated",
 		"`Invoice`.`whenUpdated`" => "whenUpdated",
-		"IF(    CHAR_LENGTH(`Invoice1`.`id`) || CHAR_LENGTH(`Invoice1`.`number`), CONCAT_WS('',   `Invoice1`.`id`, ' - ', `Invoice1`.`number`), '') /* Realted */" => "realted",
+		"IF(    CHAR_LENGTH(`Invoice1`.`id`) || CHAR_LENGTH(`Invoice1`.`number`), CONCAT_WS('',   `Invoice1`.`id`, ' - ', `Invoice1`.`number`), '') /* Related */" => "related",
 	);
 	// mapping incoming sort by requests to actual query fields
 	$x->SortFields = array(
@@ -97,7 +97,7 @@
 		"`Invoice`.`whenAdd`" => "whenAdd",
 		"`Invoice`.`usrUpdated`" => "usrUpdated",
 		"`Invoice`.`whenUpdated`" => "whenUpdated",
-		"IF(    CHAR_LENGTH(`Invoice1`.`id`) || CHAR_LENGTH(`Invoice1`.`number`), CONCAT_WS('',   `Invoice1`.`id`, ' - ', `Invoice1`.`number`), '') /* Realted */" => "realted",
+		"IF(    CHAR_LENGTH(`Invoice1`.`id`) || CHAR_LENGTH(`Invoice1`.`number`), CONCAT_WS('',   `Invoice1`.`id`, ' - ', `Invoice1`.`number`), '') /* Related */" => "related",
 	);
 	// Fields that can be filtered
 	$x->QueryFieldsFilters = array(
@@ -123,7 +123,7 @@
 		"`Invoice`.`whenAdd`" => "When is Added",
 		"`Invoice`.`usrUpdated`" => "UsrUpdated",
 		"`Invoice`.`whenUpdated`" => "WhenUpdated",
-		"IF(    CHAR_LENGTH(`Invoice1`.`id`) || CHAR_LENGTH(`Invoice1`.`number`), CONCAT_WS('',   `Invoice1`.`id`, ' - ', `Invoice1`.`number`), '') /* Realted */" => "Realted",
+		"IF(    CHAR_LENGTH(`Invoice1`.`id`) || CHAR_LENGTH(`Invoice1`.`number`), CONCAT_WS('',   `Invoice1`.`id`, ' - ', `Invoice1`.`number`), '') /* Related */" => "Related",
 	);
 
 	// Fields that can be quick searched
@@ -150,13 +150,13 @@
 		"`Invoice`.`whenAdd`" => "whenAdd",
 		"`Invoice`.`usrUpdated`" => "usrUpdated",
 		"`Invoice`.`whenUpdated`" => "whenUpdated",
-		"IF(    CHAR_LENGTH(`Invoice1`.`id`) || CHAR_LENGTH(`Invoice1`.`number`), CONCAT_WS('',   `Invoice1`.`id`, ' - ', `Invoice1`.`number`), '') /* Realted */" => "realted",
+		"IF(    CHAR_LENGTH(`Invoice1`.`id`) || CHAR_LENGTH(`Invoice1`.`number`), CONCAT_WS('',   `Invoice1`.`id`, ' - ', `Invoice1`.`number`), '') /* Related */" => "related",
 	);
 
 	// Lookup fields that can be used as filterers
-	$x->filterers = array('Customer' => 'Customer', 'realted' => 'Realted', );
+	$x->filterers = array('Customer' => 'Customer', 'related' => 'Related', );
 
-	$x->QueryFrom = "`Invoice` LEFT JOIN `Customers` as Customers1 ON `Customers1`.`id`=`Invoice`.`Customer` LEFT JOIN `Invoice` as Invoice1 ON `Invoice1`.`id`=`Invoice`.`realted` LEFT JOIN `City` as City1 ON `City1`.`id`=`Customers1`.`City` LEFT JOIN `Country` as Country1 ON `Country1`.`id`=`Customers1`.`Country` ";
+	$x->QueryFrom = "`Invoice` LEFT JOIN `Customers` as Customers1 ON `Customers1`.`id`=`Invoice`.`Customer` LEFT JOIN `Invoice` as Invoice1 ON `Invoice1`.`id`=`Invoice`.`related` LEFT JOIN `City` as City1 ON `City1`.`id`=`Customers1`.`City` LEFT JOIN `Country` as Country1 ON `Country1`.`id`=`Customers1`.`Country` ";
 	$x->QueryWhere = '';
 	$x->QueryOrder = '';
 
@@ -185,8 +185,8 @@
 	$x->PrimaryKey = "`Invoice`.`id`";
 
 	$x->ColWidth   = array(  150, 150, 150, 150, 150, 150, 150, 150, 150, 150, 150, 150, 150, 150, 150, 150);
-	$x->ColCaption = array("ID", "Type", "Number", "Date", "Customer", "Phone", "Email", "Country", "Payment Status", "Due amount", "Amount paid", "Balance", "Status", "Tax", "Total", "Realted");
-	$x->ColFieldName = array('id', 'type', 'number', 'Date', 'Customer', 'Phone', 'Email', 'Country', 'PaymentStatus', 'AmountDUE', 'AmountPAID', 'Balance', 'Status', 'tax', 'Total', 'realted');
+	$x->ColCaption = array("ID", "Type", "Number", "Date", "Customer", "Phone", "Email", "Country", "Payment Status", "Due amount", "Amount paid", "Balance", "Status", "Tax", "Total", "Related");
+	$x->ColFieldName = array('id', 'type', 'number', 'Date', 'Customer', 'Phone', 'Email', 'Country', 'PaymentStatus', 'AmountDUE', 'AmountPAID', 'Balance', 'Status', 'tax', 'Total', 'related');
 	$x->ColNumber  = array(1, 2, 3, 4, 6, 7, 8, 11, 12, 13, 14, 15, 16, 17, 18, 23);
 
 	// template paths below are based on the app main directory
@@ -264,7 +264,7 @@
 			$sumRow .= '<td class="Invoice-Status"></td>';
 			$sumRow .= '<td class="Invoice-tax"></td>';
 			$sumRow .= '<td class="Invoice-Total"></td>';
-			$sumRow .= '<td class="Invoice-realted"></td>';
+			$sumRow .= '<td class="Invoice-related"></td>';
 			$sumRow .= '</tr>';
 
 			$x->HTML = str_replace('<!-- tv data below -->', '', $x->HTML);

@@ -125,7 +125,7 @@
 			'number' => array('appgini' => 'INT not null '),
 			'Date' => array('appgini' => 'DATE null '),
 			'Title' => array('appgini' => 'INT unsigned null '),
-			'Customer' => array('appgini' => 'INT unsigned null '),
+			'Customer' => array('appgini' => 'INT unsigned not null '),
 			'Phone' => array('appgini' => 'INT unsigned null '),
 			'Email' => array('appgini' => 'INT unsigned null '),
 			'Address' => array('appgini' => 'INT unsigned null '),
@@ -142,7 +142,7 @@
 			'whenAdd' => array('appgini' => 'VARCHAR(40) null '),
 			'usrUpdated' => array('appgini' => 'VARCHAR(40) null '),
 			'whenUpdated' => array('appgini' => 'VARCHAR(40) null '),
-			'realted' => array('appgini' => 'INT unsigned null '),
+			'related' => array('appgini' => 'INT unsigned null '),
 		),
 		'InvoiceDetails' => array(
 			'id' => array('appgini' => 'INT unsigned not null primary key auto_increment '),
