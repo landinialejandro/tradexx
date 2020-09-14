@@ -143,7 +143,7 @@ function Invoice_before_update(&$data, $memberInfo, &$args)
 				"account" => $ap['account'],
 				"sub_account" => $ap['sub_account'],
 				"type" => $ap['type'],
-				"amount" => $Invoice['Total'],
+				"amount" => $Invoice['Total'] * (-1),
 				"status" => "CLOSED"
 			];
 			$insert = insert('Accounting', $accouting, $e);
