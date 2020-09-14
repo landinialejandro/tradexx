@@ -25,5 +25,11 @@ $j(function() {
     inline_fields(['AmountDUE', 'AmountPAID', 'Balance'], "Amount(due/paid/balance)", [3, 3, 3])
     inline_fields(['usrAdd', 'whenAdd'], "Created By", [3, 3])
     inline_fields(['usrUpdated', 'whenUpdated'], "Updated By", [3, 3])
-
+    if (!is_add_new()) {
+        add_action_button({ text: "Close Invoice", type: "button", onclick: "closeInvoice();" }, "");
+    }
 });
+
+function closeInvoice() {
+    alert("hola");
+}
