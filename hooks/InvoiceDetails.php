@@ -75,7 +75,7 @@
 		$invoice = getDataTable_Values('Invoice',$data['invoice']);
 		if (!($invoice && $invoice['Status'] === 'OPEN') ){
 			$_SESSION['custom_msg'] = [
-				"message" => "<h3>Error al intentar agregar un articula al INVOICE, Estado: {$invoice['Status']} </h3>",
+				"message" => "<h3>Error al intentar agregar un artículo al INVOICE, Estado: {$invoice['Status']} </h3>",
 				"class" => "danger",
 				"dismiss_seconds" => "0"
 			];
