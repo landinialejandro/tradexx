@@ -53,9 +53,11 @@
 
 				<div class="form-group">
 					<hr class="hidden-md hidden-lg">
-					<label for="qty" class="control-label col-lg-3">Qty</label>
+					<label for="qty" class="control-label col-lg-3">Qty<span class="text-danger"><%%TRANSLATION(*)%%></span> <i class="glyphicon glyphicon-info-sign text-info" data-toggle="collapse" data-target="#qty-description"></i></label>
 					<div class="col-lg-9">
-						<input maxlength="13" type="text" class="form-control" name="qty" id="qty" value="<%%VALUE(qty)%%>">
+						<span class="help-block collapse" id="qty-description"><div class="alert alert-info">Cantidad del producto seleccionado</div></span>
+
+						<input maxlength="13" type="text" class="form-control" name="qty" id="qty" value="<%%VALUE(qty)%%>" required>
 					</div>
 				</div>
 

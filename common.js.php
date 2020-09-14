@@ -381,6 +381,8 @@ function Invoice_validateData() {
 }
 function InvoiceDetails_validateData() {
 	$j('.has-error').removeClass('has-error');
+	/* Field qty can't be empty */
+	if($j('#qty').val() == ''){ modal_window({ message: '<div class="alert alert-danger"><?php echo addslashes($Translation['field not null']); ?></div>', title: "<?php echo addslashes($Translation['error:']); ?> Qty", close: function() { /* */ $j('[name=qty]').eq(0).focus().parents('.form-group').addClass('has-error'); }, footer: [{ label: '<?php echo addslashes($Translation['ok']); ?>' }] }); return false; };
 	return true;
 }
 function Products_validateData() {

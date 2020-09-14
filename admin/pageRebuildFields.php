@@ -149,7 +149,7 @@
 			'invoice' => array('appgini' => 'INT unsigned null '),
 			'order' => array('appgini' => 'INT null '),
 			'product' => array('appgini' => 'INT unsigned null '),
-			'qty' => array('appgini' => 'DECIMAL(10,2) null '),
+			'qty' => array('appgini' => 'DECIMAL(10,2) not null '),
 			'itemSale' => array('appgini' => 'INT unsigned null '),
 			'SubTotal' => array('appgini' => 'VARCHAR(40) null '),
 		),
