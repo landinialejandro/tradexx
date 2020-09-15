@@ -72,6 +72,9 @@
 
 	function Accounting_before_insert(&$data, $memberInfo, &$args) {
 
+		$accounting = getDataTable('Accounting',$data['selectedID']);
+		//TODO: verificar que el registro sea ingresado desde invoice.
+		//'Embedded'=1, 'AutoClose'=1, 'filter_invoice'=id invoice
 		return TRUE;
 	}
 

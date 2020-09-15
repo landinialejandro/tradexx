@@ -137,7 +137,7 @@ function Invoice_before_update(&$data, $memberInfo, &$args)
 				// agregar movimiento a cashflow si no es QUOTE
 				"invoice" => $data['selectedID'],
 				"date" => $data['Date'],
-				"description" => 'MOVIMIENTO AUTOMATICO por venta cerrada. Invoice:' . $data['number'],
+				"description" => "MOVIMIENTO AUTOMATICO: {$ap['description']}  Invoice:" . $Invoice['number'],
 				"account_plan"=>$ap['id'] ,
 				"master_account" => $ap['master_account'],
 				"account" => $ap['account'],

@@ -54,4 +54,14 @@ function closeInvoice() {
 
 function payInvoice() {
     alert("PAY Invoice, hola!")
+    $j.ajax({
+        type: "POST",
+        url: "hooks/Accounting-ajax.php",
+        data: { cmd: "PAY", id: selected_id() },
+        dataType: "json",
+        success: function(res) {
+            console.log(res);
+            show_notification(res.custom_msg);
+        }
+    });
 }
