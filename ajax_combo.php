@@ -1003,7 +1003,7 @@
 				'parent_table' => 'Account',
 				'parent_pk_field' => 'id',
 				'parent_caption' => 'IF(CHAR_LENGTH(`Account`.`Account`) || CHAR_LENGTH(`Account`.`code`), CONCAT_WS(\'\', `Account`.`Account`, \' - \', `Account`.`code`), \'\')',
-				'parent_from' => '`Account` LEFT JOIN `MasterAccount` as MasterAccount1 ON `MasterAccount1`.`id`=`Account`.`masterAccount` ',
+				'parent_from' => '`Account` ',
 				'filterers' => array(),
 				'custom_query' => '',
 				'inherit_permissions' => false,
@@ -1014,7 +1014,7 @@
 				'parent_table' => 'SubAccount',
 				'parent_pk_field' => 'id',
 				'parent_caption' => 'IF(CHAR_LENGTH(`SubAccount`.`subAccount`) || CHAR_LENGTH(`SubAccount`.`code`), CONCAT_WS(\'\', `SubAccount`.`subAccount`, \' - \', `SubAccount`.`code`), \'\')',
-				'parent_from' => '`SubAccount` LEFT JOIN `Account` as Account1 ON `Account1`.`id`=`SubAccount`.`account` ',
+				'parent_from' => '`SubAccount` ',
 				'filterers' => array(),
 				'custom_query' => '',
 				'inherit_permissions' => false,
@@ -1036,30 +1036,8 @@
 		'MasterAccount' => array(
 		),
 		'Account' => array(
-			'masterAccount' => array(
-				'parent_table' => 'MasterAccount',
-				'parent_pk_field' => 'id',
-				'parent_caption' => '`MasterAccount`.`masterAccount`',
-				'parent_from' => '`MasterAccount` ',
-				'filterers' => array(),
-				'custom_query' => '',
-				'inherit_permissions' => false,
-				'list_type' => 0,
-				'not_null' => false
-			),
 		),
 		'SubAccount' => array(
-			'account' => array(
-				'parent_table' => 'Account',
-				'parent_pk_field' => 'id',
-				'parent_caption' => '`Account`.`Account`',
-				'parent_from' => '`Account` LEFT JOIN `MasterAccount` as MasterAccount1 ON `MasterAccount1`.`id`=`Account`.`masterAccount` ',
-				'filterers' => array(),
-				'custom_query' => '',
-				'inherit_permissions' => false,
-				'list_type' => 0,
-				'not_null' => false
-			),
 		),
 		'Type' => array(
 		),

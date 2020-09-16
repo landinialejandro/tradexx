@@ -103,6 +103,8 @@
 	$x->TableTitle = "Datails";
 	$x->TableIcon = "resources/table_icons/basket_put.png";
 	$x->PrimaryKey = "`InvoiceDetails`.`id`";
+	$x->DefaultSortField = '3';
+	$x->DefaultSortDirection = 'asc';
 
 	$x->ColWidth   = array(  150, 150, 150, 150, 150);
 	$x->ColCaption = array("Order", "Product", "Qty", "ItemSale", "SubTotal");

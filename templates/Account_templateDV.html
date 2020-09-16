@@ -10,7 +10,6 @@
 			<a class="hidden-xs btn btn-default btn-lg pull-right hidden hspacer-sm" href="AccountPlan_view.php?filterer_account=<%%URLVALUE(id)%%>&<%%EMBEDDED%%>" id="AccountPlan_link"><i class="glyphicon glyphicon-list-alt"></i> Account Plan</a>
 			<a class="visible-xs btn btn-default btn-lg btn-block hidden vspacer-sm" href="AccountPlan_view.php?filterer_account=<%%URLVALUE(id)%%>&<%%EMBEDDED%%>" id="xs_AccountPlan_link"><i class="glyphicon glyphicon-list-alt"></i> Account Plan</a>
 			<input type="hidden" id="AccountPlan_hclink" value="AccountPlan_view.php?filterer_account=<%%URLVALUE(id)%%>&<%%EMBEDDED%%>">
-			<input type="hidden" id="SubAccount_hclink" value="SubAccount_view.php?filterer_account=<%%URLVALUE(id)%%>&<%%EMBEDDED%%>">
 			<div class="clearfix"></div>
 		</div>
 	</div>
@@ -36,14 +35,6 @@
 						<span class="help-block collapse" id="Account-description"><div class="alert alert-info">Description</div></span>
 
 						<input maxlength="40" type="text" class="form-control" name="Account" id="Account" value="<%%VALUE(Account)%%>">
-					</div>
-				</div>
-
-				<div class="form-group">
-					<hr class="hidden-md hidden-lg">
-					<label for="masterAccount" class="control-label col-lg-3" data-parent_link="view_parent_modal">Master account</label>
-					<div class="col-lg-9">
-						<div class="form-control-static" style="white-space: nowrap; overflow-x: hidden;"><%%COMBO(masterAccount)%%><%%PLINK(masterAccount)%%><%%ADDNEW(MasterAccount)%%></div>
 					</div>
 				</div>
 

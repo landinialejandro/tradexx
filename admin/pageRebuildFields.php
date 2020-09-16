@@ -157,7 +157,7 @@
 			'id' => array('appgini' => 'INT unsigned not null primary key auto_increment '),
 			'code' => array('appgini' => 'VARCHAR(40) null '),
 			'item' => array('appgini' => 'VARCHAR(40) null '),
-			'cost' => array('appgini' => 'DECIMAL(10,2) null default \'0.00\' '),
+			'cost' => array('appgini' => 'DECIMAL(10,2) null '),
 			'profit' => array('appgini' => 'DECIMAL(10,2) null '),
 			'itemSale' => array('appgini' => 'DECIMAL(10,2) null '),
 			'uploads' => array('appgini' => 'VARCHAR(40) null '),
@@ -396,12 +396,10 @@
 		'Account' => array(
 			'id' => array('appgini' => 'INT unsigned not null primary key auto_increment '),
 			'Account' => array('appgini' => 'VARCHAR(40) null '),
-			'masterAccount' => array('appgini' => 'INT unsigned null '),
 			'code' => array('appgini' => 'VARCHAR(40) null '),
 		),
 		'SubAccount' => array(
 			'id' => array('appgini' => 'INT unsigned not null primary key auto_increment '),
-			'account' => array('appgini' => 'INT unsigned null '),
 			'subAccount' => array('appgini' => 'VARCHAR(40) null '),
 			'code' => array('appgini' => 'VARCHAR(40) null '),
 		),

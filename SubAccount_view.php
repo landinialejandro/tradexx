@@ -23,29 +23,25 @@
 	// Fields that can be displayed in the table view
 	$x->QueryFieldsTV = array(
 		"`SubAccount`.`id`" => "id",
-		"IF(    CHAR_LENGTH(`Account1`.`Account`), CONCAT_WS('',   `Account1`.`Account`), '') /* Account */" => "account",
 		"`SubAccount`.`subAccount`" => "subAccount",
 		"`SubAccount`.`code`" => "code",
 	);
 	// mapping incoming sort by requests to actual query fields
 	$x->SortFields = array(
 		1 => '`SubAccount`.`id`',
-		2 => '`Account1`.`Account`',
+		2 => 2,
 		3 => 3,
-		4 => 4,
 	);
 
 	// Fields that can be displayed in the csv file
 	$x->QueryFieldsCSV = array(
 		"`SubAccount`.`id`" => "id",
-		"IF(    CHAR_LENGTH(`Account1`.`Account`), CONCAT_WS('',   `Account1`.`Account`), '') /* Account */" => "account",
 		"`SubAccount`.`subAccount`" => "subAccount",
 		"`SubAccount`.`code`" => "code",
 	);
 	// Fields that can be filtered
 	$x->QueryFieldsFilters = array(
 		"`SubAccount`.`id`" => "ID",
-		"IF(    CHAR_LENGTH(`Account1`.`Account`), CONCAT_WS('',   `Account1`.`Account`), '') /* Account */" => "Account",
 		"`SubAccount`.`subAccount`" => "Sub Account",
 		"`SubAccount`.`code`" => "Code",
 	);
@@ -53,15 +49,14 @@
 	// Fields that can be quick searched
 	$x->QueryFieldsQS = array(
 		"`SubAccount`.`id`" => "id",
-		"IF(    CHAR_LENGTH(`Account1`.`Account`), CONCAT_WS('',   `Account1`.`Account`), '') /* Account */" => "account",
 		"`SubAccount`.`subAccount`" => "subAccount",
 		"`SubAccount`.`code`" => "code",
 	);
 
 	// Lookup fields that can be used as filterers
-	$x->filterers = array('account' => 'Account', );
+	$x->filterers = array();
 
-	$x->QueryFrom = "`SubAccount` LEFT JOIN `Account` as Account1 ON `Account1`.`id`=`SubAccount`.`account` ";
+	$x->QueryFrom = "`SubAccount` ";
 	$x->QueryWhere = '';
 	$x->QueryOrder = '';
 
@@ -89,10 +84,10 @@
 	$x->TableIcon = "table.gif";
 	$x->PrimaryKey = "`SubAccount`.`id`";
 
-	$x->ColWidth   = array(  150, 150, 150);
-	$x->ColCaption = array("Account", "Sub Account", "Code");
-	$x->ColFieldName = array('account', 'subAccount', 'code');
-	$x->ColNumber  = array(2, 3, 4);
+	$x->ColWidth   = array(  150, 150);
+	$x->ColCaption = array("Sub Account", "Code");
+	$x->ColFieldName = array('subAccount', 'code');
+	$x->ColNumber  = array(2, 3);
 
 	// template paths below are based on the app main directory
 	$x->Template = 'templates/SubAccount_templateTV.html';

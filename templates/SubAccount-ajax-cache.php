@@ -8,21 +8,12 @@
 
 		/* data for selected record, or defaults if none is selected */
 		var data = {
-			account: <?php echo json_encode(array('id' => $rdata['account'], 'value' => $rdata['account'], 'text' => $jdata['account'])); ?>
 		};
 
 		/* initialize or continue using AppGini.cache for the current table */
 		AppGini.cache = AppGini.cache || {};
 		AppGini.cache[tn] = AppGini.cache[tn] || AppGini.ajaxCache();
 		var cache = AppGini.cache[tn];
-
-		/* saved value for account */
-		cache.addCheck(function(u, d) {
-			if(u != 'ajax_combo.php') return false;
-			if(d.t == tn && d.f == 'account' && d.id == data.account.id)
-				return { results: [ data.account ], more: false, elapsed: 0.01 };
-			return false;
-		});
 
 		cache.start();
 	});

@@ -29,7 +29,8 @@ $j(function() {
         add_action_button({ class: "btn btn-secondary", title: "", text: "Close Invoice", type: "button", onclick: "closeInvoice();" }, "");
     }
     if (!is_add_new() && status.id === 'CLOSED') {
-        add_action_button({ class: "btn btn-success", title: "", text: "Pay Invoice", type: "button", onclick: "payInvoice();" }, "");
+        add_action_button({ class: "btn btn-success", title: "", text: "Cash Pay Invoice", type: "button", onclick: "payInvoice('CC-CASH');" }, "");
+        add_action_button({ class: "btn btn-success", title: "", text: "VISA Pay Invoice", type: "button", onclick: "payInvoice('CC-VISA');" }, "");
     }
     // if (status.id === 'CLOSED') {
     //     $j("div[id$='dv_form'], .children-tabs")
@@ -43,8 +44,7 @@ function closeInvoice() {
     $j("#Status").closest('.container-fluid')
         .prepend(overlayTemplateLoad)
         .addClass('overlay-wrapper');
-    var r = confirm("Close Invoice?");
-    if (r === true) {
+    if (confirm("Close Invoice?")) {
         $j("#Status").select2('data', { text: "CLOSED", id: "CLOSED" });
         setTimeout(() => {
             $j('#update').trigger('click');
@@ -52,16 +52,17 @@ function closeInvoice() {
     }
 }
 
-function payInvoice() {
-    alert("PAY Invoice, hola!")
-    $j.ajax({
-        type: "POST",
-        url: "hooks/Accounting-ajax.php",
-        data: { cmd: "PAY", id: selected_id() },
-        dataType: "json",
-        success: function(res) {
-            console.log(res);
-            show_notification(res.custom_msg);
-        }
-    });
+function payInvoice(m) {
+    if (confirm("PAY Invoice?")) {
+        $j.ajax({
+            type: "POST",
+            url: "hooks/Accounting-ajax.php",
+            data: { cmd: "PAY", id: selected_id(), m: m },
+            dataType: "json",
+            success: function(res) {
+                console.log(res);
+                show_notification(res.custom_msg);
+            }
+        });
+    }
 }

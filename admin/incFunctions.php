@@ -2361,12 +2361,6 @@
 				'SubAccount' => array('sub_account'),
 				'Type' => array('type'),
 			),
-			'Account' => array(
-				'MasterAccount' => array('masterAccount'),
-			),
-			'SubAccount' => array(
-				'Account' => array('account'),
-			),
 			'CCJournal' => array(
 				'CC' => array('Card'),
 				'Staff' => array('Logged'),
@@ -2423,6 +2417,14 @@
 			'Status' => array(
 			),
 			'Invoice' => array(
+				'AmountDUE' => 'SELECT SUM(`Accounting`.`amount`) FROM `Invoice` 
+LEFT JOIN `Accounting` ON `Accounting`.`invoice`=`Invoice`.`id` 
+WHERE `Invoice`.`id`=\'%ID%\' AND `Accounting`.`account_plan` = \'VENTA\'
+',
+				'AmountPAID' => 'SELECT SUM(`Accounting`.`amount`) FROM `Invoice` 
+LEFT JOIN `Accounting` ON `Accounting`.`invoice`=`Invoice`.`id` 
+WHERE `Invoice`.`id`=\'%ID%\' AND `Accounting`.`master_account` = \'COBRO\'
+',
 				'Total' => 'SELECT SUM(`InvoiceDetails`.`SubTotal`) FROM `Invoice` 
 LEFT JOIN `InvoiceDetails` ON `InvoiceDetails`.`invoice`=`Invoice`.`id` 
 WHERE `Invoice`.`id`=\'%ID%\'',
@@ -2433,7 +2435,7 @@ LEFT JOIN `Products` ON `Products`.`id`=`InvoiceDetails`.`product`
 WHERE `InvoiceDetails`.`id`=\'%ID%\'',
 			),
 			'Products' => array(
-				'itemSale' => 'SELECT FORMAT(`Products`.`cost` / `Products`.`profit`,2)  FROM `Products` 
+				'itemSale' => 'SELECT `Products`.`cost` / `Products`.`profit`  FROM `Products` 
 WHERE `Products`.`id`=\'%ID%\'',
 			),
 			'WHJournal' => array(

@@ -24,29 +24,25 @@
 	$x->QueryFieldsTV = array(
 		"`Account`.`id`" => "id",
 		"`Account`.`Account`" => "Account",
-		"IF(    CHAR_LENGTH(`MasterAccount1`.`masterAccount`), CONCAT_WS('',   `MasterAccount1`.`masterAccount`), '') /* Master account */" => "masterAccount",
 		"`Account`.`code`" => "code",
 	);
 	// mapping incoming sort by requests to actual query fields
 	$x->SortFields = array(
 		1 => '`Account`.`id`',
 		2 => 2,
-		3 => '`MasterAccount1`.`masterAccount`',
-		4 => 4,
+		3 => 3,
 	);
 
 	// Fields that can be displayed in the csv file
 	$x->QueryFieldsCSV = array(
 		"`Account`.`id`" => "id",
 		"`Account`.`Account`" => "Account",
-		"IF(    CHAR_LENGTH(`MasterAccount1`.`masterAccount`), CONCAT_WS('',   `MasterAccount1`.`masterAccount`), '') /* Master account */" => "masterAccount",
 		"`Account`.`code`" => "code",
 	);
 	// Fields that can be filtered
 	$x->QueryFieldsFilters = array(
 		"`Account`.`id`" => "ID",
 		"`Account`.`Account`" => "Account",
-		"IF(    CHAR_LENGTH(`MasterAccount1`.`masterAccount`), CONCAT_WS('',   `MasterAccount1`.`masterAccount`), '') /* Master account */" => "Master account",
 		"`Account`.`code`" => "Code",
 	);
 
@@ -54,14 +50,13 @@
 	$x->QueryFieldsQS = array(
 		"`Account`.`id`" => "id",
 		"`Account`.`Account`" => "Account",
-		"IF(    CHAR_LENGTH(`MasterAccount1`.`masterAccount`), CONCAT_WS('',   `MasterAccount1`.`masterAccount`), '') /* Master account */" => "masterAccount",
 		"`Account`.`code`" => "code",
 	);
 
 	// Lookup fields that can be used as filterers
-	$x->filterers = array('masterAccount' => 'Master account', );
+	$x->filterers = array();
 
-	$x->QueryFrom = "`Account` LEFT JOIN `MasterAccount` as MasterAccount1 ON `MasterAccount1`.`id`=`Account`.`masterAccount` ";
+	$x->QueryFrom = "`Account` ";
 	$x->QueryWhere = '';
 	$x->QueryOrder = '';
 
@@ -89,10 +84,10 @@
 	$x->TableIcon = "table.gif";
 	$x->PrimaryKey = "`Account`.`id`";
 
-	$x->ColWidth   = array(  150, 150, 150);
-	$x->ColCaption = array("Account", "Master account", "Code");
-	$x->ColFieldName = array('Account', 'masterAccount', 'code');
-	$x->ColNumber  = array(2, 3, 4);
+	$x->ColWidth   = array(  150, 150);
+	$x->ColCaption = array("Account", "Code");
+	$x->ColFieldName = array('Account', 'code');
+	$x->ColNumber  = array(2, 3);
 
 	// template paths below are based on the app main directory
 	$x->Template = 'templates/Account_templateTV.html';

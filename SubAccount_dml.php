@@ -13,8 +13,6 @@ function SubAccount_insert() {
 	if(!$arrPerm[1]) return false;
 
 	$data = array();
-	$data['account'] = $_REQUEST['account'];
-		if($data['account'] == empty_lookup_value) { $data['account'] = ''; }
 	$data['subAccount'] = $_REQUEST['subAccount'];
 		if($data['subAccount'] == empty_lookup_value) { $data['subAccount'] = ''; }
 	$data['code'] = $_REQUEST['code'];
@@ -132,8 +130,6 @@ function SubAccount_update($selected_id) {
 		return false;
 	}
 
-	$data['account'] = makeSafe($_REQUEST['account']);
-		if($data['account'] == empty_lookup_value) { $data['account'] = ''; }
 	$data['subAccount'] = makeSafe($_REQUEST['subAccount']);
 		if($data['subAccount'] == empty_lookup_value) { $data['subAccount'] = ''; }
 	$data['code'] = makeSafe($_REQUEST['code']);
@@ -147,7 +143,7 @@ function SubAccount_update($selected_id) {
 	}
 
 	$o = array('silentErrors' => true);
-	sql('update `SubAccount` set       `account`=' . (($data['account'] !== '' && $data['account'] !== NULL) ? "'{$data['account']}'" : 'NULL') . ', `subAccount`=' . (($data['subAccount'] !== '' && $data['subAccount'] !== NULL) ? "'{$data['subAccount']}'" : 'NULL') . ', `code`=' . (($data['code'] !== '' && $data['code'] !== NULL) ? "'{$data['code']}'" : 'NULL') . " where `id`='".makeSafe($selected_id)."'", $o);
+	sql('update `SubAccount` set       `subAccount`=' . (($data['subAccount'] !== '' && $data['subAccount'] !== NULL) ? "'{$data['subAccount']}'" : 'NULL') . ', `code`=' . (($data['code'] !== '' && $data['code'] !== NULL) ? "'{$data['code']}'" : 'NULL') . " where `id`='".makeSafe($selected_id)."'", $o);
 	if($o['error']!='') {
 		echo $o['error'];
 		echo '<a href="SubAccount_view.php?SelectedID='.urlencode($selected_id)."\">{$Translation['< back']}</a>";
@@ -189,14 +185,11 @@ function SubAccount_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, 
 		$dvprint = true;
 	}
 
-	$filterer_account = thisOr(undo_magic_quotes($_REQUEST['filterer_account']), '');
 
 	// populate filterers, starting from children to grand-parents
 
 	// unique random identifier
 	$rnd1 = ($dvprint ? rand(1000000, 9999999) : '');
-	// combobox: account
-	$combo_account = new DataCombo;
 
 	if($selected_id) {
 		// mm: check member permissions
@@ -224,105 +217,22 @@ function SubAccount_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, 
 		if(!($row = db_fetch_array($res))) {
 			return error_message($Translation['No records found'], 'SubAccount_view.php', false);
 		}
-		$combo_account->SelectedData = $row['account'];
 		$urow = $row; /* unsanitized data */
 		$hc = new CI_Input();
 		$row = $hc->xss_clean($row); /* sanitize data */
 	} else {
-		$combo_account->SelectedData = $filterer_account;
 	}
-	$combo_account->HTML = '<span id="account-container' . $rnd1 . '"></span><input type="hidden" name="account" id="account' . $rnd1 . '" value="' . html_attr($combo_account->SelectedData) . '">';
-	$combo_account->MatchText = '<span id="account-container-readonly' . $rnd1 . '"></span><input type="hidden" name="account" id="account' . $rnd1 . '" value="' . html_attr($combo_account->SelectedData) . '">';
 
 	ob_start();
 	?>
 
 	<script>
 		// initial lookup values
-		AppGini.current_account__RAND__ = { text: "", value: "<?php echo addslashes($selected_id ? $urow['account'] : $filterer_account); ?>"};
 
 		jQuery(function() {
 			setTimeout(function() {
-				if(typeof(account_reload__RAND__) == 'function') account_reload__RAND__();
 			}, 10); /* we need to slightly delay client-side execution of the above code to allow AppGini.ajaxCache to work */
 		});
-		function account_reload__RAND__() {
-		<?php if(($AllowUpdate || $AllowInsert) && !$dvprint) { ?>
-
-			$j("#account-container__RAND__").select2({
-				/* initial default value */
-				initSelection: function(e, c) {
-					$j.ajax({
-						url: 'ajax_combo.php',
-						dataType: 'json',
-						data: { id: AppGini.current_account__RAND__.value, t: 'SubAccount', f: 'account' },
-						success: function(resp) {
-							c({
-								id: resp.results[0].id,
-								text: resp.results[0].text
-							});
-							$j('[name="account"]').val(resp.results[0].id);
-							$j('[id=account-container-readonly__RAND__]').html('<span id="account-match-text">' + resp.results[0].text + '</span>');
-							if(resp.results[0].id == '<?php echo empty_lookup_value; ?>') { $j('.btn[id=Account_view_parent]').hide(); }else{ $j('.btn[id=Account_view_parent]').show(); }
-
-
-							if(typeof(account_update_autofills__RAND__) == 'function') account_update_autofills__RAND__();
-						}
-					});
-				},
-				width: '100%',
-				formatNoMatches: function(term) { /* */ return '<?php echo addslashes($Translation['No matches found!']); ?>'; },
-				minimumResultsForSearch: 5,
-				loadMorePadding: 200,
-				ajax: {
-					url: 'ajax_combo.php',
-					dataType: 'json',
-					cache: true,
-					data: function(term, page) { /* */ return { s: term, p: page, t: 'SubAccount', f: 'account' }; },
-					results: function(resp, page) { /* */ return resp; }
-				},
-				escapeMarkup: function(str) { /* */ return str; }
-			}).on('change', function(e) {
-				AppGini.current_account__RAND__.value = e.added.id;
-				AppGini.current_account__RAND__.text = e.added.text;
-				$j('[name="account"]').val(e.added.id);
-				if(e.added.id == '<?php echo empty_lookup_value; ?>') { $j('.btn[id=Account_view_parent]').hide(); }else{ $j('.btn[id=Account_view_parent]').show(); }
-
-
-				if(typeof(account_update_autofills__RAND__) == 'function') account_update_autofills__RAND__();
-			});
-
-			if(!$j("#account-container__RAND__").length) {
-				$j.ajax({
-					url: 'ajax_combo.php',
-					dataType: 'json',
-					data: { id: AppGini.current_account__RAND__.value, t: 'SubAccount', f: 'account' },
-					success: function(resp) {
-						$j('[name="account"]').val(resp.results[0].id);
-						$j('[id=account-container-readonly__RAND__]').html('<span id="account-match-text">' + resp.results[0].text + '</span>');
-						if(resp.results[0].id == '<?php echo empty_lookup_value; ?>') { $j('.btn[id=Account_view_parent]').hide(); }else{ $j('.btn[id=Account_view_parent]').show(); }
-
-						if(typeof(account_update_autofills__RAND__) == 'function') account_update_autofills__RAND__();
-					}
-				});
-			}
-
-		<?php }else{ ?>
-
-			$j.ajax({
-				url: 'ajax_combo.php',
-				dataType: 'json',
-				data: { id: AppGini.current_account__RAND__.value, t: 'SubAccount', f: 'account' },
-				success: function(resp) {
-					$j('[id=account-container__RAND__], [id=account-container-readonly__RAND__]').html('<span id="account-match-text">' + resp.results[0].text + '</span>');
-					if(resp.results[0].id == '<?php echo empty_lookup_value; ?>') { $j('.btn[id=Account_view_parent]').hide(); }else{ $j('.btn[id=Account_view_parent]').show(); }
-
-					if(typeof(account_update_autofills__RAND__) == 'function') account_update_autofills__RAND__();
-				}
-			});
-		<?php } ?>
-
-		}
 	</script>
 	<?php
 
@@ -381,8 +291,6 @@ function SubAccount_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, 
 
 	// set records to read only if user can't insert new records and can't edit current record
 	if(($selected_id && !$AllowUpdate && !$AllowInsert) || (!$selected_id && !$AllowInsert)) {
-		$jsReadOnly .= "\tjQuery('#account').prop('disabled', true).css({ color: '#555', backgroundColor: '#fff' });\n";
-		$jsReadOnly .= "\tjQuery('#account_caption').prop('disabled', true).css({ color: '#555', backgroundColor: 'white' });\n";
 		$jsReadOnly .= "\tjQuery('#subAccount').replaceWith('<div class=\"form-control-static\" id=\"subAccount\">' + (jQuery('#subAccount').val() || '') + '</div>');\n";
 		$jsReadOnly .= "\tjQuery('#code').replaceWith('<div class=\"form-control-static\" id=\"code\">' + (jQuery('#code').val() || '') + '</div>');\n";
 		$jsReadOnly .= "\tjQuery('.select2-container').hide();\n";
@@ -394,12 +302,9 @@ function SubAccount_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, 
 	}
 
 	// process combos
-	$templateCode = str_replace('<%%COMBO(account)%%>', $combo_account->HTML, $templateCode);
-	$templateCode = str_replace('<%%COMBOTEXT(account)%%>', $combo_account->MatchText, $templateCode);
-	$templateCode = str_replace('<%%URLCOMBOTEXT(account)%%>', urlencode($combo_account->MatchText), $templateCode);
 
 	/* lookup fields array: 'lookup field name' => array('parent table name', 'lookup field caption') */
-	$lookup_fields = array('account' => array('Account', 'Account'), );
+	$lookup_fields = array();
 	foreach($lookup_fields as $luf => $ptfc) {
 		$pt_perm = getTablePermissions($ptfc[0]);
 
@@ -416,7 +321,6 @@ function SubAccount_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, 
 
 	// process images
 	$templateCode = str_replace('<%%UPLOADFILE(id)%%>', '', $templateCode);
-	$templateCode = str_replace('<%%UPLOADFILE(account)%%>', '', $templateCode);
 	$templateCode = str_replace('<%%UPLOADFILE(subAccount)%%>', '', $templateCode);
 	$templateCode = str_replace('<%%UPLOADFILE(code)%%>', '', $templateCode);
 
@@ -425,9 +329,6 @@ function SubAccount_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, 
 		if( $dvprint) $templateCode = str_replace('<%%VALUE(id)%%>', safe_html($urow['id']), $templateCode);
 		if(!$dvprint) $templateCode = str_replace('<%%VALUE(id)%%>', html_attr($row['id']), $templateCode);
 		$templateCode = str_replace('<%%URLVALUE(id)%%>', urlencode($urow['id']), $templateCode);
-		if( $dvprint) $templateCode = str_replace('<%%VALUE(account)%%>', safe_html($urow['account']), $templateCode);
-		if(!$dvprint) $templateCode = str_replace('<%%VALUE(account)%%>', html_attr($row['account']), $templateCode);
-		$templateCode = str_replace('<%%URLVALUE(account)%%>', urlencode($urow['account']), $templateCode);
 		if( $dvprint) $templateCode = str_replace('<%%VALUE(subAccount)%%>', safe_html($urow['subAccount']), $templateCode);
 		if(!$dvprint) $templateCode = str_replace('<%%VALUE(subAccount)%%>', html_attr($row['subAccount']), $templateCode);
 		$templateCode = str_replace('<%%URLVALUE(subAccount)%%>', urlencode($urow['subAccount']), $templateCode);
@@ -437,8 +338,6 @@ function SubAccount_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, 
 	}else{
 		$templateCode = str_replace('<%%VALUE(id)%%>', '', $templateCode);
 		$templateCode = str_replace('<%%URLVALUE(id)%%>', urlencode(''), $templateCode);
-		$templateCode = str_replace('<%%VALUE(account)%%>', '', $templateCode);
-		$templateCode = str_replace('<%%URLVALUE(account)%%>', urlencode(''), $templateCode);
 		$templateCode = str_replace('<%%VALUE(subAccount)%%>', '', $templateCode);
 		$templateCode = str_replace('<%%URLVALUE(subAccount)%%>', urlencode(''), $templateCode);
 		$templateCode = str_replace('<%%VALUE(code)%%>', '', $templateCode);

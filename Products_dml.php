@@ -23,7 +23,6 @@ function Products_insert() {
 		if($data['profit'] == empty_lookup_value) { $data['profit'] = ''; }
 	$data['uploads'] = $_REQUEST['uploads'];
 		if($data['uploads'] == empty_lookup_value) { $data['uploads'] = ''; }
-	if($data['cost'] == '') $data['cost'] = "0.00";
 
 	// hook: Products_before_insert
 	if(function_exists('Products_before_insert')) {
@@ -391,8 +390,8 @@ function Products_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, $A
 		$templateCode = str_replace('<%%URLVALUE(code)%%>', urlencode(''), $templateCode);
 		$templateCode = str_replace('<%%VALUE(item)%%>', '', $templateCode);
 		$templateCode = str_replace('<%%URLVALUE(item)%%>', urlencode(''), $templateCode);
-		$templateCode = str_replace('<%%VALUE(cost)%%>', '0.00', $templateCode);
-		$templateCode = str_replace('<%%URLVALUE(cost)%%>', urlencode('0.00'), $templateCode);
+		$templateCode = str_replace('<%%VALUE(cost)%%>', '', $templateCode);
+		$templateCode = str_replace('<%%URLVALUE(cost)%%>', urlencode(''), $templateCode);
 		$templateCode = str_replace('<%%VALUE(profit)%%>', '', $templateCode);
 		$templateCode = str_replace('<%%URLVALUE(profit)%%>', urlencode(''), $templateCode);
 		$templateCode = str_replace('<%%VALUE(itemSale)%%>', '', $templateCode);
