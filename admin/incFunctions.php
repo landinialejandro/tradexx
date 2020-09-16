@@ -1068,7 +1068,7 @@
 	}
 	########################################################################
 	function isEmail($email) {
-		if(preg_match('/^([*+!.&#$¦\'\\%\/0-9a-z^_`{}=?~:-]+)@(([0-9a-z-]+\.)+[0-9a-z]{2,45})$/i', $email)) {
+		if(preg_match('/^([*+!.&#$ï¿½\'\\%\/0-9a-z^_`{}=?~:-]+)@(([0-9a-z-]+\.)+[0-9a-z]{2,45})$/i', $email)) {
 			return $email;
 		}
 
@@ -2419,12 +2419,11 @@
 			'Invoice' => array(
 				'AmountDUE' => 'SELECT SUM(`Accounting`.`amount`) FROM `Invoice` 
 LEFT JOIN `Accounting` ON `Accounting`.`invoice`=`Invoice`.`id` 
-WHERE `Invoice`.`id`=\'%ID%\' AND `Accounting`.`account_plan` = \'VENTA\'
+WHERE `Invoice`.`id`=\'%ID%\' AND `Accounting`.`account_plan` = (SELECT `AccountPlan`.`id` FROM `AccountPlan` WHERE `AccountPlan`.`code` = \'VENTA\')',
+				'AmountPAID' => 'SELECT SUM(`Accounting`.`amount`) FROM `Invoice` LEFT JOIN `Accounting` ON `Accounting`.`invoice` = `Invoice`.`id` WHERE `Invoice`.`id` = \'%ID%\' AND `Accounting`.`master_account` =( SELECT `MasterAccount`.`id` FROM `MasterAccount` WHERE `MasterAccount`.`code` = \'COBRO\' ) 
 ',
-				'AmountPAID' => 'SELECT SUM(`Accounting`.`amount`) FROM `Invoice` 
-LEFT JOIN `Accounting` ON `Accounting`.`invoice`=`Invoice`.`id` 
-WHERE `Invoice`.`id`=\'%ID%\' AND `Accounting`.`master_account` = \'COBRO\'
-',
+				'Balance' => 'SELECT (`Invoice`.`AmountDUE` + `Invoice`.`AmountPAID`) FROM `Invoice` 
+WHERE `Invoice`.`id`=\'%ID%\'',
 				'Total' => 'SELECT SUM(`InvoiceDetails`.`SubTotal`) FROM `Invoice` 
 LEFT JOIN `InvoiceDetails` ON `InvoiceDetails`.`invoice`=`Invoice`.`id` 
 WHERE `Invoice`.`id`=\'%ID%\'',

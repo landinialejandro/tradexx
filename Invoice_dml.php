@@ -35,8 +35,6 @@ function Invoice_insert() {
 		if($data['Country'] == empty_lookup_value) { $data['Country'] = ''; }
 	$data['PaymentStatus'] = $_REQUEST['PaymentStatus'];
 		if($data['PaymentStatus'] == empty_lookup_value) { $data['PaymentStatus'] = ''; }
-	$data['Balance'] = $_REQUEST['Balance'];
-		if($data['Balance'] == empty_lookup_value) { $data['Balance'] = ''; }
 	$data['Status'] = $_REQUEST['Status'];
 		if($data['Status'] == empty_lookup_value) { $data['Status'] = ''; }
 	$data['tax'] = $_REQUEST['tax'];
@@ -279,8 +277,6 @@ function Invoice_update($selected_id) {
 		if($data['Country'] == empty_lookup_value) { $data['Country'] = ''; }
 	$data['PaymentStatus'] = makeSafe($_REQUEST['PaymentStatus']);
 		if($data['PaymentStatus'] == empty_lookup_value) { $data['PaymentStatus'] = ''; }
-	$data['Balance'] = makeSafe($_REQUEST['Balance']);
-		if($data['Balance'] == empty_lookup_value) { $data['Balance'] = ''; }
 	$data['Status'] = makeSafe($_REQUEST['Status']);
 		if($data['Status'] == empty_lookup_value) { $data['Status'] = ''; }
 	$data['tax'] = makeSafe($_REQUEST['tax']);
@@ -296,7 +292,7 @@ function Invoice_update($selected_id) {
 	}
 
 	$o = array('silentErrors' => true);
-	sql('update `Invoice` set       `type`=' . (($data['type'] !== '' && $data['type'] !== NULL) ? "'{$data['type']}'" : 'NULL') . ', `number`=' . (($data['number'] !== '' && $data['number'] !== NULL) ? "'{$data['number']}'" : 'NULL') . ', `Date`=' . (($data['Date'] !== '' && $data['Date'] !== NULL) ? "'{$data['Date']}'" : 'NULL') . ', `Title`=' . (($data['Title'] !== '' && $data['Title'] !== NULL) ? "'{$data['Title']}'" : 'NULL') . ', `Customer`=' . (($data['Customer'] !== '' && $data['Customer'] !== NULL) ? "'{$data['Customer']}'" : 'NULL') . ', `Phone`=' . (($data['Phone'] !== '' && $data['Phone'] !== NULL) ? "'{$data['Phone']}'" : 'NULL') . ', `Email`=' . (($data['Email'] !== '' && $data['Email'] !== NULL) ? "'{$data['Email']}'" : 'NULL') . ', `Address`=' . (($data['Address'] !== '' && $data['Address'] !== NULL) ? "'{$data['Address']}'" : 'NULL') . ', `City`=' . (($data['City'] !== '' && $data['City'] !== NULL) ? "'{$data['City']}'" : 'NULL') . ', `Country`=' . (($data['Country'] !== '' && $data['Country'] !== NULL) ? "'{$data['Country']}'" : 'NULL') . ', `PaymentStatus`=' . (($data['PaymentStatus'] !== '' && $data['PaymentStatus'] !== NULL) ? "'{$data['PaymentStatus']}'" : 'NULL') . ', `Balance`=' . (($data['Balance'] !== '' && $data['Balance'] !== NULL) ? "'{$data['Balance']}'" : 'NULL') . ', `Status`=' . (($data['Status'] !== '' && $data['Status'] !== NULL) ? "'{$data['Status']}'" : 'NULL') . ', `tax`=' . (($data['tax'] !== '' && $data['tax'] !== NULL) ? "'{$data['tax']}'" : 'NULL') . ', `whenAdd`=`whenAdd`' . ', `usrUpdated`=' . "'{$data['usrUpdated']}'" . ', `whenUpdated`=' . "'{$data['whenUpdated']}'" . " where `id`='".makeSafe($selected_id)."'", $o);
+	sql('update `Invoice` set       `type`=' . (($data['type'] !== '' && $data['type'] !== NULL) ? "'{$data['type']}'" : 'NULL') . ', `number`=' . (($data['number'] !== '' && $data['number'] !== NULL) ? "'{$data['number']}'" : 'NULL') . ', `Date`=' . (($data['Date'] !== '' && $data['Date'] !== NULL) ? "'{$data['Date']}'" : 'NULL') . ', `Title`=' . (($data['Title'] !== '' && $data['Title'] !== NULL) ? "'{$data['Title']}'" : 'NULL') . ', `Customer`=' . (($data['Customer'] !== '' && $data['Customer'] !== NULL) ? "'{$data['Customer']}'" : 'NULL') . ', `Phone`=' . (($data['Phone'] !== '' && $data['Phone'] !== NULL) ? "'{$data['Phone']}'" : 'NULL') . ', `Email`=' . (($data['Email'] !== '' && $data['Email'] !== NULL) ? "'{$data['Email']}'" : 'NULL') . ', `Address`=' . (($data['Address'] !== '' && $data['Address'] !== NULL) ? "'{$data['Address']}'" : 'NULL') . ', `City`=' . (($data['City'] !== '' && $data['City'] !== NULL) ? "'{$data['City']}'" : 'NULL') . ', `Country`=' . (($data['Country'] !== '' && $data['Country'] !== NULL) ? "'{$data['Country']}'" : 'NULL') . ', `PaymentStatus`=' . (($data['PaymentStatus'] !== '' && $data['PaymentStatus'] !== NULL) ? "'{$data['PaymentStatus']}'" : 'NULL') . ', `Status`=' . (($data['Status'] !== '' && $data['Status'] !== NULL) ? "'{$data['Status']}'" : 'NULL') . ', `tax`=' . (($data['tax'] !== '' && $data['tax'] !== NULL) ? "'{$data['tax']}'" : 'NULL') . ', `whenAdd`=`whenAdd`' . ', `usrUpdated`=' . "'{$data['usrUpdated']}'" . ', `whenUpdated`=' . "'{$data['whenUpdated']}'" . " where `id`='".makeSafe($selected_id)."'", $o);
 	if($o['error']!='') {
 		echo $o['error'];
 		echo '<a href="Invoice_view.php?SelectedID='.urlencode($selected_id)."\">{$Translation['< back']}</a>";
@@ -687,7 +683,6 @@ function Invoice_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, $Al
 		$jsReadOnly .= "\tjQuery('#Customer_caption').prop('disabled', true).css({ color: '#555', backgroundColor: 'white' });\n";
 		$jsReadOnly .= "\tjQuery('#Email, #Email-edit-link').hide();\n";
 		$jsReadOnly .= "\tjQuery('#PaymentStatus').replaceWith('<div class=\"form-control-static\" id=\"PaymentStatus\">' + (jQuery('#PaymentStatus').val() || '') + '</div>'); jQuery('#PaymentStatus-multi-selection-help').hide();\n";
-		$jsReadOnly .= "\tjQuery('#Balance').replaceWith('<div class=\"form-control-static\" id=\"Balance\">' + (jQuery('#Balance').val() || '') + '</div>');\n";
 		$jsReadOnly .= "\tjQuery('#Status').replaceWith('<div class=\"form-control-static\" id=\"Status\">' + (jQuery('#Status').val() || '') + '</div>'); jQuery('#Status-multi-selection-help').hide();\n";
 		$jsReadOnly .= "\tjQuery('#tax').replaceWith('<div class=\"form-control-static\" id=\"tax\">' + (jQuery('#tax').val() || '') + '</div>');\n";
 		$jsReadOnly .= "\tjQuery('.select2-container').hide();\n";
@@ -772,8 +767,7 @@ function Invoice_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, $Al
 		$templateCode = str_replace('<%%URLVALUE(AmountDUE)%%>', urlencode($urow['AmountDUE']), $templateCode);
 		$templateCode = str_replace('<%%VALUE(AmountPAID)%%>', safe_html($urow['AmountPAID']), $templateCode);
 		$templateCode = str_replace('<%%URLVALUE(AmountPAID)%%>', urlencode($urow['AmountPAID']), $templateCode);
-		if( $dvprint) $templateCode = str_replace('<%%VALUE(Balance)%%>', safe_html($urow['Balance']), $templateCode);
-		if(!$dvprint) $templateCode = str_replace('<%%VALUE(Balance)%%>', html_attr($row['Balance']), $templateCode);
+		$templateCode = str_replace('<%%VALUE(Balance)%%>', safe_html($urow['Balance']), $templateCode);
 		$templateCode = str_replace('<%%URLVALUE(Balance)%%>', urlencode($urow['Balance']), $templateCode);
 		if( $dvprint) $templateCode = str_replace('<%%VALUE(Status)%%>', safe_html($urow['Status']), $templateCode);
 		if(!$dvprint) $templateCode = str_replace('<%%VALUE(Status)%%>', html_attr($row['Status']), $templateCode);
