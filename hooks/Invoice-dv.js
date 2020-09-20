@@ -17,14 +17,12 @@ $j(function() {
         ]
     }]
 
-    addTabs(AppGini.currentTableName(), addTab);
-
-    inline_fields(['Title', 'Customer'], "Customer", [1, 8])
     inline_fields(['Phone', 'Email'], "Contact", [3, 6])
     inline_fields(['Address', 'City', 'Country'], "Address", [3, 3, 3])
     inline_fields(['AmountDUE', 'AmountPAID', 'Balance'], "Amount(due/paid/balance)", [3, 3, 3])
     inline_fields(['usrAdd', 'whenAdd'], "Created By", [3, 3])
     inline_fields(['usrUpdated', 'whenUpdated'], "Updated By", [3, 3])
+    inline_fields(['Title', 'Customer'], "Customer!", [1, 8])
     if (!is_add_new() && status.id !== 'CLOSED') {
         add_action_button({ class: "btn btn-secondary", title: "", text: "Close Invoice", type: "button", onclick: "closeInvoice();" }, "");
     }
@@ -32,6 +30,8 @@ $j(function() {
         add_action_button({ class: "btn btn-success", title: "", text: "Cash Pay Invoice", type: "button", onclick: "payInvoice('CC-CASH');" }, "");
         add_action_button({ class: "btn btn-success", title: "", text: "VISA Pay Invoice", type: "button", onclick: "payInvoice('CC-VISA');" }, "");
     }
+    addTabs(AppGini.currentTableName(), addTab);
+
     // if (status.id === 'CLOSED') {
     //     $j("div[id$='dv_form'], .children-tabs")
     //         .prepend(overlayTemplateBaned)
@@ -60,8 +60,10 @@ function payInvoice(m) {
             data: { cmd: "PAY", id: selected_id(), m: m },
             dataType: "json",
             success: function(res) {
-                console.log(res);
                 show_notification(res.custom_msg);
+                if (res.balance === 'PAID') {
+                    $j("#PaymentStatus").select2('data', { text: "PAID", id: "PAID" });
+                }
             }
         });
     }

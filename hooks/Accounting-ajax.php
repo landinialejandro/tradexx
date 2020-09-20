@@ -66,6 +66,22 @@ if ($Invoice['type'] !== 'Quote') {
                 "class" => "success",
                 "dismiss_seconds" => "3"
             ];
+            //verificar si el pago está completo y cambiar el Invoice a pagado.
+            $sql = "SELECT SUM(`Accounting`.`amount`) FROM `Accounting` WHERE `Accounting`.`invoice` = '{$Invoice['id']}' ";
+            $due = sqlValue($sql);
+            if ($due === "0.00"){
+                $sql = sqlValue("UPDATE Invoice SET Invoice.PaymentStatus = 'PAID' WHERE Invoice.id = '{$Invoice['id']}'");
+                if ($sql){
+                    //actualización correcta.
+                    $data['custom_msg'] = [
+                        "message" => "<h3>Movimiento agregado correctamente. PAID Invoice</h3>",
+                        "class" => "success",
+                        "dismiss_seconds" => "3",
+                        "balance" =>'PAID'
+                    ];
+                }
+            }
+            
         }
     }else{
         $data['custom_msg'] = [

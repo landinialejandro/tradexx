@@ -126,104 +126,75 @@ $trackings = sqlValue("SELECT COUNT(`id`) from `Tracking`");
 
   </div>
   <div class="col-md-6">
-    <?php
-    include('todo.php');
-    ?>
-  </div>
-</div>
-<div class="card">
-  <div class="card-header border-transparent">
-    <h3 class="card-title">Latest Orders</h3>
-
-    <div class="card-tools">
-      <button type="button" class="btn btn-tool" data-card-widget="collapse">
-        <i class="fas fa-minus"></i>
-      </button>
-      <button type="button" class="btn btn-tool" data-card-widget="remove">
-        <i class="fas fa-times"></i>
-      </button>
+    <div class="card">
+      <div class="card-header border-transparent">
+        <h3 class="card-title">Latest Orders</h3>
+    
+        <div class="card-tools">
+          <button type="button" class="btn btn-tool" data-card-widget="collapse">
+            <i class="fas fa-minus"></i>
+          </button>
+          <button type="button" class="btn btn-tool" data-card-widget="remove">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+      </div>
+      <!-- /.card-header -->
+      <?php
+        $res = sql('SELECT * FROM SQL_view_Sales',$e);
+        //var_dump($res);
+    
+      ?>
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <table class="table m-0">
+            <thead>
+              <tr>
+                <th>Order ID</th>
+                <th>Item</th>
+                <th>Status</th>
+                <th>Employee</th>
+              </tr>
+            </thead>
+            <tbody>
+            <?php
+            foreach ($res as $key => $value) {
+              //var_dump($value);
+              ob_start();
+              ?>
+                <tr>
+                  <td><a href="Invoice_view.php?SelectedID=<?php echo $value['id'] ?>"><?php echo $value['id'] ?></a></td>
+                  <td><?php echo $value['item'] ?></td>
+                  <td>
+                    <span class="badge badge-<?php 
+                      if ($value['PaymentStatus'] === 'UNPAID') echo 'danger';
+                      if ($value['PaymentStatus'] === 'PAID') echo 'success';
+                      if ($value['PaymentStatus'] === 'PARTIAL PAYMENT') echo 'warning';
+                      ?>"><?php echo $value['PaymentStatus'] ?></span>
+                    <span class="badge badge-<?php 
+                      if ($value['Status'] === 'CANCELED') echo 'danger';
+                      if ($value['Status'] === 'CLOSED') echo 'success';
+                      if ($value['Status'] === 'OPEN') echo 'warning';
+                      ?>"><?php echo $value['Status'] ?></span>
+                    </td>
+                  <td><?php echo $value['usrAdd'] ?></td>
+                </tr>
+              <?php
+            }
+            ?>
+            </tbody>
+          </table>
+        </div>
+        <!-- /.table-responsive -->
+      </div>
+      <!-- /.card-body -->
+      <div class="card-footer clearfix">
+        <a href="Invoice_view.php?addNew_x=1" class="btn btn-sm btn-info float-left">Place New Order</a>
+        <a href="Invoice_view.php" class="btn btn-sm btn-secondary float-right">View All Orders</a>
+      </div>
+      <!-- /.card-footer -->
     </div>
   </div>
-  <!-- /.card-header -->
-  <div class="card-body p-0">
-    <div class="table-responsive">
-      <table class="table m-0">
-        <thead>
-          <tr>
-            <th>Order ID</th>
-            <th>Item</th>
-            <th>Status</th>
-            <th>Popularity</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><a href="pages/examples/invoice.html">OR9842</a></td>
-            <td>Call of Duty IV</td>
-            <td><span class="badge badge-success">Shipped</span></td>
-            <td>
-              <div class="sparkbar" data-color="#00a65a" data-height="20">90,80,90,-70,61,-83,63</div>
-            </td>
-          </tr>
-          <tr>
-            <td><a href="pages/examples/invoice.html">OR1848</a></td>
-            <td>Samsung Smart TV</td>
-            <td><span class="badge badge-warning">Pending</span></td>
-            <td>
-              <div class="sparkbar" data-color="#f39c12" data-height="20">90,80,-90,70,61,-83,68</div>
-            </td>
-          </tr>
-          <tr>
-            <td><a href="pages/examples/invoice.html">OR7429</a></td>
-            <td>iPhone 6 Plus</td>
-            <td><span class="badge badge-danger">Delivered</span></td>
-            <td>
-              <div class="sparkbar" data-color="#f56954" data-height="20">90,-80,90,70,-61,83,63</div>
-            </td>
-          </tr>
-          <tr>
-            <td><a href="pages/examples/invoice.html">OR7429</a></td>
-            <td>Samsung Smart TV</td>
-            <td><span class="badge badge-info">Processing</span></td>
-            <td>
-              <div class="sparkbar" data-color="#00c0ef" data-height="20">90,80,-90,70,-61,83,63</div>
-            </td>
-          </tr>
-          <tr>
-            <td><a href="pages/examples/invoice.html">OR1848</a></td>
-            <td>Samsung Smart TV</td>
-            <td><span class="badge badge-warning">Pending</span></td>
-            <td>
-              <div class="sparkbar" data-color="#f39c12" data-height="20">90,80,-90,70,61,-83,68</div>
-            </td>
-          </tr>
-          <tr>
-            <td><a href="pages/examples/invoice.html">OR7429</a></td>
-            <td>iPhone 6 Plus</td>
-            <td><span class="badge badge-danger">Delivered</span></td>
-            <td>
-              <div class="sparkbar" data-color="#f56954" data-height="20">90,-80,90,70,-61,83,63</div>
-            </td>
-          </tr>
-          <tr>
-            <td><a href="pages/examples/invoice.html">OR9842</a></td>
-            <td>Call of Duty IV</td>
-            <td><span class="badge badge-success">Shipped</span></td>
-            <td>
-              <div class="sparkbar" data-color="#00a65a" data-height="20">90,80,90,-70,61,-83,63</div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <!-- /.table-responsive -->
-  </div>
-  <!-- /.card-body -->
-  <div class="card-footer clearfix">
-    <a href="javascript:void(0)" class="btn btn-sm btn-info float-left">Place New Order</a>
-    <a href="javascript:void(0)" class="btn btn-sm btn-secondary float-right">View All Orders</a>
-  </div>
-  <!-- /.card-footer -->
 </div>
 
 <div class="row">
