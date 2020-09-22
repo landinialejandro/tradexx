@@ -62,7 +62,7 @@ $trackings = sqlValue("SELECT COUNT(`id`) from `Tracking`");
         <p>Customers</p>
       </div>
       <div class="icon">
-      <i class="fas fa-user-check"></i>
+        <i class="fas fa-user-check"></i>
       </div>
       <a href="CRM_view.php" class="small-box-footer">
         More info <i class="fa fa-arrow-circle-right"></i>
@@ -82,7 +82,7 @@ $trackings = sqlValue("SELECT COUNT(`id`) from `Tracking`");
         <p>Trackings</p>
       </div>
       <div class="icon">
-      <i class="far fa-paper-plane"></i>
+        <i class="far fa-paper-plane"></i>
       </div>
       <a href="CRM_view.php" class="small-box-footer">
         More info <i class="fa fa-arrow-circle-right"></i>
@@ -129,7 +129,6 @@ $trackings = sqlValue("SELECT COUNT(`id`) from `Tracking`");
     <div class="card">
       <div class="card-header border-transparent">
         <h3 class="card-title">Latest Orders</h3>
-    
         <div class="card-tools">
           <button type="button" class="btn btn-tool" data-card-widget="collapse">
             <i class="fas fa-minus"></i>
@@ -141,9 +140,8 @@ $trackings = sqlValue("SELECT COUNT(`id`) from `Tracking`");
       </div>
       <!-- /.card-header -->
       <?php
-        $res = sql('SELECT * FROM SQL_view_Sales',$e);
-        //var_dump($res);
-    
+      $res = sql('SELECT * FROM SQL_view_Sales', $e);
+      //var_dump($res);
       ?>
       <div class="card-body p-0">
         <div class="table-responsive">
@@ -152,36 +150,36 @@ $trackings = sqlValue("SELECT COUNT(`id`) from `Tracking`");
               <tr>
                 <th>Order ID</th>
                 <th>Item</th>
-                <th>Status</th>
+                <th>Paid/Status</th>
                 <th>Employee</th>
               </tr>
             </thead>
             <tbody>
-            <?php
-            foreach ($res as $key => $value) {
-              //var_dump($value);
-              ob_start();
+              <?php
+              foreach ($res as $key => $value) {
+                //var_dump($value);
+                ob_start();
               ?>
                 <tr>
                   <td><a href="Invoice_view.php?SelectedID=<?php echo $value['id'] ?>"><?php echo $value['id'] ?></a></td>
                   <td><?php echo $value['item'] ?></td>
                   <td>
-                    <span class="badge badge-<?php 
-                      if ($value['PaymentStatus'] === 'UNPAID') echo 'danger';
-                      if ($value['PaymentStatus'] === 'PAID') echo 'success';
-                      if ($value['PaymentStatus'] === 'PARTIAL PAYMENT') echo 'warning';
-                      ?>"><?php echo $value['PaymentStatus'] ?></span>
-                    <span class="badge badge-<?php 
-                      if ($value['Status'] === 'CANCELED') echo 'danger';
-                      if ($value['Status'] === 'CLOSED') echo 'success';
-                      if ($value['Status'] === 'OPEN') echo 'warning';
-                      ?>"><?php echo $value['Status'] ?></span>
-                    </td>
+                    <span class="badge badge-<?php
+                                              if ($value['PaymentStatus'] === 'UNPAID') echo 'danger';
+                                              if ($value['PaymentStatus'] === 'PAID') echo 'success';
+                                              if ($value['PaymentStatus'] === 'PARTIAL PAYMENT') echo 'warning';
+                                              ?>"><?php echo $value['PaymentStatus'] ?></span>
+                    <span class="badge badge-<?php
+                                              if ($value['Status'] === 'CANCELED') echo 'danger';
+                                              if ($value['Status'] === 'CLOSED') echo 'success';
+                                              if ($value['Status'] === 'OPEN') echo 'warning';
+                                              ?>"><?php echo $value['Status'] ?></span>
+                  </td>
                   <td><?php echo $value['usrAdd'] ?></td>
                 </tr>
               <?php
-            }
-            ?>
+              }
+              ?>
             </tbody>
           </table>
         </div>
@@ -313,4 +311,9 @@ $trackings = sqlValue("SELECT COUNT(`id`) from `Tracking`");
       }
     });
   };
+  $dash = $j('<h1/>', {
+    text: "Admin Dashboard",
+    class: "badge badge-info"
+  })
+  $j('.content-header').append($dash);
 </script>

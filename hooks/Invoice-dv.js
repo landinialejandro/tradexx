@@ -1,6 +1,7 @@
 $j(function() {
     normalizeView();
     var status = $j("#Status").select2('data');
+    var paid = $j("#PaymentStatus").select2('data');
     var addTab = [{
         name: "status",
         title: "Status",
@@ -26,7 +27,7 @@ $j(function() {
     if (!is_add_new() && status.id !== 'CLOSED') {
         add_action_button({ class: "btn btn-secondary", title: "", text: "Close Invoice", type: "button", onclick: "closeInvoice();" }, "");
     }
-    if (!is_add_new() && status.id === 'CLOSED') {
+    if (!is_add_new() && status.id === 'CLOSED' && paid.id !== 'PAID') {
         add_action_button({ class: "btn btn-success", title: "", text: "Cash Pay Invoice", type: "button", onclick: "payInvoice('CC-CASH');" }, "");
         add_action_button({ class: "btn btn-success", title: "", text: "VISA Pay Invoice", type: "button", onclick: "payInvoice('CC-VISA');" }, "");
     }

@@ -26,7 +26,6 @@ if ($cmd->raw !== 'PAY') {
     die('// Algo está mal!');
 }
 
-
 $Invoice = getDataTable('Invoice', $id->raw);
 
 if ($Invoice['type'] !== 'Quote') {
@@ -38,6 +37,7 @@ if ($Invoice['type'] !== 'Quote') {
     $ma = sqlValue("SELECT `id` FROM `MasterAccount` WHERE `code` = 'COBRO' ");
     //controlar si ya hay un pago realizado.
     $pago = sqlValue("SELECT `id` FROM $tn WHERE `invoice`= '{$Invoice['id']}' AND `master_account` = '{$ma}' ");
+
     if (!$pago){
         $accouting = [
             // agregar movimiento a cashflow si no es QUOTE
@@ -56,7 +56,7 @@ if ($Invoice['type'] !== 'Quote') {
         if (!$insert) {
             // fallo en agregar en accounting
             $data['custom_msg'] = [
-                "message" => "<h3>Error agregando accounting: $e </h3>",
+                "message" => "<h3>Error agregando $tn: $e </h3>",
                 "class" => "danger",
                 "dismiss_seconds" => "0"
             ];
