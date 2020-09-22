@@ -24,6 +24,9 @@ function Payroll_insert() {
 		if($data['comment'] == empty_lookup_value) { $data['comment'] = ''; }
 	$data['value'] = $_REQUEST['value'];
 		if($data['value'] == empty_lookup_value) { $data['value'] = ''; }
+	$data['status'] = $_REQUEST['status'];
+		if($data['status'] == empty_lookup_value) { $data['status'] = ''; }
+	if($data['status'] == '') $data['status'] = "UNPAID";
 
 	// hook: Payroll_before_insert
 	if(function_exists('Payroll_before_insert')) {
@@ -129,6 +132,8 @@ function Payroll_update($selected_id) {
 		if($data['comment'] == empty_lookup_value) { $data['comment'] = ''; }
 	$data['value'] = makeSafe($_REQUEST['value']);
 		if($data['value'] == empty_lookup_value) { $data['value'] = ''; }
+	$data['status'] = makeSafe($_REQUEST['status']);
+		if($data['status'] == empty_lookup_value) { $data['status'] = ''; }
 	$data['selectedID'] = makeSafe($selected_id);
 
 	// hook: Payroll_before_update
@@ -138,7 +143,7 @@ function Payroll_update($selected_id) {
 	}
 
 	$o = array('silentErrors' => true);
-	sql('update `Payroll` set       `employee`=' . (($data['employee'] !== '' && $data['employee'] !== NULL) ? "'{$data['employee']}'" : 'NULL') . ', `date`=' . (($data['date'] !== '' && $data['date'] !== NULL) ? "'{$data['date']}'" : 'NULL') . ', `start`=`start`' . ', `stop`=' . "'{$data['stop']}'" . ', `horas`=' . (($data['horas'] !== '' && $data['horas'] !== NULL) ? "'{$data['horas']}'" : 'NULL') . ', `comment`=' . (($data['comment'] !== '' && $data['comment'] !== NULL) ? "'{$data['comment']}'" : 'NULL') . " where `id`='".makeSafe($selected_id)."'", $o);
+	sql('update `Payroll` set       `employee`=' . (($data['employee'] !== '' && $data['employee'] !== NULL) ? "'{$data['employee']}'" : 'NULL') . ', `date`=' . (($data['date'] !== '' && $data['date'] !== NULL) ? "'{$data['date']}'" : 'NULL') . ', `start`=`start`' . ', `stop`=' . "'{$data['stop']}'" . ', `horas`=' . (($data['horas'] !== '' && $data['horas'] !== NULL) ? "'{$data['horas']}'" : 'NULL') . ', `comment`=' . (($data['comment'] !== '' && $data['comment'] !== NULL) ? "'{$data['comment']}'" : 'NULL') . ', `status`=' . (($data['status'] !== '' && $data['status'] !== NULL) ? "'{$data['status']}'" : 'NULL') . " where `id`='".makeSafe($selected_id)."'", $o);
 	if($o['error']!='') {
 		echo $o['error'];
 		echo '<a href="Payroll_view.php?SelectedID='.urlencode($selected_id)."\">{$Translation['< back']}</a>";
@@ -196,6 +201,21 @@ function Payroll_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, $Al
 	$combo_date->DefaultDate = parseMySQLDate('1', '1');
 	$combo_date->MonthNames = $Translation['month names'];
 	$combo_date->NamePrefix = 'date';
+	// combobox: status
+	$combo_status = new Combo;
+	$combo_status->ListType = 0;
+	$combo_status->MultipleSeparator = ', ';
+	$combo_status->ListBoxHeight = 10;
+	$combo_status->RadiosPerLine = 1;
+	if(is_file(dirname(__FILE__).'/hooks/Payroll.status.csv')) {
+		$status_data = addslashes(implode('', @file(dirname(__FILE__).'/hooks/Payroll.status.csv')));
+		$combo_status->ListItem = explode('||', entitiesToUTF8(convertLegacyOptions($status_data)));
+		$combo_status->ListData = $combo_status->ListItem;
+	}else{
+		$combo_status->ListItem = explode('||', entitiesToUTF8(convertLegacyOptions("PAID;;UNPAID;;CANCEL")));
+		$combo_status->ListData = $combo_status->ListItem;
+	}
+	$combo_status->SelectName = 'status';
 
 	if($selected_id) {
 		// mm: check member permissions
@@ -225,14 +245,17 @@ function Payroll_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, $Al
 		}
 		$combo_employee->SelectedData = $row['employee'];
 		$combo_date->DefaultDate = $row['date'];
+		$combo_status->SelectedData = $row['status'];
 		$urow = $row; /* unsanitized data */
 		$hc = new CI_Input();
 		$row = $hc->xss_clean($row); /* sanitize data */
 	} else {
 		$combo_employee->SelectedData = $filterer_employee;
+		$combo_status->SelectedText = ( $_REQUEST['FilterField'][1]=='9' && $_REQUEST['FilterOperator'][1]=='<=>' ? (get_magic_quotes_gpc() ? stripslashes($_REQUEST['FilterValue'][1]) : $_REQUEST['FilterValue'][1]) : "UNPAID");
 	}
 	$combo_employee->HTML = '<span id="employee-container' . $rnd1 . '"></span><input type="hidden" name="employee" id="employee' . $rnd1 . '" value="' . html_attr($combo_employee->SelectedData) . '">';
 	$combo_employee->MatchText = '<span id="employee-container-readonly' . $rnd1 . '"></span><input type="hidden" name="employee" id="employee' . $rnd1 . '" value="' . html_attr($combo_employee->SelectedData) . '">';
+	$combo_status->Render();
 
 	ob_start();
 	?>
@@ -387,6 +410,7 @@ function Payroll_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, $Al
 		$jsReadOnly .= "\tjQuery('#dateDay, #dateMonth, #dateYear').prop('disabled', true).css({ color: '#555', backgroundColor: '#fff' });\n";
 		$jsReadOnly .= "\tjQuery('#horas').replaceWith('<div class=\"form-control-static\" id=\"horas\">' + (jQuery('#horas').val() || '') + '</div>');\n";
 		$jsReadOnly .= "\tjQuery('#comment').replaceWith('<div class=\"form-control-static\" id=\"comment\">' + (jQuery('#comment').val() || '') + '</div>');\n";
+		$jsReadOnly .= "\tjQuery('#status').replaceWith('<div class=\"form-control-static\" id=\"status\">' + (jQuery('#status').val() || '') + '</div>'); jQuery('#status-multi-selection-help').hide();\n";
 		$jsReadOnly .= "\tjQuery('.select2-container').hide();\n";
 
 		$noUploads = true;
@@ -401,6 +425,8 @@ function Payroll_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, $Al
 	$templateCode = str_replace('<%%URLCOMBOTEXT(employee)%%>', urlencode($combo_employee->MatchText), $templateCode);
 	$templateCode = str_replace('<%%COMBO(date)%%>', ($selected_id && !$arrPerm[3] ? '<div class="form-control-static">' . $combo_date->GetHTML(true) . '</div>' : $combo_date->GetHTML()), $templateCode);
 	$templateCode = str_replace('<%%COMBOTEXT(date)%%>', $combo_date->GetHTML(true), $templateCode);
+	$templateCode = str_replace('<%%COMBO(status)%%>', $combo_status->HTML, $templateCode);
+	$templateCode = str_replace('<%%COMBOTEXT(status)%%>', $combo_status->SelectedData, $templateCode);
 
 	/* lookup fields array: 'lookup field name' => array('parent table name', 'lookup field caption') */
 	$lookup_fields = array('employee' => array('Staff', 'Employee'), );
@@ -427,6 +453,7 @@ function Payroll_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, $Al
 	$templateCode = str_replace('<%%UPLOADFILE(horas)%%>', '', $templateCode);
 	$templateCode = str_replace('<%%UPLOADFILE(comment)%%>', '', $templateCode);
 	$templateCode = str_replace('<%%UPLOADFILE(value)%%>', '', $templateCode);
+	$templateCode = str_replace('<%%UPLOADFILE(status)%%>', '', $templateCode);
 
 	// process values
 	if($selected_id) {
@@ -451,6 +478,9 @@ function Payroll_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, $Al
 		if( $dvprint) $templateCode = str_replace('<%%VALUE(value)%%>', safe_html($urow['value']), $templateCode);
 		if(!$dvprint) $templateCode = str_replace('<%%VALUE(value)%%>', html_attr($row['value']), $templateCode);
 		$templateCode = str_replace('<%%URLVALUE(value)%%>', urlencode($urow['value']), $templateCode);
+		if( $dvprint) $templateCode = str_replace('<%%VALUE(status)%%>', safe_html($urow['status']), $templateCode);
+		if(!$dvprint) $templateCode = str_replace('<%%VALUE(status)%%>', html_attr($row['status']), $templateCode);
+		$templateCode = str_replace('<%%URLVALUE(status)%%>', urlencode($urow['status']), $templateCode);
 	}else{
 		$templateCode = str_replace('<%%VALUE(id)%%>', '', $templateCode);
 		$templateCode = str_replace('<%%URLVALUE(id)%%>', urlencode(''), $templateCode);
@@ -468,6 +498,8 @@ function Payroll_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, $Al
 		$templateCode = str_replace('<%%URLVALUE(comment)%%>', urlencode(''), $templateCode);
 		$templateCode = str_replace('<%%VALUE(value)%%>', '', $templateCode);
 		$templateCode = str_replace('<%%URLVALUE(value)%%>', urlencode(''), $templateCode);
+		$templateCode = str_replace('<%%VALUE(status)%%>', 'UNPAID', $templateCode);
+		$templateCode = str_replace('<%%URLVALUE(status)%%>', urlencode('UNPAID'), $templateCode);
 	}
 
 	// process translations

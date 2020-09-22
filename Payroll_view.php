@@ -30,6 +30,7 @@
 		"`Payroll`.`horas`" => "horas",
 		"`Payroll`.`comment`" => "comment",
 		"`Payroll`.`value`" => "value",
+		"`Payroll`.`status`" => "status",
 	);
 	// mapping incoming sort by requests to actual query fields
 	$x->SortFields = array(
@@ -41,6 +42,7 @@
 		6 => '`Payroll`.`horas`',
 		7 => 7,
 		8 => 8,
+		9 => 9,
 	);
 
 	// Fields that can be displayed in the csv file
@@ -53,6 +55,7 @@
 		"`Payroll`.`horas`" => "horas",
 		"`Payroll`.`comment`" => "comment",
 		"`Payroll`.`value`" => "value",
+		"`Payroll`.`status`" => "status",
 	);
 	// Fields that can be filtered
 	$x->QueryFieldsFilters = array(
@@ -64,6 +67,7 @@
 		"`Payroll`.`horas`" => "horas",
 		"`Payroll`.`comment`" => "Comment",
 		"`Payroll`.`value`" => "Time",
+		"`Payroll`.`status`" => "Status",
 	);
 
 	// Fields that can be quick searched
@@ -76,6 +80,7 @@
 		"`Payroll`.`horas`" => "horas",
 		"`Payroll`.`comment`" => "comment",
 		"`Payroll`.`value`" => "value",
+		"`Payroll`.`status`" => "status",
 	);
 
 	// Lookup fields that can be used as filterers
@@ -109,10 +114,10 @@
 	$x->TableIcon = "resources/table_icons/Subscriptions.png";
 	$x->PrimaryKey = "`Payroll`.`id`";
 
-	$x->ColWidth   = array(  150, 150, 150, 150, 150, 150, 150);
-	$x->ColCaption = array("Employee", "Date", "Start", "Stop", "horas", "Comment", "Time");
-	$x->ColFieldName = array('employee', 'date', 'start', 'stop', 'horas', 'comment', 'value');
-	$x->ColNumber  = array(2, 3, 4, 5, 6, 7, 8);
+	$x->ColWidth   = array(  150, 150, 150, 150, 150, 150, 150, 150);
+	$x->ColCaption = array("Employee", "Date", "Start", "Stop", "horas", "Comment", "Time", "Status");
+	$x->ColFieldName = array('employee', 'date', 'start', 'stop', 'horas', 'comment', 'value', 'status');
+	$x->ColNumber  = array(2, 3, 4, 5, 6, 7, 8, 9);
 
 	// template paths below are based on the app main directory
 	$x->Template = 'templates/Payroll_templateTV.html';
@@ -181,6 +186,7 @@
 			$sumRow .= "<td class=\"Payroll-horas text-right\">{$row[0]}</td>";
 			$sumRow .= '<td class="Payroll-comment"></td>';
 			$sumRow .= '<td class="Payroll-value"></td>';
+			$sumRow .= '<td class="Payroll-status"></td>';
 			$sumRow .= '</tr>';
 
 			$x->HTML = str_replace('<!-- tv data below -->', '', $x->HTML);

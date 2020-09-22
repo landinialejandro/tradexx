@@ -47,9 +47,16 @@ function Staff_insert() {
 		if($data['EmergencyContact'] == empty_lookup_value) { $data['EmergencyContact'] = ''; }
 	$data['EmergencyPhone'] = $_REQUEST['EmergencyPhone'];
 		if($data['EmergencyPhone'] == empty_lookup_value) { $data['EmergencyPhone'] = ''; }
+	$data['userName'] = $_REQUEST['userName'];
+		if($data['userName'] == empty_lookup_value) { $data['userName'] = ''; }
 	$data['Photo'] = PrepareUploadedFile('Photo', 512000,'jpg|jpeg|gif|png', false, '');
 	if($data['Photo']) createThumbnail($data['Photo'], getThumbnailSpecs('Staff', 'Photo', 'tv'));
 	if($data['Photo']) createThumbnail($data['Photo'], getThumbnailSpecs('Staff', 'Photo', 'dv'));
+	if($data['userName']== '') {
+		echo StyleSheet() . "\n\n<div class=\"alert alert-danger\">" . $Translation['error:'] . " 'User Name': " . $Translation['field not null'] . '<br><br>';
+		echo '<a href="" onclick="history.go(-1); return false;">'.$Translation['< back'].'</a></div>';
+		exit;
+	}
 
 	/* for empty upload fields, when saving a copy of an existing record, copy the original upload field */
 	if($_REQUEST['SelectedID']) {
@@ -338,6 +345,13 @@ function Staff_update($selected_id) {
 		if($data['EmergencyContact'] == empty_lookup_value) { $data['EmergencyContact'] = ''; }
 	$data['EmergencyPhone'] = makeSafe($_REQUEST['EmergencyPhone']);
 		if($data['EmergencyPhone'] == empty_lookup_value) { $data['EmergencyPhone'] = ''; }
+	$data['userName'] = makeSafe($_REQUEST['userName']);
+		if($data['userName'] == empty_lookup_value) { $data['userName'] = ''; }
+	if($data['userName']=='') {
+		echo StyleSheet() . "\n\n<div class=\"alert alert-danger\">{$Translation['error:']} 'User Name': {$Translation['field not null']}<br><br>";
+		echo '<a href="" onclick="history.go(-1); return false;">'.$Translation['< back'].'</a></div>';
+		exit;
+	}
 	$data['selectedID'] = makeSafe($selected_id);
 	if($_REQUEST['Photo_remove'] == 1) {
 		$data['Photo'] = '';
@@ -354,7 +368,7 @@ function Staff_update($selected_id) {
 	}
 
 	$o = array('silentErrors' => true);
-	sql('update `Staff` set       ' . ($data['Photo']!='' ? "`Photo`='{$data['Photo']}'" : ($_REQUEST['Photo_remove'] != 1 ? '`Photo`=`Photo`' : '`Photo`=NULL')) . ', `Employee`=' . (($data['Employee'] !== '' && $data['Employee'] !== NULL) ? "'{$data['Employee']}'" : 'NULL') . ', `Birthdate`=' . (($data['Birthdate'] !== '' && $data['Birthdate'] !== NULL) ? "'{$data['Birthdate']}'" : 'NULL') . ', `Phone`=' . (($data['Phone'] !== '' && $data['Phone'] !== NULL) ? "'{$data['Phone']}'" : 'NULL') . ', `Email`=' . (($data['Email'] !== '' && $data['Email'] !== NULL) ? "'{$data['Email']}'" : 'NULL') . ', `Address`=' . (($data['Address'] !== '' && $data['Address'] !== NULL) ? "'{$data['Address']}'" : 'NULL') . ', `City`=' . (($data['City'] !== '' && $data['City'] !== NULL) ? "'{$data['City']}'" : 'NULL') . ', `Province`=' . (($data['Province'] !== '' && $data['Province'] !== NULL) ? "'{$data['Province']}'" : 'NULL') . ', `Country`=' . (($data['Country'] !== '' && $data['Country'] !== NULL) ? "'{$data['Country']}'" : 'NULL') . ', `hireDate`=' . (($data['hireDate'] !== '' && $data['hireDate'] !== NULL) ? "'{$data['hireDate']}'" : 'NULL') . ', `Department`=' . (($data['Department'] !== '' && $data['Department'] !== NULL) ? "'{$data['Department']}'" : 'NULL') . ', `Position`=' . (($data['Position'] !== '' && $data['Position'] !== NULL) ? "'{$data['Position']}'" : 'NULL') . ', `Supervisor`=' . (($data['Supervisor'] !== '' && $data['Supervisor'] !== NULL) ? "'{$data['Supervisor']}'" : 'NULL') . ', `Manager`=' . (($data['Manager'] !== '' && $data['Manager'] !== NULL) ? "'{$data['Manager']}'" : 'NULL') . ', `Director`=' . (($data['Director'] !== '' && $data['Director'] !== NULL) ? "'{$data['Director']}'" : 'NULL') . ', `Status`=' . (($data['Status'] !== '' && $data['Status'] !== NULL) ? "'{$data['Status']}'" : 'NULL') . ', `EmergencyContact`=' . (($data['EmergencyContact'] !== '' && $data['EmergencyContact'] !== NULL) ? "'{$data['EmergencyContact']}'" : 'NULL') . ', `EmergencyPhone`=' . (($data['EmergencyPhone'] !== '' && $data['EmergencyPhone'] !== NULL) ? "'{$data['EmergencyPhone']}'" : 'NULL') . " where `id`='".makeSafe($selected_id)."'", $o);
+	sql('update `Staff` set       ' . ($data['Photo']!='' ? "`Photo`='{$data['Photo']}'" : ($_REQUEST['Photo_remove'] != 1 ? '`Photo`=`Photo`' : '`Photo`=NULL')) . ', `Employee`=' . (($data['Employee'] !== '' && $data['Employee'] !== NULL) ? "'{$data['Employee']}'" : 'NULL') . ', `Birthdate`=' . (($data['Birthdate'] !== '' && $data['Birthdate'] !== NULL) ? "'{$data['Birthdate']}'" : 'NULL') . ', `Phone`=' . (($data['Phone'] !== '' && $data['Phone'] !== NULL) ? "'{$data['Phone']}'" : 'NULL') . ', `Email`=' . (($data['Email'] !== '' && $data['Email'] !== NULL) ? "'{$data['Email']}'" : 'NULL') . ', `Address`=' . (($data['Address'] !== '' && $data['Address'] !== NULL) ? "'{$data['Address']}'" : 'NULL') . ', `City`=' . (($data['City'] !== '' && $data['City'] !== NULL) ? "'{$data['City']}'" : 'NULL') . ', `Province`=' . (($data['Province'] !== '' && $data['Province'] !== NULL) ? "'{$data['Province']}'" : 'NULL') . ', `Country`=' . (($data['Country'] !== '' && $data['Country'] !== NULL) ? "'{$data['Country']}'" : 'NULL') . ', `hireDate`=' . (($data['hireDate'] !== '' && $data['hireDate'] !== NULL) ? "'{$data['hireDate']}'" : 'NULL') . ', `Department`=' . (($data['Department'] !== '' && $data['Department'] !== NULL) ? "'{$data['Department']}'" : 'NULL') . ', `Position`=' . (($data['Position'] !== '' && $data['Position'] !== NULL) ? "'{$data['Position']}'" : 'NULL') . ', `Supervisor`=' . (($data['Supervisor'] !== '' && $data['Supervisor'] !== NULL) ? "'{$data['Supervisor']}'" : 'NULL') . ', `Manager`=' . (($data['Manager'] !== '' && $data['Manager'] !== NULL) ? "'{$data['Manager']}'" : 'NULL') . ', `Director`=' . (($data['Director'] !== '' && $data['Director'] !== NULL) ? "'{$data['Director']}'" : 'NULL') . ', `Status`=' . (($data['Status'] !== '' && $data['Status'] !== NULL) ? "'{$data['Status']}'" : 'NULL') . ', `EmergencyContact`=' . (($data['EmergencyContact'] !== '' && $data['EmergencyContact'] !== NULL) ? "'{$data['EmergencyContact']}'" : 'NULL') . ', `EmergencyPhone`=' . (($data['EmergencyPhone'] !== '' && $data['EmergencyPhone'] !== NULL) ? "'{$data['EmergencyPhone']}'" : 'NULL') . ', `userName`=' . (($data['userName'] !== '' && $data['userName'] !== NULL) ? "'{$data['userName']}'" : 'NULL') . " where `id`='".makeSafe($selected_id)."'", $o);
 	if($o['error']!='') {
 		echo $o['error'];
 		echo '<a href="Staff_view.php?SelectedID='.urlencode($selected_id)."\">{$Translation['< back']}</a>";
@@ -1273,6 +1287,7 @@ function Staff_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, $Allo
 		$jsReadOnly .= "\tjQuery('#Status').replaceWith('<div class=\"form-control-static\" id=\"Status\">' + (jQuery('#Status').val() || '') + '</div>'); jQuery('#Status-multi-selection-help').hide();\n";
 		$jsReadOnly .= "\tjQuery('#EmergencyContact').replaceWith('<div class=\"form-control-static\" id=\"EmergencyContact\">' + (jQuery('#EmergencyContact').val() || '') + '</div>');\n";
 		$jsReadOnly .= "\tjQuery('#EmergencyPhone').replaceWith('<div class=\"form-control-static\" id=\"EmergencyPhone\">' + (jQuery('#EmergencyPhone').val() || '') + '</div>');\n";
+		$jsReadOnly .= "\tjQuery('#userName').replaceWith('<div class=\"form-control-static\" id=\"userName\">' + (jQuery('#userName').val() || '') + '</div>');\n";
 		$jsReadOnly .= "\tjQuery('.select2-container').hide();\n";
 
 		$noUploads = true;
@@ -1354,6 +1369,7 @@ function Staff_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, $Allo
 	$templateCode = str_replace('<%%UPLOADFILE(Status)%%>', '', $templateCode);
 	$templateCode = str_replace('<%%UPLOADFILE(EmergencyContact)%%>', '', $templateCode);
 	$templateCode = str_replace('<%%UPLOADFILE(EmergencyPhone)%%>', '', $templateCode);
+	$templateCode = str_replace('<%%UPLOADFILE(userName)%%>', '', $templateCode);
 
 	// process values
 	if($selected_id) {
@@ -1413,6 +1429,9 @@ function Staff_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, $Allo
 		if( $dvprint) $templateCode = str_replace('<%%VALUE(EmergencyPhone)%%>', safe_html($urow['EmergencyPhone']), $templateCode);
 		if(!$dvprint) $templateCode = str_replace('<%%VALUE(EmergencyPhone)%%>', html_attr($row['EmergencyPhone']), $templateCode);
 		$templateCode = str_replace('<%%URLVALUE(EmergencyPhone)%%>', urlencode($urow['EmergencyPhone']), $templateCode);
+		if( $dvprint) $templateCode = str_replace('<%%VALUE(userName)%%>', safe_html($urow['userName']), $templateCode);
+		if(!$dvprint) $templateCode = str_replace('<%%VALUE(userName)%%>', html_attr($row['userName']), $templateCode);
+		$templateCode = str_replace('<%%URLVALUE(userName)%%>', urlencode($urow['userName']), $templateCode);
 	}else{
 		$templateCode = str_replace('<%%VALUE(id)%%>', '', $templateCode);
 		$templateCode = str_replace('<%%URLVALUE(id)%%>', urlencode(''), $templateCode);
@@ -1451,6 +1470,8 @@ function Staff_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, $Allo
 		$templateCode = str_replace('<%%URLVALUE(EmergencyContact)%%>', urlencode(''), $templateCode);
 		$templateCode = str_replace('<%%VALUE(EmergencyPhone)%%>', '', $templateCode);
 		$templateCode = str_replace('<%%URLVALUE(EmergencyPhone)%%>', urlencode(''), $templateCode);
+		$templateCode = str_replace('<%%VALUE(userName)%%>', '', $templateCode);
+		$templateCode = str_replace('<%%URLVALUE(userName)%%>', urlencode(''), $templateCode);
 	}
 
 	// process translations

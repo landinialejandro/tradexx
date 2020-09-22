@@ -343,6 +343,8 @@ function Staff_validateData() {
 		if(!AppGini.checkFileUpload('Photo', 'jpg|jpeg|gif|png', 512000)) return false;
 	}
 
+	/* Field userName can't be empty */
+	if($j('#userName').val() == ''){ modal_window({ message: '<div class="alert alert-danger"><?php echo addslashes($Translation['field not null']); ?></div>', title: "<?php echo addslashes($Translation['error:']); ?> User Name", close: function() { /* */ $j('[name=userName]').eq(0).focus().parents('.form-group').addClass('has-error'); }, footer: [{ label: '<?php echo addslashes($Translation['ok']); ?>' }] }); return false; };
 	return true;
 }
 function Country_validateData() {

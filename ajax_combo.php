@@ -37,7 +37,7 @@
 			'Type' => array(
 				'parent_table' => 'CustomerClass',
 				'parent_pk_field' => 'id',
-				'parent_caption' => '`CustomerClass`.`id`',
+				'parent_caption' => '`CustomerClass`.`Type`',
 				'parent_from' => '`CustomerClass` ',
 				'filterers' => array(),
 				'custom_query' => '',

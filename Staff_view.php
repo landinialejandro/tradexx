@@ -41,6 +41,7 @@
 		"`Staff`.`Status`" => "Status",
 		"`Staff`.`EmergencyContact`" => "EmergencyContact",
 		"`Staff`.`EmergencyPhone`" => "EmergencyPhone",
+		"`Staff`.`userName`" => "userName",
 	);
 	// mapping incoming sort by requests to actual query fields
 	$x->SortFields = array(
@@ -63,6 +64,7 @@
 		17 => 17,
 		18 => 18,
 		19 => 19,
+		20 => 20,
 	);
 
 	// Fields that can be displayed in the csv file
@@ -86,6 +88,7 @@
 		"`Staff`.`Status`" => "Status",
 		"`Staff`.`EmergencyContact`" => "EmergencyContact",
 		"`Staff`.`EmergencyPhone`" => "EmergencyPhone",
+		"`Staff`.`userName`" => "userName",
 	);
 	// Fields that can be filtered
 	$x->QueryFieldsFilters = array(
@@ -107,6 +110,7 @@
 		"`Staff`.`Status`" => "Employment Status",
 		"`Staff`.`EmergencyContact`" => "Emergency contact",
 		"`Staff`.`EmergencyPhone`" => "Emergency phone",
+		"`Staff`.`userName`" => "User Name",
 	);
 
 	// Fields that can be quick searched
@@ -129,6 +133,7 @@
 		"`Staff`.`Status`" => "Status",
 		"`Staff`.`EmergencyContact`" => "EmergencyContact",
 		"`Staff`.`EmergencyPhone`" => "EmergencyPhone",
+		"`Staff`.`userName`" => "userName",
 	);
 
 	// Lookup fields that can be used as filterers
@@ -162,10 +167,10 @@
 	$x->TableIcon = "resources/table_icons/Staff.png";
 	$x->PrimaryKey = "`Staff`.`id`";
 
-	$x->ColWidth   = array(  150, 150, 150, 150, 150, 150, 150, 150, 150, 150);
-	$x->ColCaption = array("Photo", "Employee", "Birthdate", "Phone", "Email", "Province", "Department", "Position", "Director", "Employment Status");
-	$x->ColFieldName = array('Photo', 'Employee', 'Birthdate', 'Phone', 'Email', 'Province', 'Department', 'Position', 'Director', 'Status');
-	$x->ColNumber  = array(2, 3, 4, 5, 6, 9, 12, 13, 16, 17);
+	$x->ColWidth   = array(  150, 150, 150, 150, 150, 150, 150, 150, 150, 150, 150);
+	$x->ColCaption = array("Photo", "Employee", "Birthdate", "Phone", "Email", "Province", "Department", "Position", "Director", "Employment Status", "User Name");
+	$x->ColFieldName = array('Photo', 'Employee', 'Birthdate', 'Phone', 'Email', 'Province', 'Department', 'Position', 'Director', 'Status', 'userName');
+	$x->ColNumber  = array(2, 3, 4, 5, 6, 9, 12, 13, 16, 17, 20);
 
 	// template paths below are based on the app main directory
 	$x->Template = 'templates/Staff_templateTV.html';

@@ -68,6 +68,7 @@
 			'Status' => array('appgini' => 'VARCHAR(40) null '),
 			'EmergencyContact' => array('appgini' => 'TEXT null '),
 			'EmergencyPhone' => array('appgini' => 'TEXT null '),
+			'userName' => array('appgini' => 'VARCHAR(40) not null '),
 		),
 		'Country' => array(
 			'id' => array('appgini' => 'INT unsigned not null primary key auto_increment '),
@@ -203,6 +204,7 @@
 			'horas' => array('appgini' => 'DECIMAL(10,2) null '),
 			'comment' => array('appgini' => 'TEXT null '),
 			'value' => array('appgini' => 'VARCHAR(40) null '),
+			'status' => array('appgini' => 'VARCHAR(40) null default \'UNPAID\' '),
 		),
 		'Brand' => array(
 			'id' => array('appgini' => 'INT unsigned not null primary key auto_increment '),
