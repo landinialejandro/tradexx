@@ -22,8 +22,6 @@ function Payroll_insert() {
 		if($data['horas'] == empty_lookup_value) { $data['horas'] = ''; }
 	$data['comment'] = $_REQUEST['comment'];
 		if($data['comment'] == empty_lookup_value) { $data['comment'] = ''; }
-	$data['value'] = $_REQUEST['value'];
-		if($data['value'] == empty_lookup_value) { $data['value'] = ''; }
 	$data['status'] = $_REQUEST['status'];
 		if($data['status'] == empty_lookup_value) { $data['status'] = ''; }
 	if($data['status'] == '') $data['status'] = "UNPAID";
@@ -130,8 +128,6 @@ function Payroll_update($selected_id) {
 		if($data['horas'] == empty_lookup_value) { $data['horas'] = ''; }
 	$data['comment'] = makeSafe($_REQUEST['comment']);
 		if($data['comment'] == empty_lookup_value) { $data['comment'] = ''; }
-	$data['value'] = makeSafe($_REQUEST['value']);
-		if($data['value'] == empty_lookup_value) { $data['value'] = ''; }
 	$data['status'] = makeSafe($_REQUEST['status']);
 		if($data['status'] == empty_lookup_value) { $data['status'] = ''; }
 	$data['selectedID'] = makeSafe($selected_id);
@@ -475,8 +471,7 @@ function Payroll_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, $Al
 		if( $dvprint) $templateCode = str_replace('<%%VALUE(comment)%%>', safe_html($urow['comment']), $templateCode);
 		if(!$dvprint) $templateCode = str_replace('<%%VALUE(comment)%%>', html_attr($row['comment']), $templateCode);
 		$templateCode = str_replace('<%%URLVALUE(comment)%%>', urlencode($urow['comment']), $templateCode);
-		if( $dvprint) $templateCode = str_replace('<%%VALUE(value)%%>', safe_html($urow['value']), $templateCode);
-		if(!$dvprint) $templateCode = str_replace('<%%VALUE(value)%%>', html_attr($row['value']), $templateCode);
+		$templateCode = str_replace('<%%VALUE(value)%%>', safe_html($urow['value']), $templateCode);
 		$templateCode = str_replace('<%%URLVALUE(value)%%>', urlencode($urow['value']), $templateCode);
 		if( $dvprint) $templateCode = str_replace('<%%VALUE(status)%%>', safe_html($urow['status']), $templateCode);
 		if(!$dvprint) $templateCode = str_replace('<%%VALUE(status)%%>', html_attr($row['status']), $templateCode);
