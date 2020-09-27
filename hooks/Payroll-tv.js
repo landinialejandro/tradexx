@@ -8,9 +8,12 @@ $j(function() {
 });
 
 function tv_callback(result, settings, submitdata) {
-    $j.get('hooks/Payroll-ajax.php', { id: submitdata.id })
-        .done(function(data) {
-            $j('#Payroll-horas-' + submitdata.id + ' > a').text(data.horas);
+    $j.get('hooks/Payroll-ajax.php', { id: submitdata.id, cmd: "get-hours" })
+        .done(function(res) {
+            if (res.custom_msg) {
+                show_notification(res.custom_msg);
+            }
+            $j('#Payroll-horas-' + submitdata.id + ' > a').text(res.horas);
         });
 }
 

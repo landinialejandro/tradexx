@@ -81,7 +81,6 @@ if ($Invoice['type'] !== 'Quote') {
                     ];
                 }
             }
-            
         }
     }else{
         $data['custom_msg'] = [
