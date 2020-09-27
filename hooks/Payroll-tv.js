@@ -2,7 +2,7 @@ $j(function() {
     //normalizeView();
     $j('#quick-search').remove();
     if (typeof tv_editlets !== "undefined") {
-        tv_editlets(AppGini.currentTableName(), ['employee', 'date', 'horas']);
+        tv_editlets(AppGini.currentTableName(), ['employee', 'date', 'horas', 'comment', 'value', 'status']);
     }
     labelize_table();
 });

@@ -19,7 +19,9 @@ if ($cmd->raw === '') {
     die('// Algo está mal!');
 }
 
-if ($cmd->raw === 'get-hours') {
+$c = $cmd->raw;
+
+if ($c === 'get-hours') {
     $id = new Request('id');
     if (empty($id)) {
         die('// i need ID!');
@@ -27,7 +29,6 @@ if ($cmd->raw === 'get-hours') {
     $data = getDataTable($tn, $id->raw);
 }
 
-$c = $cmd->raw;
 if ($c === 'startw' || $c === 'stopw' || $c === 'get-status') {
 
     $mi = getMemberInfo();
@@ -62,7 +63,7 @@ if ($c === 'startw' || $c === 'stopw' || $c === 'get-status') {
         ];
         //ver parseCode function
         $payroll['date'] = parseMySQLDate(@date('Y-m-d'), '1');
-        $payroll['start'] = @date('H:i:s');
+        $payroll['start'] = @date('H:i:s a');
 
         $insert = insert($tn, $payroll, $e);
         if (!$insert) {
@@ -105,7 +106,11 @@ if ($c === 'startw' || $c === 'stopw' || $c === 'get-status') {
             echo '<a href="Payroll_view.php?SelectedID=' . urlencode($selected_id) . "\">{$Translation['< back']}</a>";
             exit;
         }
-
+        $data['custom_msg'] = [
+            "message" => "<h3>Buen descanso! {$mi['username']}</h3>",
+            "class" => "success",
+            "dismiss_seconds" => "3"
+        ];
         // mm: update ownership data
         sql("update `membership_userrecords` set `dateUpdated`='" . time() . "' where `tableName`='Payroll' and `pkValue`='" . makeSafe($selected_id) . "'", $eo);
     }
