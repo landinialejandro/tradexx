@@ -63,7 +63,7 @@ if ($c === 'startw' || $c === 'stopw' || $c === 'get-status') {
         ];
         //ver parseCode function
         $payroll['date'] = parseMySQLDate(@date('Y-m-d'), '1');
-        $payroll['start'] = @date('H:i:s a');
+        $payroll['start'] = @date('H:i:s');
 
         $insert = insert($tn, $payroll, $e);
         if (!$insert) {
@@ -87,8 +87,7 @@ if ($c === 'startw' || $c === 'stopw' || $c === 'get-status') {
     if ($c === 'stopw' && $s && $emp) {
         $data = getDataTable_Values($tn, $s);
 
-        $data['stop'] = @date('h:i:s a');
-
+        $data['stop'] = @date('h:i:s');
         $interval = formatDateDiff($data['start'], $data['stop']);
         $deciamal_h = $interval["value"]["i"] / 60;
         $horas = round($interval["value"]["h"] + $deciamal_h, 2);

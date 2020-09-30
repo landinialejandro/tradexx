@@ -4,7 +4,7 @@
  -------------------------->
 <?php
 $invoices = sqlValue("SELECT COUNT(`id`) from `Invoice` where `type` = 'Invoice'");
-$crm = sqlValue("SELECT COUNT(`id`) from `CRM` where `Type` = 'ORDER'");
+$crm = sqlValue("SELECT COUNT(`id`) from `CRM` ");
 $customer = sqlValue("SELECT COUNT(`id`) from `Customers` ");
 $trackings = sqlValue("SELECT COUNT(`id`) from `Tracking`");
 ?>
@@ -64,7 +64,7 @@ $trackings = sqlValue("SELECT COUNT(`id`) from `Tracking`");
       <div class="icon">
         <i class="fas fa-user-check"></i>
       </div>
-      <a href="CRM_view.php" class="small-box-footer">
+      <a href="Customers_view.php" class="small-box-footer">
         More info <i class="fa fa-arrow-circle-right"></i>
       </a>
     </div>
@@ -84,7 +84,7 @@ $trackings = sqlValue("SELECT COUNT(`id`) from `Tracking`");
       <div class="icon">
         <i class="far fa-paper-plane"></i>
       </div>
-      <a href="CRM_view.php" class="small-box-footer">
+      <a href="Tracking_view.php" class="small-box-footer">
         More info <i class="fa fa-arrow-circle-right"></i>
       </a>
     </div>
