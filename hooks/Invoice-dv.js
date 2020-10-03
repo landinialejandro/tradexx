@@ -24,6 +24,9 @@ $j(function() {
     inline_fields(['usrAdd', 'whenAdd'], "Created By", [3, 3])
     inline_fields(['usrUpdated', 'whenUpdated'], "Updated By", [3, 3])
     inline_fields(['Title', 'Customer'], "Customer", [1, 8])
+    inline_fields(['PaymentStatus', 'Status'], "Status", [4, 5])
+    inline_fields(['tax', 'Total'], "Tax / Total", [4, 5])
+
     if (!is_add_new() && status.id !== 'CLOSED') {
         add_action_button({ class: "btn btn-secondary", title: "", text: "Close Invoice", type: "button", onclick: "closeInvoice();" }, "");
     }
@@ -31,6 +34,7 @@ $j(function() {
         add_action_button({ class: "btn btn-success", title: "", text: "Cash Pay Invoice", type: "button", onclick: "payInvoice('CC-CASH');" }, "");
         add_action_button({ class: "btn btn-success", title: "", text: "VISA Pay Invoice", type: "button", onclick: "payInvoice('CC-VISA');" }, "");
     }
+
     addTabs(AppGini.currentTableName(), addTab);
 
     // if (status.id === 'CLOSED') {

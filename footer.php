@@ -1,5 +1,5 @@
 
-<?php /* Inserted by Landini Admin Template on 2020-10-02 06:09:56 */ ?>
+<?php /* Inserted by Landini Admin Template on 2020-10-03 03:48:40 */ ?>
 		<?php if (activate_LAT("footer",$x,false)) return; ?>
 <?php /* End of Landini Admin Template code */ ?>
 			<!-- Add footer template above here -->

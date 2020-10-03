@@ -2424,7 +2424,7 @@ WHERE `Invoice`.`id`=\'%ID%\' AND `Accounting`.`account_plan` = (SELECT `Account
 ',
 				'Balance' => 'SELECT (`Invoice`.`AmountDUE` + `Invoice`.`AmountPAID`) FROM `Invoice` 
 WHERE `Invoice`.`id`=\'%ID%\'',
-				'Total' => 'SELECT SUM(`InvoiceDetails`.`SubTotal`) FROM `Invoice` 
+				'Total' => 'SELECT (SUM(`InvoiceDetails`.`SubTotal`) * (1+((`Invoice`.`tax`)/100)))FROM `Invoice` 
 LEFT JOIN `InvoiceDetails` ON `InvoiceDetails`.`invoice`=`Invoice`.`id` 
 WHERE `Invoice`.`id`=\'%ID%\'',
 			),
