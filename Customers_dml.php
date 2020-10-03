@@ -921,7 +921,6 @@ function Customers_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, $
 		$jsReadOnly .= "\tjQuery('#Type_caption').prop('disabled', true).css({ color: '#555', backgroundColor: 'white' });\n";
 		$jsReadOnly .= "\tjQuery('#Phone').replaceWith('<div class=\"form-control-static\" id=\"Phone\">' + (jQuery('#Phone').val() || '') + '</div>');\n";
 		$jsReadOnly .= "\tjQuery('#Email').replaceWith('<div class=\"form-control-static\" id=\"Email\">' + (jQuery('#Email').val() || '') + '</div>');\n";
-		$jsReadOnly .= "\tjQuery('#Email, #Email-edit-link').hide();\n";
 		$jsReadOnly .= "\tjQuery('#Address').replaceWith('<div class=\"form-control-static\" id=\"Address\">' + (jQuery('#Address').val() || '') + '</div>');\n";
 		$jsReadOnly .= "\tjQuery('#City').prop('disabled', true).css({ color: '#555', backgroundColor: '#fff' });\n";
 		$jsReadOnly .= "\tjQuery('#City_caption').prop('disabled', true).css({ color: '#555', backgroundColor: 'white' });\n";
@@ -1074,8 +1073,6 @@ function Customers_form($selected_id = '', $AllowUpdate = 1, $AllowInsert = 1, $
 		$templateCode .= $jsEditable;
 
 		if(!$selected_id) {
-			$templateCode.="\n\tif(document.getElementById('EmailEdit')) { document.getElementById('EmailEdit').style.display='inline'; }";
-			$templateCode.="\n\tif(document.getElementById('EmailEditLink')) { document.getElementById('EmailEditLink').style.display='none'; }";
 		}
 
 		$templateCode.="\n});</script>\n";

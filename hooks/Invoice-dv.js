@@ -23,7 +23,7 @@ $j(function() {
     inline_fields(['AmountDUE', 'AmountPAID', 'Balance'], "Amount(due/paid/balance)", [3, 3, 3])
     inline_fields(['usrAdd', 'whenAdd'], "Created By", [3, 3])
     inline_fields(['usrUpdated', 'whenUpdated'], "Updated By", [3, 3])
-    inline_fields(['Title', 'Customer'], "Customer!", [1, 8])
+    inline_fields(['Title', 'Customer'], "Customer", [1, 8])
     if (!is_add_new() && status.id !== 'CLOSED') {
         add_action_button({ class: "btn btn-secondary", title: "", text: "Close Invoice", type: "button", onclick: "closeInvoice();" }, "");
     }

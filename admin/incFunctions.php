@@ -2434,7 +2434,7 @@ LEFT JOIN `Products` ON `Products`.`id`=`InvoiceDetails`.`product`
 WHERE `InvoiceDetails`.`id`=\'%ID%\'',
 			),
 			'Products' => array(
-				'itemSale' => 'SELECT `Products`.`cost` / `Products`.`profit`  FROM `Products` 
+				'itemSale' => 'SELECT `Products`.`cost` * ( 1+ (`Products`.`profit`/100))  FROM `Products` 
 WHERE `Products`.`id`=\'%ID%\'',
 			),
 			'WHJournal' => array(

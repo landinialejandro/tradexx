@@ -1,5 +1,5 @@
 
-<?php /* Inserted by Landini Admin Template on 2020-09-29 01:30:02 */ ?>
+<?php /* Inserted by Landini Admin Template on 2020-10-02 06:09:56 */ ?>
 		<?php if (activate_LAT("home",$x,false)) return; ?>
 <?php /* End of Landini Admin Template code */ ?>
 <?php 
