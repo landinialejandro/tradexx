@@ -4,7 +4,6 @@ $j(function() {
         var color = text === "PAID" ? "success" : "danger";
         var $span = $j('<span/>', { class: "badge badge-" + color, text: text });
         $j(this).replaceWith($span);
-        //console.log($j(this).text());
     })
     $j('td.Invoice-Status a').each(function() {
         var text = $j(this).text();
@@ -21,7 +20,6 @@ $j(function() {
         }
         var $span = $j('<span/>', { class: "badge badge-" + color, text: text });
         $j(this).replaceWith($span);
-        //console.log($j(this).text());
     })
 
 });

@@ -161,7 +161,7 @@
 			'cost' => array('appgini' => 'DECIMAL(10,2) null '),
 			'profit' => array('appgini' => 'DECIMAL(10,2) null '),
 			'itemSale' => array('appgini' => 'DECIMAL(10,2) null '),
-			'uploads' => array('appgini' => 'VARCHAR(40) null '),
+			'uploads' => array('appgini' => 'TEXT null '),
 		),
 		'WHJournal' => array(
 			'id' => array('appgini' => 'INT unsigned not null primary key auto_increment '),

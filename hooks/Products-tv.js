@@ -1,0 +1,3 @@
+function thisTable() {
+    return 'Products';
+}

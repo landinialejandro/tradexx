@@ -18,6 +18,10 @@ $j(function() {
         ]
     }]
 
+    prepend_btn('tax', '%', '', 'fas fa-percent');
+
+    $j('#Total').wrap('<h3/>').addClass('text-center');
+
     inline_fields(['Phone', 'Email'], "Contact", [3, 6])
     inline_fields(['Address', 'City', 'Country'], "Address", [3, 3, 3])
     inline_fields(['AmountDUE', 'AmountPAID', 'Balance'], "Amount(due/paid/balance)", [3, 3, 3])
