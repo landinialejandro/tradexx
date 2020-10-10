@@ -1,6 +1,7 @@
 $j(function() {
     normalizeView();
     active_upload_frame('Products');
+    loadImages($j('#titulo').val(), selected_id())
 });
 
 function active_upload_frame(tn = false, fn = 'uploads', f = 'images') {
