@@ -113,7 +113,7 @@
 	$x->TemplateDV = 'templates/Products_templateDV.html';
 	$x->TemplateDVP = 'templates/Products_templateDVP.html';
 
-	$x->ShowTableHeader = 1;
+	$x->ShowTableHeader = 0;
 	$x->TVClasses = "";
 	$x->DVClasses = "";
 	$x->HighlightColor = '#FFF0C2';
