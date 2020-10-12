@@ -4,8 +4,9 @@ $j(function() {
     prepend_btn('Dimensions', "Unit Setting...", "cm", "");
     prepend_btn('Volume', "Unit Setting...", "cm3", "");
 
-    inline_fields(['Warehouse', 'Tracking'], false, [4, 5])
-    inline_fields(['Dimensions', 'Volume'], "Dimensions & Vol", [5, 4])
+    inline_fields(['Warehouse', 'Tracking'], "Warehouse & Tracking", [4, 5])
+    inline_fields(['Dimensions', 'Volume', 'Weight'], "Dimensions & Vol & Weight", [3, 3, 3])
+    inline_fields(['Freight', 'Status', 'Zone'], "Freight & Status & Zone", [3, 3, 3])
 
     var $dim = $j('#Dimensions');
     $dim.focusout(function() {
