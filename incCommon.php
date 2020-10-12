@@ -58,7 +58,7 @@
 			'Status' => array('STATUS', '', 'resources/table_icons/status.png', 'Warehouse'),
 			'Invoice' => array('INVOICE', 'Documentos de cotizacion o faturas', 'resources/table_icons/Invoices.png', 'Accounting'),
 			'InvoiceDetails' => array('Datails', '', 'resources/table_icons/basket_put.png', 'hidden'),
-			'Products' => array('PRODUCTS', '', 'resources/table_icons/general.png', 'Accounting'),
+			'Products' => array('PRODUCTS', 'Products list', 'resources/table_icons/general.png', 'Accounting'),
 			'WHJournal' => array('WH JOURNAL', '', 'resources/table_icons/WH Journal.png', 'Accounting'),
 			'CRM' => array('CRM', '', 'resources/table_icons/CRM.png', 'CRM'),
 			'Payroll' => array('PAYROLL', '', 'resources/table_icons/Subscriptions.png', 'HR'),

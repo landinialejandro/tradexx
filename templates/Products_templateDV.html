@@ -43,7 +43,7 @@
 					<hr class="hidden-md hidden-lg">
 					<label for="item" class="control-label col-lg-3">Product <i class="glyphicon glyphicon-info-sign text-info" data-toggle="collapse" data-target="#item-description"></i></label>
 					<div class="col-lg-9">
-						<span class="help-block collapse" id="item-description"><div class="alert alert-info">Descripcion del producto</div></span>
+						<span class="help-block collapse" id="item-description"><div class="alert alert-info">Descripci&#243;n del producto</div></span>
 
 						<input maxlength="40" type="text" class="form-control" name="item" id="item" value="<%%VALUE(item)%%>">
 					</div>
@@ -63,7 +63,7 @@
 					<hr class="hidden-md hidden-lg">
 					<label for="profit" class="control-label col-lg-3">Profit <i class="glyphicon glyphicon-info-sign text-info" data-toggle="collapse" data-target="#profit-description"></i></label>
 					<div class="col-lg-9">
-						<span class="help-block collapse" id="profit-description"><div class="alert alert-info">Factor de ganancia, el valor de costo divido el profit. <br>EJ: profit de 20% y costo $100 el valor del profit ser&#225; de 0,8. <br>100/0,8=125 ahora el valro de venta es 125, al cual se le puede aplicar un descuento de hasta el 20% sin perder costo.</div></span>
+						<span class="help-block collapse" id="profit-description"><div class="alert alert-info">Escriva el valor en porcentaje por ejemplo 15 si quiere agregar el 15%</div></span>
 
 						<input maxlength="13" type="text" class="form-control" name="profit" id="profit" value="<%%VALUE(profit)%%>">
 					</div>
@@ -73,7 +73,7 @@
 					<hr class="hidden-md hidden-lg">
 					<label for="itemSale" class="control-label col-lg-3">Total <i class="glyphicon glyphicon-info-sign text-info" data-toggle="collapse" data-target="#itemSale-description"></i></label>
 					<div class="col-lg-9">
-						<span class="help-block collapse" id="itemSale-description"><div class="alert alert-info">Precio final del producto</div></span>
+						<span class="help-block collapse" id="itemSale-description"><div class="alert alert-info">Precio final del producto, incluido el profit</div></span>
 
 						<div class="form-control-static" id="itemSale"><%%VALUE(itemSale)%%></div>
 					</div>

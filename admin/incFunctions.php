@@ -187,7 +187,7 @@
 				),
 				'Products' => array(
 					'Caption' => 'PRODUCTS',
-					'Description' => '',
+					'Description' => 'Products list',
 					'tableIcon' => 'resources/table_icons/general.png',
 					'group' => $tg[4],
 					'homepageShowCount' => 0
