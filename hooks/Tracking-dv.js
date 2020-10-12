@@ -1,7 +1,12 @@
 $j(function() {
     normalizeView();
+
     prepend_btn('Dimensions', "Unit Setting...", "cm", "");
     prepend_btn('Volume', "Unit Setting...", "cm3", "");
+
+    inline_fields(['Warehouse', 'Tracking'], false, [4, 5])
+    inline_fields(['Dimensions', 'Volume'], "Dimensions & Vol", [5, 4])
+
     var $dim = $j('#Dimensions');
     $dim.focusout(function() {
         var ret = { text: '', calc: '', err: true };
