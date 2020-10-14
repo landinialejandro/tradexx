@@ -15,4 +15,3 @@ function active_upload_frame(tn = false, fn = 'uploads', f = 'images') {
         $j('#uploadFrame').load('LAT/multipleUpload/multipleUpload.php', { f: '/' + f + '/' + tn });
     }
 }
-Porcentaje
